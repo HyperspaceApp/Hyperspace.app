@@ -17,7 +17,7 @@ const getSiadChild = (pid) => new Promise((resolve, reject) => {
 			reject(err)
 		}
 		children.forEach((child) => {
-			if (child.COMMAND === 'siad' || child.COMMAND === 'siad.exe') {
+			if (child.COMMAND === 'hsd' || child.COMMAND === 'hsd.exe') {
 				resolve({exists: true, pid: child.PID})
 			}
 		})
@@ -33,7 +33,7 @@ const pkillSiad = () => new Promise((resolve, reject) => {
 			reject(err)
 		}
 		children.forEach((child) => {
-			if (child.COMMAND === 'siad' || child.COMMAND === 'siad.exe') {
+			if (child.COMMAND === 'hsd' || child.COMMAND === 'hsd.exe') {
 				if (process.platform === 'win32') {
 					spawn('taskkill', ['/pid', child.PID, '/f', '/t'])
 				} else {
@@ -189,7 +189,7 @@ describe('startup and shutdown behaviour', () => {
 			if (!fs.existsSync('sia-testing')) {
 				fs.mkdirSync('sia-testing')
 			}
-			siadProcess = Siad.launch(process.platform === 'win32' ? 'Sia\\siad.exe' : './Sia/siad', {
+			siadProcess = Siad.launch(process.platform === 'win32' ? 'Sia\\hsd.exe' : './Sia/hsd', {
 				'sia-directory': 'sia-testing',
 			})
 			while (await Siad.isRunning('localhost:9980') === false) {

@@ -4,7 +4,7 @@ import { app } from 'electron'
 import { version } from '../../package.json'
 import semver from 'semver'
 
-const defaultSiadPath = Path.join(__dirname, '../Sia/' + (process.platform === 'win32' ? 'siad.exe' : 'siad'))
+const defaultSiadPath = Path.join(__dirname, '../Sia/' + (process.platform === 'win32' ? 'hsd.exe' : 'hsd'))
 
 // The default settings
 const defaultConfig = {
