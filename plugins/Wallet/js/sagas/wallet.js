@@ -221,12 +221,12 @@ function* recoverSeedSaga(action) {
 function* sendCurrencySaga(action) {
 	try {
 		if (action.currencytype === undefined || action.amount === undefined || action.destination === undefined || action.amount === '' || action.currencytype === '' || action.destination === '') {
-			throw { message: 'You must specify an amount and a destination to send Siacoin!' }
+			throw { message: 'You must specify an amount and a destination to send Space Cash!' }
 		}
-		if (action.currencytype !== 'siafunds' && action.currencytype !== 'siacoins') {
+		if (action.currencytype !== 'spacecash') {
 			throw { message: 'Invalid currency type!' }
 		}
-		const sendAmount = action.currencytype === 'siacoins' ? SiaAPI.siacoinsToHastings(action.amount).toString() : action.amount
+		const sendAmount = action.currencytype === 'spacecash' ? SiaAPI.siacoinsToHastings(action.amount).toString() : action.amount
 		yield siadCall({
 			url: '/wallet/' + action.currencytype,
 			method: 'POST',

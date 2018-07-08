@@ -54,7 +54,7 @@ const setMockAddresses = (addresses) => {
 }
 
 const mockSendSiacoin = () => {
-	SiaAPI.call.withArgs(match.has('url', '/wallet/siacoins')).callsArgWith(1, null)
+	SiaAPI.call.withArgs(match.has('url', '/wallet/spacecash')).callsArgWith(1, null)
 }
 const mockCreateWallet = (primaryseed) => {
 	SiaAPI.call.withArgs(match.has('url', '/wallet/init')).callsArgWith(1, null, {primaryseed: primaryseed})
@@ -65,7 +65,7 @@ const mockChangePassword = (password, wrongpassword) => {
 }
 
 // Set up default siad call mocks for the wallet.
-// Currently, wallet lock state, login, and send siacoin calls are mocked.
+// Currently, wallet lock state, login, and send spacecash calls are mocked.
 const setupMockCalls = () => {
 	SiaAPI.call.withArgs(match({
 		url: '/wallet/lock',
@@ -316,7 +316,7 @@ describe('wallet plugin integration tests', () => {
 	})
 
 	describe('receive prompt', () => {
-		it('shows a new wallet address when receive siacoins is clicked initially', async () => {
+		it('shows a new wallet address when receive spacecash is clicked initially', async () => {
 			setMockReceiveAddress('testaddress')
 			setMockAddresses(['testaddress'])
 			expect(walletComponent.find('.receive-prompt')).to.have.length(0)
@@ -369,12 +369,12 @@ describe('wallet plugin integration tests', () => {
 			walletComponent.find('.send-button').first().simulate('click')
 			expect(walletComponent.find('.sendprompt')).to.have.length(1)
 		})
-		it('sends the correct amount of siacoins to the correct address', () => {
+		it('sends the correct amount of spacecash to the correct address', () => {
 			walletComponent.find('.sendamount input').simulate('change', { target: { value: '100' }})
 			walletComponent.find('.sendaddress input').simulate('change', { target: { value: 'testaddress'}})
 			walletComponent.find('.send-siacoin-button').simulate('click')
 			expect(SiaAPI.call.lastCall.args[0]).to.deep.equal({
-				url: '/wallet/siacoins',
+				url: '/wallet/spacecash',
 				method: 'POST',
 				qs: {
 					destination: 'testaddress',

@@ -13,16 +13,14 @@ const testActions = {
 	setSendError: spy(),
 }
 
-const sendpromptComponentSC = shallow(<SendPrompt currencytype="siacoins" sendAddress="testaddr" sendAmount="1" sendError="" actions={testActions} />)
-const sendpromptComponentSF = shallow(<SendPrompt currencytype="siafunds" sendAddress="testaddr" sendAmount="1" sendError="" actions={testActions} />)
+const sendpromptComponentSC = shallow(<SendPrompt currencytype="spacecash" sendAddress="testaddr" sendAmount="1" sendError="" actions={testActions} />)
 
 describe('wallet send prompt component', () => {
 	it('renders a modal with one child', () => {
 		expect(sendpromptComponentSC.find('.modal')).to.have.length(1)
 	})
 	it('renders send amount with the correct currency', () => {
-		expect(sendpromptComponentSC.find('.sendamount h3').first().text()).to.contain('Send Amount (SC)')
-		expect(sendpromptComponentSF.find('.sendamount h3').first().text()).to.contain('Send Amount (SF)')
+		expect(sendpromptComponentSC.find('.sendamount h3').first().text()).to.contain('Send Amount (SPACE)')
 	})
 	it('renders send amount input with sendAmount value', () => {
 		expect(sendpromptComponentSC.find('.sendamount input').first().props().value).to.equal('1')
@@ -36,10 +34,8 @@ describe('wallet send prompt component', () => {
 	})
 	it('calls sendCurrency with correct currency and value on send click', () => {
 		sendpromptComponentSC.find('.send-siacoin-button').first().simulate('click')
-		expect(testActions.sendCurrency.calledWith('testaddr', '1', 'siacoins')).to.be.true
+		expect(testActions.sendCurrency.calledWith('testaddr', '1', 'spacecash')).to.be.true
 		testActions.sendCurrency.reset()
-		sendpromptComponentSF.find('.send-siacoin-button').first().simulate('click')
-		expect(testActions.sendCurrency.calledWith('testaddr', '1', 'siafunds')).to.be.true
 	})
 	it('calls setSendAddress on sendaddress change', () => {
 		sendpromptComponentSC.find('.sendaddress input').first().simulate('change', {target: {value: 'newaddress'}})

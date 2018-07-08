@@ -25,8 +25,7 @@ const Wallet = ({showBackupPrompt, siafundbalance, showReceivePrompt, showChange
 				<ChangePasswordButton />
 				<LockButton />
 				<RecoverButton />
-				{siafundbalance !== '0' ? <SendButton currencytype="Siafund" onClick={onSendClick('siafunds')} />: null}
-				<SendButton currencytype="Siacoin" onClick={onSendClick('siacoins')} />
+				<SendButton currencytype="spacecash" onClick={onSendClick('spacecash')} />
 				<ReceiveButton />
 			</div>
 			{showNewWalletDialog ? <NewWalletDialog /> : null}
