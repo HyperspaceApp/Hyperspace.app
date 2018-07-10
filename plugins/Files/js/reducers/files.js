@@ -61,14 +61,14 @@ export default function filesReducer(state = initialState, action) {
 		            .set('unspent', action.unspent)
 		            .set('renewheight', action.renewheight)
 	case constants.DOWNLOAD_FILE:
-		return state.set('unreadDownloads', state.get('unreadDownloads').add(action.file.siapath))
+		return state.set('unreadDownloads', state.get('unreadDownloads').add(action.file.hyperspacepath))
 	case constants.UPLOAD_FILE:
-		return state.set('unreadUploads', state.get('unreadUploads').add(action.siapath))
+		return state.set('unreadUploads', state.get('unreadUploads').add(action.hyperspacepath))
 	case constants.RECEIVE_FILES: {
 		const workingDirectoryFiles = ls(action.files.concat(state.get('folders')), state.get('path'))
-		const workingDirectorySiapaths = workingDirectoryFiles.map((file) => file.siapath)
+		const workingDirectoryHyperspacepaths = workingDirectoryFiles.map((file) => file.hyperspacepath)
 		// filter out selected files that are no longer in the working directory
-		const selected = state.get('selected').filter((file) => workingDirectorySiapaths.includes(file.siapath))
+		const selected = state.get('selected').filter((file) => workingDirectoryHyperspacepaths.includes(file.hyperspacepath))
 		return state.set('files', action.files)
 		            .set('workingDirectoryFiles', workingDirectoryFiles)
 		            .set('selected', selected)
@@ -76,28 +76,28 @@ export default function filesReducer(state = initialState, action) {
 	case constants.ADD_FOLDER: {
 		const folder = {
 			filesize: 0,
-			siapath: Path.join(state.get('path'), action.name),
+			hyperspacepath: Path.join(state.get('path'), action.name),
 			available: false,
 			redundancy: -1,
 			uploadprogress: 100,
-			siaUIFolder: true,
+			hyperspaceAppFolder: true,
 		}
 		const folders = state.get('folders').push(folder)
 		return state.set('folders', folders)
 		            .set('workingDirectoryFiles', ls(state.get('files').concat(folders), state.get('path')), folders, state.get('path'))
 	}
-	case constants.DELETE_SIA_UI_FOLDER: {
+	case constants.DELETE_HYPERSPACE_APP_FOLDER: {
 		return state.set('folders', state.get('folders').filter((folder) => {
-			const cleanSiapath = action.siapath.replace(/\/$/, '')
-			const cleanSource = folder.siapath.replace(/\/$/, '')
-			return cleanSiapath !== cleanSource
+			const cleanHyperspacepath = action.hyperspacepath.replace(/\/$/, '')
+			const cleanSource = folder.hyperspacepath.replace(/\/$/, '')
+			return cleanHyperspacepath !== cleanSource
 		}))
 	}
-	case constants.RENAME_SIA_UI_FOLDER:
+	case constants.RENAME_HYPERSPACE_APP_FOLDER:
 		return state.set('folders', state.get('folders').map((folder) => {
 			const cleanSource = action.source.replace(/\/$/, '')
-			if (folder.siapath.indexOf(cleanSource) === 0) {
-				folder.siapath = action.dest
+			if (folder.hyperspacepath.indexOf(cleanSource) === 0) {
+				folder.hyperspacepath = action.dest
 			}
 			return folder
 		}))
@@ -119,7 +119,7 @@ export default function filesReducer(state = initialState, action) {
 		            .set('searchResults', searchFiles(allFiles(state), state.get('searchText'), action.path))
 	}
 	case constants.DESELECT_FILE:
-		return state.set('selected', state.get('selected').filter((file) => file.siapath !== action.file.siapath))
+		return state.set('selected', state.get('selected').filter((file) => file.hyperspacepath !== action.file.hyperspacepath))
 	case constants.SELECT_FILE:
 		return state.set('selected', state.get('selected').add(action.file))
 	case constants.DESELECT_ALL:

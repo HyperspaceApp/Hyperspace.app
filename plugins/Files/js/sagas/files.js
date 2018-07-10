@@ -6,33 +6,33 @@ import * as actions from '../actions/files.js'
 import * as constants from '../constants/files.js'
 import { List } from 'immutable'
 import BigNumber from 'bignumber.js'
-import { ls, uploadDirectory, sendError, allowancePeriod, readableFilesize, siadCall, readdirRecursive, parseDownloads, parseUploads } from './helpers.js'
+import { ls, uploadDirectory, sendError, allowancePeriod, readableFilesize, hsdCall, readdirRecursive, parseDownloads, parseUploads } from './helpers.js'
 
-// Query siad for the state of the wallet.
+// Query hsd for the state of the wallet.
 // dispatch `unlocked` in receiveWalletLockstate
 function* getWalletLockstateSaga() {
 	try {
-		const response = yield siadCall('/wallet')
+		const response = yield hsdCall('/wallet')
 		yield put(actions.receiveWalletLockstate(response.unlocked))
 	} catch (e) {
 		console.error('error fetching wallet lock state: ' + e.toString())
 	}
 }
 
-// Query siad for the sync state of the wallet.
+// Query hsd for the sync state of the wallet.
 function* getWalletSyncstateSaga() {
 	try {
-		const response = yield siadCall('/consensus')
+		const response = yield hsdCall('/consensus')
 		yield put(actions.setWalletSyncstate(response.synced))
 	} catch (e) {
 		console.error('error fetching wallet sync state: ' + e.toString())
 	}
 }
 
-// Query siad for the user's files.
+// Query hsd for the user's files.
 function* getFilesSaga() {
 	try {
-		const response = yield siadCall('/renter/files')
+		const response = yield hsdCall('/renter/files')
 		const files = List(response.files)
 		yield put(actions.receiveFiles(files))
 	} catch (e) {
@@ -42,15 +42,15 @@ function* getFilesSaga() {
 
 function* getStorageEstimateSaga(action) {
 	try {
-		const response = yield siadCall('/renter/prices')
+		const response = yield hsdCall('/renter/prices')
 		if (response.storageterabytemonth === '0') {
 			yield put(actions.setStorageEstimate('No Hosts'))
 			return
 		}
-		const estimate = new BigNumber(SiaAPI.siacoinsToHastings(action.funds)).dividedBy(response.storageterabytemonth).times(1e12)
+		const estimate = new BigNumber(HyperspaceAPI.siacoinsToHastings(action.funds)).dividedBy(response.storageterabytemonth).times(1e12)
 
 		yield put(actions.setStorageEstimate('~' + readableFilesize(estimate.toPrecision(1))))
-		yield put(actions.setFeeEstimate(SiaAPI.hastingsToSiacoins(response.formcontracts).toString()))
+		yield put(actions.setFeeEstimate(HyperspaceAPI.hastingsToSiacoins(response.formcontracts).toString()))
 	} catch (e) {
 		console.error(e)
 	}
@@ -59,15 +59,15 @@ function* getStorageEstimateSaga(action) {
 // Get the renter's current allowance and spending.
 function* getAllowanceSaga() {
 	try {
-		const response = yield siadCall('/renter')
-		const allowance = SiaAPI.hastingsToSiacoins(response.settings.allowance.funds)
-		const downloadspending = SiaAPI.hastingsToSiacoins(response.financialmetrics.downloadspending)
-		const uploadspending = SiaAPI.hastingsToSiacoins(response.financialmetrics.uploadspending)
-		const contractspending = SiaAPI.hastingsToSiacoins(response.financialmetrics.contractspending)
-		const storagespending = SiaAPI.hastingsToSiacoins(response.financialmetrics.storagespending)
-		const unspent = SiaAPI.hastingsToSiacoins(response.financialmetrics.unspent)
+		const response = yield hsdCall('/renter')
+		const allowance = HyperspaceAPI.hastingsToSiacoins(response.settings.allowance.funds)
+		const downloadspending = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.downloadspending)
+		const uploadspending = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.uploadspending)
+		const contractspending = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.contractspending)
+		const storagespending = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.storagespending)
+		const unspent = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.unspent)
 
-		const consensus = yield siadCall('/consensus')
+		const consensus = yield hsdCall('/consensus')
 		const renewheight = (() => {
 			if (response.settings.allowance.renewwindow === 0) {
 				return 0
@@ -85,9 +85,9 @@ function* getAllowanceSaga() {
 // Set the user's renter allowance.
 function* setAllowanceSaga(action) {
 	try {
-		const newAllowance = SiaAPI.siacoinsToHastings(action.funds)
+		const newAllowance = HyperspaceAPI.siacoinsToHastings(action.funds)
 		yield put(actions.closeAllowanceDialog())
-		yield siadCall({
+		yield hsdCall({
 			url: '/renter',
 			method: 'POST',
 			timeout: 7.2e6, // 120 minute timeout for setting allowance
@@ -104,26 +104,26 @@ function* setAllowanceSaga(action) {
 	}
 }
 
-// Query Siad for the current wallet balance.
+// Query Hsd for the current wallet balance.
 function* getWalletBalanceSaga() {
 	try {
-		const response = yield siadCall('/wallet')
-		const confirmedBalance = SiaAPI.hastingsToSiacoins(response.confirmedsiacoinbalance).round(2).toString()
+		const response = yield hsdCall('/wallet')
+		const confirmedBalance = HyperspaceAPI.hastingsToSiacoins(response.confirmedsiacoinbalance).round(2).toString()
 		yield put(actions.receiveWalletBalance(confirmedBalance))
 	} catch (e) {
 		console.error('error fetching wallet balance: ' + e.toString())
 	}
 }
 
-// UploadFileSaga uploads a file to the Sia network.
-// action.siapath: the working directory to upload the file to
+// UploadFileSaga uploads a file to the Hyperspace network.
+// action.hyperspacepath: the working directory to upload the file to
 // action.source: the path to the file to upload.
-// The full siapath is computed as Path.join(action.siapath, Path.basename(action.source))
+// The full hyperspacepath is computed as Path.join(action.hyperspacepath, Path.basename(action.source))
 function* uploadFileSaga(action) {
 	try {
 		const filename = Path.basename(action.source)
-		const destpath = Path.posix.join(action.siapath, filename)
-		yield siadCall({
+		const destpath = Path.posix.join(action.hyperspacepath, filename)
+		yield hsdCall({
 			url: '/renter/upload/' + encodeURI(destpath),
 			timeout: 20000, // 20 second timeout for upload calls
 			method: 'POST',
@@ -136,13 +136,13 @@ function* uploadFileSaga(action) {
 	}
 }
 
-// uploadFolderSaga uploads a folder to the Sia network.
+// uploadFolderSaga uploads a folder to the Hyperspace network.
 // action.source: the source path of the folder
-// action.siapath: the working directory to upload the folder inside
+// action.hyperspacepath: the working directory to upload the folder inside
 function *uploadFolderSaga(action) {
 	try {
 		const files = readdirRecursive(action.source)
-		const uploads = uploadDirectory(action.source, files, action.siapath)
+		const uploads = uploadDirectory(action.source, files, action.hyperspacepath)
 		for (const upload in uploads.toArray()) {
 			yield put(uploads.get(upload))
 		}
@@ -154,8 +154,8 @@ function *uploadFolderSaga(action) {
 function* downloadFileSaga(action) {
 	try {
 		if (action.file.type === 'file') {
-			yield siadCall({
-				url: '/renter/download/' + encodeURI(action.file.siapath),
+			yield hsdCall({
+				url: '/renter/download/' + encodeURI(action.file.hyperspacepath),
 				timeout: 6e8,
 				method: 'GET',
 				qs: {
@@ -165,10 +165,10 @@ function* downloadFileSaga(action) {
 		}
 		if (action.file.type === 'directory') {
 			fs.mkdirSync(action.downloadpath)
-			const response = yield siadCall('/renter/files')
-			const siafiles = ls(List(response.files), action.file.siapath)
-			for (const siafile in siafiles.toArray()) {
-				const file = siafiles.get(siafile)
+			const response = yield hsdCall('/renter/files')
+			const hyperspacefiles = ls(List(response.files), action.file.hyperspacepath)
+			for (const hyperspacefile in hyperspacefiles.toArray()) {
+				const file = hyperspacefiles.get(hyperspacefile)
 				yield put(actions.downloadFile(file, Path.join(action.downloadpath, file.name)))
 				yield new Promise((resolve) => setTimeout(resolve, 300))
 			}
@@ -180,7 +180,7 @@ function* downloadFileSaga(action) {
 
 function* getDownloadsSaga() {
 	try {
-		const response = yield siadCall('/renter/downloads')
+		const response = yield hsdCall('/renter/downloads')
 		const downloads = parseDownloads(response.downloads)
 		yield put(actions.receiveDownloads(downloads))
 	} catch (e) {
@@ -190,7 +190,7 @@ function* getDownloadsSaga() {
 
 function* getUploadsSaga() {
 	try {
-		const response = yield siadCall('/renter/files')
+		const response = yield hsdCall('/renter/files')
 		const uploads = parseUploads(response.files)
 		yield put(actions.receiveUploads(uploads))
 	} catch (e) {
@@ -201,20 +201,20 @@ function* getUploadsSaga() {
 // deleteFileSaga handles DELETE_FILE actions, which can include directories.
 function* deleteFileSaga(action) {
 	try {
-		if (action.file.siaUIFolder) {
-			yield put(actions.deleteSiaUIFolder(action.file.siapath))
+		if (action.file.hyperspaceAppFolder) {
+			yield put(actions.deleteHyperspaceAppFolder(action.file.hyperspacepath))
 		} else if (action.file.type === 'file') {
-			yield siadCall({
-				url: '/renter/delete/' + encodeURI(action.file.siapath),
+			yield hsdCall({
+				url: '/renter/delete/' + encodeURI(action.file.hyperspacepath),
 				timeout: 3.6e6, // 60 minute timeout for deleting files
 				method: 'POST',
 			})
 			yield put(actions.getFiles())
 		} else if (action.file.type === 'directory') {
-			const response = yield siadCall('/renter/files')
-			const siafiles = ls(List(response.files), action.file.siapath)
-			for (const siafile in siafiles.toArray()) {
-				const file = siafiles.get(siafile)
+			const response = yield hsdCall('/renter/files')
+			const hyperspacefiles = ls(List(response.files), action.file.hyperspacepath)
+			for (const hyperspacefile in hyperspacefiles.toArray()) {
+				const file = hyperspacefiles.get(hyperspacefile)
 				yield put(actions.deleteFile(file))
 			}
 		}
@@ -225,7 +225,7 @@ function* deleteFileSaga(action) {
 
 function* getContractCountSaga() {
 	try {
-		const response = yield siadCall('/renter/contracts')
+		const response = yield hsdCall('/renter/contracts')
 		yield put(actions.setContractCount(response.contracts.length))
 	} catch (e) {
 		console.error('error getting contract count: ' + e.toString())
@@ -234,24 +234,24 @@ function* getContractCountSaga() {
 
 function* renameFileSaga(action) {
 	try {
-		if (action.file.siaUIFolder) {
-			yield put(actions.renameSiaUIFolder(action.file.siapath, action.newsiapath))
+		if (action.file.hyperspaceAppFolder) {
+			yield put(actions.renameHyperspaceAppFolder(action.file.hyperspacepath, action.newhyperspacepath))
 		} else if (action.file.type === 'file') {
-			yield siadCall({
-				url: '/renter/rename/' + encodeURI(action.file.siapath),
+			yield hsdCall({
+				url: '/renter/rename/' + encodeURI(action.file.hyperspacepath),
 				method: 'POST',
 				qs: {
-					newsiapath: action.newsiapath,
+					newhyperspacepath: action.newhyperspacepath,
 				},
 			})
 			yield put(actions.getFiles())
 		} else if (action.file.type === 'directory') {
-			const directorypath = action.file.siapath
-			const response = yield siadCall('/renter/files')
-			const siafiles = ls(List(response.files), directorypath)
-			for (const i in siafiles.toArray()) {
-				const file = siafiles.get(i)
-				const newfilepath = Path.posix.join(action.newsiapath, file.siapath.split(directorypath)[1])
+			const directorypath = action.file.hyperspacepath
+			const response = yield hsdCall('/renter/files')
+			const hyperspacefiles = ls(List(response.files), directorypath)
+			for (const i in hyperspacefiles.toArray()) {
+				const file = hyperspacefiles.get(i)
+				const newfilepath = Path.posix.join(action.newhyperspacepath, file.hyperspacepath.split(directorypath)[1])
 				yield put(actions.renameFile(file, newfilepath))
 			}
 		}

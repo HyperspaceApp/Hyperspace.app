@@ -20,7 +20,7 @@ export const hostingPlugin = () => {
 		store.dispatch(actions.getHostStatus())
 	}
 
-	// Poll Siad for state changes.
+	// Poll Hsd for state changes.
 	setInterval(updateState, 20000)
 
 	// update state immediately when this plugin is focused

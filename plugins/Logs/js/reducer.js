@@ -2,12 +2,12 @@ import { Map, Set } from 'immutable'
 import * as constants from './constants.js'
 import { addLogFilters, removeLogFilters, updateLogFilters, parseLogs } from './logparse.js'
 
-const siadir = SiaAPI.config.siad.datadir
+const hyperspacedir = HyperspaceAPI.config.hsd.datadir
 const defaultLogSize = 50000
 
 const initialState = Map({
 	logFilters: Set(['consensus.log', 'gateway.log']),
-	logText: parseLogs(siadir, 50000, ['consensus.log', 'gateway.log']),
+	logText: parseLogs(hyperspacedir, 50000, ['consensus.log', 'gateway.log']),
 	logSize: defaultLogSize,
 
 	scrolling: false,

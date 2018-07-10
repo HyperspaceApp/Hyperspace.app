@@ -1,6 +1,6 @@
 import { put, take, fork, call, join, race } from 'redux-saga/effects'
 import { takeEvery, delay } from 'redux-saga'
-import { siadCall, parseRawTransactions } from './helpers.js'
+import { hsdCall, parseRawTransactions } from './helpers.js'
 import * as actions from '../actions/wallet.js'
 import * as constants from '../constants/wallet.js'
 import { walletUnlockError } from '../actions/error.js'
@@ -8,8 +8,8 @@ import { List } from 'immutable'
 
 // Send an error notification.
 const sendError = (e) => {
-	SiaAPI.showError({
-		title: 'Sia-UI Wallet Error',
+	HyperspaceAPI.showError({
+		title: 'Hyperspace Wallet Error',
 		content: typeof e.message !== 'undefined' ? e.message : e.toString(),
 	})
 }
@@ -22,7 +22,7 @@ const sendError = (e) => {
 //  Call /wallet and dispatch the appropriate actions from the returned JSON.
 function* getLockStatusSaga() {
 	try {
-		const response = yield siadCall('/wallet')
+		const response = yield hsdCall('/wallet')
 		if (!response.unlocked) {
 			yield put(actions.setLocked())
 		} else {
@@ -40,11 +40,11 @@ function* getLockStatusSaga() {
 }
 
 // Call /wallet/unlock and dispatch setEncrypted and setUnlocked.
-// Since siadCall is a promise which rejects on error, API errors will be caught.
+// Since hsdCall is a promise which rejects on error, API errors will be caught.
 // Dispatch any API errors as a walletUnlockError action.
 function* walletUnlockSaga(action) {
 	try {
-		yield siadCall({
+		yield hsdCall({
 			url: '/wallet/unlock',
 			method: 'POST',
 			timeout: 1.728e8, // two-day timeout, unlocking can take a long time
@@ -63,7 +63,7 @@ function* walletUnlockSaga(action) {
 
 function* walletLockSaga() {
 	try {
-		yield siadCall({
+		yield hsdCall({
 			url: '/wallet/lock',
 			method: 'POST',
 		})
@@ -82,7 +82,7 @@ function* createWalletSaga(action) {
 		let response
 		if (initSeed) {
 			yield put(actions.initSeedStarted())
-			response = yield siadCall({
+			response = yield hsdCall({
 				url: '/wallet/init/seed',
 				method: 'POST',
 				timeout: 1.7e8, // two days
@@ -94,7 +94,7 @@ function* createWalletSaga(action) {
 			})
 			yield put(actions.initSeedFinished())
 		} else {
-			response = yield siadCall({
+			response = yield hsdCall({
 				url: '/wallet/init',
 				method: 'POST',
 				qs: {
@@ -123,13 +123,12 @@ function* createWalletSaga(action) {
 // call /wallet and compute the confirmed balance as well as the unconfirmed delta.
 function* getBalanceSaga() {
 	try {
-		const response = yield siadCall('/wallet')
-		const confirmed = SiaAPI.hastingsToSiacoins(response.confirmedsiacoinbalance)
-		const siacoinclaimbalance = SiaAPI.hastingsToSiacoins(response.siacoinclaimbalance)
-		const unconfirmedIncoming = SiaAPI.hastingsToSiacoins(response.unconfirmedincomingsiacoins)
-		const unconfirmedOutgoing = SiaAPI.hastingsToSiacoins(response.unconfirmedoutgoingsiacoins)
+		const response = yield hsdCall('/wallet')
+		const confirmed = HyperspaceAPI.hastingsToSiacoins(response.confirmedsiacoinbalance)
+		const unconfirmedIncoming = HyperspaceAPI.hastingsToSiacoins(response.unconfirmedincomingsiacoins)
+		const unconfirmedOutgoing = HyperspaceAPI.hastingsToSiacoins(response.unconfirmedoutgoingsiacoins)
 		const unconfirmed = unconfirmedIncoming.minus(unconfirmedOutgoing)
-		yield put(actions.setBalance(confirmed.round(2).toString(), unconfirmed.round(2).toString(), response.siafundbalance, siacoinclaimbalance.round(2).toString()))
+		yield put(actions.setBalance(confirmed.round(2).toString(), unconfirmed.round(2).toString()))
 	} catch (e) {
 		console.error('error fetching balance: ' + e.toString())
 	}
@@ -138,7 +137,7 @@ function* getBalanceSaga() {
 // Get all the transactions from /wallet transactions, parse them, and dispatch setTransactions()
 function* getTransactionsSaga() {
 	try {
-		const response = yield siadCall('/wallet/transactions?startheight=0&endheight=-1')
+		const response = yield hsdCall('/wallet/transactions?startheight=0&endheight=-1')
 		const transactions = parseRawTransactions(response)
 		yield put(actions.setTransactions(transactions))
 	} catch (e) {
@@ -148,12 +147,12 @@ function* getTransactionsSaga() {
 
 function* showReceivePromptSaga() {
 	try {
-		const cachedAddrs = List(SiaAPI.config.attr('receiveAddresses'))
+		const cachedAddrs = List(HyperspaceAPI.config.attr('receiveAddresses'))
 		// validate the addresses. if this node has no record of an address, prune
 		// it.
-		const response = yield siadCall('/wallet/addresses')
+		const response = yield hsdCall('/wallet/addresses')
 		const validCachedAddrs = cachedAddrs.filter((addr) => response.addresses.includes(addr.address))
-		SiaAPI.config.attr('receiveAddresses', validCachedAddrs.toArray())
+		HyperspaceAPI.config.attr('receiveAddresses', validCachedAddrs.toArray())
 		yield put(actions.setReceiveAddresses(validCachedAddrs))
 		yield put(actions.getNewReceiveAddress())
 		yield put(actions.setAddressDescription(''))
@@ -164,21 +163,21 @@ function* showReceivePromptSaga() {
 }
 
 // saveAddressSaga handles SAVE_ADDRESS actions, adding the address object to
-// the collection of stored Sia-UI addresses and dispatching any necessary
+// the collection of stored Hyperspace addresses and dispatching any necessary
 // resulting actions.
 function* saveAddressSaga(action) {
-	let addrs = List(SiaAPI.config.attr('receiveAddresses'))
+	let addrs = List(HyperspaceAPI.config.attr('receiveAddresses'))
 
 	// save the address to the collection
 	addrs = addrs.filter((addr) => addr.address !== action.address.address)
 	addrs = addrs.push(action.address)
 	// validate the addresses. if this node has no record of an address, prune
 	// it.
-	const response = yield siadCall('/wallet/addresses')
+	const response = yield hsdCall('/wallet/addresses')
 	const validAddrs = addrs.filter((addr) => response.addresses.includes(addr.address))
-	SiaAPI.config.attr('receiveAddresses', validAddrs.toArray())
+	HyperspaceAPI.config.attr('receiveAddresses', validAddrs.toArray())
 	try {
-		SiaAPI.config.save()
+		HyperspaceAPI.config.save()
 	} catch (e) {
 		console.error(`error saving config: ${e.toString()}`)
 	}
@@ -188,8 +187,8 @@ function* saveAddressSaga(action) {
 
 function* getNewReceiveAddressSaga() {
 	try {
-		const response = yield siadCall('/wallet/address')
-		SiaAPI.config.attr('receiveAddress', response.address)
+		const response = yield hsdCall('/wallet/address')
+		HyperspaceAPI.config.attr('receiveAddress', response.address)
 		yield put(actions.setReceiveAddress(response.address))
 	} catch (e) {
 		console.error(`error getting receive address: ${e.toString()}`)
@@ -200,7 +199,7 @@ function* getNewReceiveAddressSaga() {
 function* recoverSeedSaga(action) {
 	try {
 		yield put(actions.seedRecoveryStarted())
-		yield siadCall({
+		yield hsdCall({
 			url: '/wallet/sweep/seed',
 			method: 'POST',
 			timeout: 2e8,
@@ -226,8 +225,8 @@ function* sendCurrencySaga(action) {
 		if (action.currencytype !== 'spacecash') {
 			throw { message: 'Invalid currency type!' }
 		}
-		const sendAmount = action.currencytype === 'spacecash' ? SiaAPI.siacoinsToHastings(action.amount).toString() : action.amount
-		yield siadCall({
+		const sendAmount = action.currencytype === 'spacecash' ? HyperspaceAPI.siacoinsToHastings(action.amount).toString() : action.amount
+		yield hsdCall({
 			url: '/wallet/' + action.currencytype,
 			method: 'POST',
 			qs: {
@@ -249,7 +248,7 @@ function* sendCurrencySaga(action) {
 // necessary API calls.
 function* changePasswordSaga(action) {
 	try {
-		yield siadCall({
+		yield hsdCall({
 			url: '/wallet/changepassword',
 			method: 'POST',
 			timeout: 2e8,
@@ -267,8 +266,8 @@ function* changePasswordSaga(action) {
 
 function *startSendPromptSaga() {
 	try {
-		const response = yield siadCall('/tpool/fee')
-		const feeEstimate = SiaAPI.hastingsToSiacoins(response.maximum).times(1e3).round(8).toString() + ' SC/KB'
+		const response = yield hsdCall('/tpool/fee')
+		const feeEstimate = HyperspaceAPI.hastingsToSiacoins(response.maximum).times(1e3).round(8).toString() + ' SC/KB'
 		yield put(actions.setFeeEstimate(feeEstimate))
 	} catch (e) {
 		console.error('error fetching fee estimate for send prompt: ' + e.toString())
@@ -278,7 +277,7 @@ function *startSendPromptSaga() {
 // sets the wallet's `synced` state.
 function* getSyncStateSaga() {
 	try {
-		const response = yield siadCall('/consensus')
+		const response = yield hsdCall('/consensus')
 		yield put(actions.setSyncState(response.synced))
 	} catch (e) {
 		console.error('error fetching sync status: ' + e.toString())
@@ -286,11 +285,11 @@ function* getSyncStateSaga() {
 }
 
 // showBackupPromptSaga handles a SHOW_BACKUP_PROMPT action, asynchronously
-// fetching the primary seed from the sia API and setting the backup prompt's
+// fetching the primary seed from the Hyperspace API and setting the backup prompt's
 // state accordingly.
 function *showBackupPromptSaga() {
 	try {
-		const response = yield siadCall('/wallet/seeds')
+		const response = yield hsdCall('/wallet/seeds')
 		yield put(actions.setPrimarySeed(response.primaryseed))
 		if (response.allseeds.length > 1) {
 			yield put(actions.setAuxSeeds(response.allseeds.slice(1)))

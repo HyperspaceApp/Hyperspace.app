@@ -99,18 +99,18 @@ export const downloadFile = (file, downloadpath) => ({
 	file,
 	downloadpath,
 })
-export const uploadFile = (siapath, source) => ({
+export const uploadFile = (hyperspacepath, source) => ({
 	type: constants.UPLOAD_FILE,
-	siapath,
+	hyperspacepath,
 	source,
 })
 export const deleteFile = (file) => ({
 	type: constants.DELETE_FILE,
 	file,
 })
-export const uploadFolder = (siapath, source) => ({
+export const uploadFolder = (hyperspacepath, source) => ({
 	type: constants.UPLOAD_FOLDER,
-	siapath,
+	hyperspacepath,
 	source,
 })
 export const getDownloads = () => ({
@@ -150,10 +150,10 @@ export const setContractCount = (count) => ({
 	type: constants.SET_CONTRACT_COUNT,
 	count,
 })
-export const renameFile = (file, newsiapath) => ({
+export const renameFile = (file, newhyperspacepath) => ({
 	type: constants.RENAME_FILE,
 	file,
-	newsiapath,
+	newhyperspacepath,
 })
 export const showRenameDialog = (file) => ({
 	type: constants.SHOW_RENAME_DIALOG,
@@ -213,11 +213,11 @@ export const setDragFileOrigin = (origin) => ({
 	origin,
 })
 export const renameHyperspaceAppFolder = (source, dest) => ({
-	type: constants.RENAME_SIA_UI_FOLDER,
+	type: constants.RENAME_HYPERSPACE_APP_FOLDER,
 	source,
 	dest,
 })
-export const deleteHyperspaceAppFolder = (siapath) => ({
-	type: constants.DELETE_SIA_UI_FOLDER,
-	siapath,
+export const deleteHyperspaceAppFolder = (hyperspacepath) => ({
+	type: constants.DELETE_HYPERSPACE_APP_FOLDER,
+	hyperspacepath,
 })

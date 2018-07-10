@@ -5,7 +5,7 @@ const ReceiveButton = ({actions}) => {
 	return (
 		<div className="wallet-button receive-button" onClick={handleReceiveButtonClick}>
 			<i className="fa fa-download fa-2x" />
-			<span>Receive Siacoin</span>
+			<span>Receive Space Cash</span>
 		</div>
 	)
 }

@@ -16,7 +16,7 @@ export default class WalletPasswordPrompt extends React.Component {
 		const handleTextInput = (e) => this.props.actions.setWalletPassword(e.target.value)
 		const handleKeyboardPress = (e) => {
 			if (e.keyCode === 13) {
-				const siac = httpCommand(this.props.currentCommand, this.props.actions, this.props.commandHistory.size)
+				const hsc = httpCommand(this.props.currentCommand, this.props.actions, this.props.commandHistory.size)
 				let options
 				switch ( commandType(this.props.currentCommand, constants.specialCommands) ) {
 				case constants.WALLET_SEED:
@@ -38,15 +38,15 @@ export default class WalletPasswordPrompt extends React.Component {
 					}
 
 					//Grab input, spawn process, and write options.
-					siac.write(querystring.stringify(options))
-					siac.end()
+					hsc.write(querystring.stringify(options))
+					hsc.end()
 					this.props.actions.setWalletPassword('')
 					break
 
 				default:
 					//Grab input, spawn process, and write password.
-					siac.write(querystring.stringify({ 'encryptionpassword': this.props.walletPassword }))
-					siac.end()
+					hsc.write(querystring.stringify({ 'encryptionpassword': this.props.walletPassword }))
+					hsc.end()
 					this.props.actions.setWalletPassword('')
 					break
 				}

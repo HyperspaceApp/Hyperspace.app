@@ -41,7 +41,7 @@ const TransactionList = ({ transactions, ntransactions, actions, filter }) => {
 			if (!filter) {
 				return true
 			}
-			return txn.transactionsums.totalSiacoin.abs().gt(0) || txn.transactionsums.totalSiafund.abs().gt(0) || txn.transactionsums.totalMiner.abs().gt(0)
+			return txn.transactionsums.totalSiacoin.abs().gt(0) || txn.transactionsums.totalMiner.abs().gt(0)
 		})
 		.map((txn, key) => {
 			let valueData = ''
@@ -50,22 +50,15 @@ const TransactionList = ({ transactions, ntransactions, actions, filter }) => {
 					txn.transactionsums.totalSiacoin
 						.round(4)
 						.toNumber()
-						.toLocaleString() + ' SC '
-			}
-			if (txn.transactionsums.totalSiafund.abs().gt(0)) {
-				valueData +=
-					txn.transactionsums.totalSiafund
-						.round(4)
-						.toNumber()
-						.toLocaleString() + ' SF '
+						.toLocaleString() + ' SPACE '
 			}
 			if (txn.transactionsums.totalMiner.abs().gt(0)) {
 				valueData +=
 					txn.transactionsums.totalMiner.round(4).toNumber().toLocaleString() +
-					' SC (miner) '
+					' SPACE (miner) '
 			}
 			if (valueData === '') {
-				valueData = '0 SC'
+				valueData = '0 SPACE'
 			}
 			return (
 				<tr key={key}>
@@ -91,7 +84,7 @@ const TransactionList = ({ transactions, ntransactions, actions, filter }) => {
 			<div className="transaction-header">
 				<h2> Recent Transactions </h2>
 				<div className="filter-toggle">
-					<input type="checkbox" onClick={onToggleFilter} checked={filter} />Hide 0SC Transactions
+					<input type="checkbox" onClick={onToggleFilter} checked={filter} />Hide 0 SPACE Transactions
 				</div>
 			</div>
 			<table className="pure-table transaction-table">

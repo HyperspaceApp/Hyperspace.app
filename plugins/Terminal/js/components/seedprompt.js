@@ -14,14 +14,14 @@ export default class WalletSeedPrompt extends React.Component {
 		const handleKeyboardPress = (e) => {
 			if (e.keyCode === 13) {
 				//Grab input, spawn process, and pipe text field to stdin.
-				const siac = httpCommand(this.props.currentCommand, this.props.actions, this.props.commandHistory.size)
+				const hsc = httpCommand(this.props.currentCommand, this.props.actions, this.props.commandHistory.size)
 
-				siac.write(querystring.stringify({
+				hsc.write(querystring.stringify({
 					'encryptionpassword': this.props.walletPassword,
 					'seed': e.target.value,
 					'dictionary': 'english',
 				}))
-				siac.end()
+				hsc.end()
 				e.target.value = ''
 				this.props.actions.setWalletPassword('')
 				this.props.actions.hideSeedPrompt()

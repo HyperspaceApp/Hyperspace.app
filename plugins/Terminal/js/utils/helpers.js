@@ -9,10 +9,10 @@ import * as constants from '../constants/helper.js'
 
 const app = remote.app
 
-export const checkSiaPath = () => new Promise((resolve, reject) => {
-	fs.stat(SiaAPI.config.attr('siac').path, (err) => {
+export const checkHyperspacePath = () => new Promise((resolve, reject) => {
+	fs.stat(HyperspaceAPI.config.attr('hsc').path, (err) => {
 		if (!err) {
-			if (Path.basename(SiaAPI.config.attr('siac').path).indexOf('siac') !== -1) {
+			if (Path.basename(HyperspaceAPI.config.attr('hsc').path).indexOf('hsc') !== -1) {
 				resolve()
 			} else {
 				reject({ message: 'Invalid binary name.' })
@@ -23,38 +23,38 @@ export const checkSiaPath = () => new Promise((resolve, reject) => {
 	})
 })
 
-export const initPlugin = () => checkSiaPath().catch(() => {
-	//Look in the siad folder for siac.
-	SiaAPI.config.attr('siac', { path: Path.resolve( Path.dirname(SiaAPI.config.attr('siad').path), (process.platform === 'win32' ? './siac.exe' : './siac') ) })
-	checkSiaPath().catch(() => {
-		// config.path doesn't exist. Prompt the user for siac's location
-		if (!SiaAPI.config.attr('siac')) {
-			SiaAPI.config.attr('siac', { path: '' })
+export const initPlugin = () => checkHyperspacePath().catch(() => {
+	//Look in the hsd folder for hsc.
+	HyperspaceAPI.config.attr('hsc', { path: Path.resolve( Path.dirname(HyperspaceAPI.config.attr('hsd').path), (process.platform === 'win32' ? './hsc.exe' : './hsc') ) })
+	checkHyperspacePath().catch(() => {
+		// config.path doesn't exist. Prompt the user for hsc's location
+		if (!HyperspaceAPI.config.attr('hsc')) {
+			HyperspaceAPI.config.attr('hsc', { path: '' })
 		}
-		SiaAPI.showError({ title: 'Siac not found', content: 'Sia-UI couldn\'t locate siac. Please navigate to siac.' })
-		const siacPath = SiaAPI.openFile({
-			title: 'Please locate siac.',
+		HyperspaceAPI.showError({ title: 'Hsc not found', content: 'Hyperspace couldn\'t locate hsc. Please navigate to hsc.' })
+		const hscPath = HyperspaceAPI.openFile({
+			title: 'Please locate hsc.',
 			properties: ['openFile'],
-			defaultPath: Path.join('..', SiaAPI.config.attr('siac').path || './' ),
-			filters: [{ name: 'siac', extensions: ['*'] }],
+			defaultPath: Path.join('..', HyperspaceAPI.config.attr('hsc').path || './' ),
+			filters: [{ name: 'hsc', extensions: ['*'] }],
 		})
-		if (siacPath) {
-			if (Path.basename(siacPath[0]).indexOf('siac') === -1) {
-				SiaAPI.showError({ title: 'Invalid Binary Name', content: 'The siac binary must be called siac. Restart the plugin to choose a valid binary.' })
+		if (hscPath) {
+			if (Path.basename(hscPath[0]).indexOf('hsc') === -1) {
+				HyperspaceAPI.showError({ title: 'Invalid Binary Name', content: 'The hsc binary must be called hsc. Restart the plugin to choose a valid binary.' })
 			} else {
-				SiaAPI.config.attr('siac', { path: siacPath[0] })
+				HyperspaceAPI.config.attr('hsc', { path: hscPath[0] })
 			}
 		} else {
-			SiaAPI.showError({ title: 'Siac not found', content: 'This plugin will be unusable until a proper siac binary is found.' })
+			HyperspaceAPI.showError({ title: 'Hsc not found', content: 'This plugin will be unusable until a proper hsc binary is found.' })
 		}
 	})
-	SiaAPI.config.save()
+	HyperspaceAPI.config.save()
 })
 
 export const commandType = function(commandString, specialArray) {
 	//Cleans string and sees if any subarray in array starts with the string when split.
 	const args = commandString.replace(/\s*\s/g, ' ').trim().split(' ')
-	if (args[0] === './siac' || args[0] === 'siac') {
+	if (args[0] === './hsc' || args[0] === 'hsc') {
 		args.shift()
 	}
 
@@ -68,11 +68,11 @@ export const commandType = function(commandString, specialArray) {
 }
 
 export const getArgumentString = function(commandString, rawCommandSplit) {
-	//Parses out ./siac, siac, command, and address flags leaving only arguments.
+	//Parses out ./hsc, hsc, command, and address flags leaving only arguments.
 
-	//Remove leading ./siac or siac
+	//Remove leading ./hsc or hsc
 	const args = commandString.replace(/\s*\s/g, ' ').trim().split(' ')
-	if (args[0] === './siac' || args[0] === 'siac') {
+	if (args[0] === './hsc' || args[0] === 'hsc') {
 		args.shift()
 	}
 
@@ -105,28 +105,28 @@ export const spawnCommand = function(commandStr, actions, newid) {
 	const newCommand = Map({ command: commandString, result: '', id: newid, stat: 'running' })
 	actions.addCommand(newCommand)
 
-	//Remove surrounding whitespace and leading siac command.
-	if (commandString.startsWith('siac')) {
+	//Remove surrounding whitespace and leading hsc command.
+	if (commandString.startsWith('hsc')) {
 		commandString = commandString.slice(4).trim()
-	} else if (commandString.startsWith('./siac')) {
+	} else if (commandString.startsWith('./hsc')) {
 		commandString = commandString.slice(6).trim()
 	}
 
-	//Add address flag to siac.
+	//Add address flag to hsc.
 	let args = commandString.split(' ')
-	if (args.indexOf('-a') === -1 && args.indexOf('--address') === -1 && SiaAPI.config.attr('address')) {
-		args = args.concat([ '-a', SiaAPI.config.attr('address') ])
+	if (args.indexOf('-a') === -1 && args.indexOf('--address') === -1 && HyperspaceAPI.config.attr('address')) {
+		args = args.concat([ '-a', HyperspaceAPI.config.attr('address') ])
 	}
 
-	const siac = child_process.spawn(SiaAPI.config.attr('siac').path, args, { cwd: app.getPath('downloads') })
+	const hsc = child_process.spawn(HyperspaceAPI.config.attr('hsc').path, args, { cwd: app.getPath('downloads') })
 
 	//Update the UI when the process receives new ouput.
 	const consumeChunk = function(chunk) {
 		const chunkTrimmed = chunk.toString().replace(/stty: stdin isn't a terminal\n/g, '')
 		actions.updateCommand(newCommand.get('command'), newCommand.get('id'), chunkTrimmed)
 	}
-	siac.stdout.on('data', consumeChunk)
-	siac.stderr.on('data', consumeChunk)
+	hsc.stdout.on('data', consumeChunk)
+	hsc.stderr.on('data', consumeChunk)
 
 	let closed = false
 	const streamClosed = function() {
@@ -136,11 +136,11 @@ export const spawnCommand = function(commandStr, actions, newid) {
 		}
 	}
 
-	siac.on('error', (e) => {
-		consumeChunk(`Error running command: ${e.message}.\nIs your siac path correct?`)
+	hsc.on('error', (e) => {
+		consumeChunk(`Error running command: ${e.message}.\nIs your hsc path correct?`)
 		streamClosed()
 	})
-	siac.on('close', () => {
+	hsc.on('close', () => {
 		streamClosed()
 	})
 
@@ -149,30 +149,30 @@ export const spawnCommand = function(commandStr, actions, newid) {
 		actions.hideCommandOverview()
 	}
 
-	return siac
+	return hsc
 }
 
 export const httpCommand = function(commandStr, actions, newid) {
 	let commandString = commandStr
 	const originalCommand = commandStr.replace(/\s*\s/g, ' ').trim()
 
-	//Remove surrounding whitespace and leading siac command.
-	if (commandString.startsWith('siac')) {
+	//Remove surrounding whitespace and leading hsc command.
+	if (commandString.startsWith('hsc')) {
 		commandString = commandString.slice(4).trim()
-	} else if (commandString.startsWith('./siac')) {
+	} else if (commandString.startsWith('./hsc')) {
 		commandString = commandString.slice(6).trim()
 	}
 
 	//Parse arguments.
 	const args = commandString.split(' ')
 
-	//Add address flag to siac.
-	let siaAddr = url.parse('http://localhost:9980')
+	//Add address flag to hsc.
+	let hyperspaceAddr = url.parse('http://localhost:5580')
 
 	if (args.indexOf('-a') === -1 && args.indexOf('--address') === -1) {
-		if (SiaAPI.config.attr('address')) {
+		if (HyperspaceAPI.config.attr('address')) {
 			//Load default address.
-			siaAddr = url.parse('http://' + SiaAPI.config.attr('address'))
+			hyperspaceAddr = url.parse('http://' + HyperspaceAPI.config.attr('address'))
 		}
 	} else {
 		//Parse address flag.
@@ -182,7 +182,7 @@ export const httpCommand = function(commandStr, actions, newid) {
 
 		}
 		if (index < args.length-1) {
-			siaAddr = url.parse('http://' + args[index+1])
+			hyperspaceAddr = url.parse('http://' + args[index+1])
 		}
 		args.splice(index, 2)
 		commandString = args.join(' ')
@@ -238,8 +238,8 @@ export const httpCommand = function(commandStr, actions, newid) {
 	}
 
 	const options = {
-		hostname: siaAddr.hostname,
-		port: siaAddr.port,
+		hostname: hyperspaceAddr.hostname,
+		port: hyperspaceAddr.port,
 		path: apiURL,
 		method: 'POST',
 		headers: {

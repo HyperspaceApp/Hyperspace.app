@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 
 export const chooseFileLocation = function() {
-	const selectedFile = SiaAPI.openFile({
+	const selectedFile = HyperspaceAPI.openFile({
 		title: 'Choose new storage location.',
 		properties: [ 'openDirectory' ],
 	})
@@ -13,11 +13,11 @@ export const chooseFileLocation = function() {
 }
 
 export const hastingsByteToSCTB = (hastings) => (
-	SiaAPI.hastingsToSiacoins(hastings).times('1e12')
+	HyperspaceAPI.hastingsToSiacoins(hastings).times('1e12')
 )
 
 export const SCTBToHastingsByte = (SC) => (
-	SiaAPI.siacoinsToHastings(SC).dividedBy('1e12')
+	HyperspaceAPI.siacoinsToHastings(SC).dividedBy('1e12')
 )
 
 export const validNumbers = (values) => (

@@ -29,8 +29,8 @@ const CommandLine = ({showCommandOverview, actions}) => {
 							hostdb      View or modify the host database<br />
 							miner       Perform miner actions<br />
 							renter      Perform renter actions<br />
-							stop        Stop the Sia daemon<br />
-							update      Update Sia<br />
+							stop        Stop the Hyperspace daemon<br />
+							update      Update Hyperspace<br />
 							version     Print version information<br />
 							wallet      Perform wallet actions<br /><br />
 

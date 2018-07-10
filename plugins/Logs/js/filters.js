@@ -1,7 +1,7 @@
 export const filters = [
 	{
-		name: 'Siad',
-		filters: ['siad-output.log'],
+		name: 'Hsd',
+		filters: ['hsd-output.log'],
 	},
 	{
 		name: 'Consensus',

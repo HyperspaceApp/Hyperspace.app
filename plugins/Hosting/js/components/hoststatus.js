@@ -8,7 +8,7 @@ const HostStatus = ({connectabilitystatus, workingstatus}) => {
 				<i className="fa fa-refresh fa-spin inactive-icon" />
 				<span> Checking Host Status... </span>
 				<div className="host-status-info">
-					Sia-UI is determining the status of your Host.
+					Hyperspace is determining the status of your Host.
 				</div>
 			</div>
 		)

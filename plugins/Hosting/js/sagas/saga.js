@@ -6,10 +6,10 @@ import * as helper from '../utils/host.js'
 import { Map, List } from 'immutable'
 import BigNumber from 'bignumber.js'
 
-// siadCall: promisify Siad API calls.  Resolve the promise with `response` if the call was successful,
+// hsdCall: promisify Hsd API calls.  Resolve the promise with `response` if the call was successful,
 // otherwise reject the promise with `err`.
-const siadCall = (uri) => new Promise((resolve, reject) => {
-	SiaAPI.call(uri, (err, response) => {
+const hsdCall = (uri) => new Promise((resolve, reject) => {
+	HyperspaceAPI.call(uri, (err, response) => {
 		if (err) {
 			reject(err)
 		} else {
@@ -19,7 +19,7 @@ const siadCall = (uri) => new Promise((resolve, reject) => {
 })
 
 const fetchStorageFiles = () => new Promise((resolve, reject) => {
-	siadCall({
+	hsdCall({
 		url: '/host/storage',
 		method: 'GET',
 	}).then((fetchedFiles) => {
@@ -38,7 +38,7 @@ function *announceHost(action) {
 		yield put( actions.showAnnounceDialog(action.address) )
 		const closeAction = yield take( constants.HIDE_ANNOUNCE_DIALOG )
 		if (closeAction.address !== '') { //If size is zero just hide the dialog.
-			yield siadCall({
+			yield hsdCall({
 				url: '/host/announce',
 				timeout: 30000, // 30 second timeout for host announcement
 				method: 'POST',
@@ -46,14 +46,14 @@ function *announceHost(action) {
 			})
 		}
 	} catch (e) {
-		SiaAPI.showError({ title: 'Error Announcing Host', content: e.message })
+		HyperspaceAPI.showError({ title: 'Error Announcing Host', content: e.message })
 	}
 }
 
 // bytesToStorage converts a BigNumber of GB to a valid size of storage, in
 // bytes, rounded to the nearest 256MiB (64 * SectorSize).
 const bytesToStorageBytes = async (bytes) => {
-	const settings = await siadCall('/host')
+	const settings = await hsdCall('/host')
 
 	const roundedBytes = bytes.minus(bytes.modulo(64 * settings.externalsettings.sectorsize))
 	if (roundedBytes.isNegative()) {
@@ -65,7 +65,7 @@ const bytesToStorageBytes = async (bytes) => {
 
 function *addFolder(action) {
 	try {
-		yield siadCall({
+		yield hsdCall({
 			url: '/host/storage/folders/add',
 			method: 'POST',
 			timeout: 1.7e8, // two day timeout for adding storage folders
@@ -76,7 +76,7 @@ function *addFolder(action) {
 		})
 		yield put( actions.fetchData() )
 	} catch (e) {
-		SiaAPI.showError({ title: 'Error Adding Folder', content: e.message })
+		HyperspaceAPI.showError({ title: 'Error Adding Folder', content: e.message })
 	}
 }
 
@@ -95,14 +95,14 @@ function *addFolderAskPathSize() {
 				})) )
 			}
 		} catch (e) {
-			SiaAPI.showError({ title: 'Error Adding Folder', content: e.message })
+			HyperspaceAPI.showError({ title: 'Error Adding Folder', content: e.message })
 		}
 	}
 }
 
 function *removeFolder(action) {
 	try {
-		yield siadCall({
+		yield hsdCall({
 			url: '/host/storage/folders/remove',
 			timeout: 1.7e8, // two day timeout for removing storage folders
 			method: 'POST',
@@ -112,7 +112,7 @@ function *removeFolder(action) {
 		})
 		yield put( actions.fetchData() )
 	} catch (e) {
-		SiaAPI.showError({ title: 'Error Removing Folder', content: e.message })
+		HyperspaceAPI.showError({ title: 'Error Removing Folder', content: e.message })
 	}
 }
 
@@ -123,7 +123,7 @@ function *resizeFolder(action) {
 		const bytes = new BigNumber(closeAction.folder.get('size')).times(1e9)
 		const roundedBytes = yield bytesToStorageBytes(bytes)
 		if (closeAction.folder.get('size')) { //If size is zero just hide the dialog.
-			yield siadCall({
+			yield hsdCall({
 				url: '/host/storage/folders/resize',
 				timeout: 1.7e8, // two day timeout for resizing storage folders
 				method: 'POST',
@@ -135,13 +135,13 @@ function *resizeFolder(action) {
 			yield put( actions.fetchData() )
 		}
 	} catch (e) {
-		SiaAPI.showError({ title: 'Error Resizing Folder', content: e.message })
+		HyperspaceAPI.showError({ title: 'Error Resizing Folder', content: e.message })
 	}
 }
 
 function *pushSettings(action) {
 	try {
-		yield siadCall({
+		yield hsdCall({
 			url: '/host',
 			method: 'POST',
 			qs: {
@@ -157,7 +157,7 @@ function *pushSettings(action) {
 		})
 		yield put( actions.fetchData() )
 	} catch (e) {
-		SiaAPI.showError({ title: 'Error Updating Settings', content: e.message })
+		HyperspaceAPI.showError({ title: 'Error Updating Settings', content: e.message })
 	}
 }
 
@@ -192,7 +192,7 @@ const parseRevenue = (financialmetrics) => {
 // tasks required.
 function *updateSettingsSaga(action) {
 	try {
-		const res = yield siadCall({
+		const res = yield hsdCall({
 			url: '/host/estimatescore',
 			method: 'GET',
 			qs: {
@@ -217,14 +217,14 @@ function *updateSettingsSaga(action) {
 
 function *fetchData() {
 	try {
-		const updatedData = yield siadCall({ url: '/host' })
-		const walletUnlocked = yield siadCall({ url: '/wallet' })
+		const updatedData = yield hsdCall({ url: '/host' })
+		const walletUnlocked = yield hsdCall({ url: '/wallet' })
 
 		const data = Map({
 			numContracts: updatedData.financialmetrics.contractcount,
 			storage: (new BigNumber(updatedData.externalsettings.totalstorage)).minus(new BigNumber(updatedData.externalsettings.remainingstorage)).toString(),
-			earned: SiaAPI.hastingsToSiacoins(parseRevenue(updatedData.financialmetrics)).round(2).toString(),
-			expected: SiaAPI.hastingsToSiacoins(parseExpectedRevenue(updatedData.financialmetrics)).round(2).toString(),
+			earned: HyperspaceAPI.hastingsToSiacoins(parseRevenue(updatedData.financialmetrics)).round(2).toString(),
+			expected: HyperspaceAPI.hastingsToSiacoins(parseExpectedRevenue(updatedData.financialmetrics)).round(2).toString(),
 			files: yield fetchStorageFiles(),
 			walletLocked: !walletUnlocked.unlocked,
 			walletsize: walletUnlocked.confirmedsiacoinbalance,
@@ -244,9 +244,9 @@ function *fetchData() {
 
 function *requestDefaultSettingsSaga() {
 	try {
-		const hostData = yield siadCall('/host')
+		const hostData = yield hsdCall('/host')
 		yield put(actions.receiveDefaultSettings(parseSettings(hostData)))
-		const res = yield siadCall({
+		const res = yield hsdCall({
 			url: '/host/estimatescore',
 			method: 'GET',
 		})
@@ -260,7 +260,7 @@ function *requestDefaultSettingsSaga() {
 // api and sets the UI's state accordingly.
 function *hostStatusSaga() {
 	try {
-		const hostData = yield siadCall('/host')
+		const hostData = yield hsdCall('/host')
 		yield put(actions.setHostStatus(hostData.connectabilitystatus, hostData.workingstatus))
 	} catch (e) {
 		console.error('error fetching host status: ' + e.toString())

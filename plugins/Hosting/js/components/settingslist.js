@@ -86,7 +86,7 @@ const SettingsList = ({ conversionRate, acceptingContracts, usersettings, defaul
 			{
 				shouldShowToggleAcceptingModal && acceptingContracts ?
 					<Modal title="Stop accepting contracts?"
-						message="You must still keep Sia-UI open until the existing contracts have expired otherwise you will lose collateral."
+						message="You must still keep Hyperspace open until the existing contracts have expired otherwise you will lose collateral."
 						actions={{ acceptModal: toggleAcceptingContracts, declineModal: hideToggleAcceptingModal  }}
 					/>
 					: null
@@ -94,7 +94,7 @@ const SettingsList = ({ conversionRate, acceptingContracts, usersettings, defaul
 			{
 				shouldShowToggleAcceptingModal && !acceptingContracts ?
 					<Modal title="Start accepting contracts?"
-						message="To host files you must keep the Sia-UI open. Collateral will also be locked and you will be unable to spend that SC until the contract is expired."
+						message="To host files you must keep Hyperspace open. Collateral will also be locked and you will be unable to spend that SPACE until the contract is expired."
 						actions={{ acceptModal: toggleAcceptingContracts, declineModal: hideToggleAcceptingModal  }}
 					/>
 					: null

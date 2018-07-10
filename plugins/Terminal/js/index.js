@@ -1,4 +1,4 @@
-// index.js: main entrypoint for the Sia-UI wallet plugin.
+// index.js: main entrypoint for the Hyperspace wallet plugin.
 import React from 'react'
 import ReactDOM from 'react-dom'
 import CommandLine from './components/app.js'

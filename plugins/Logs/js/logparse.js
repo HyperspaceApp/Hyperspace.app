@@ -1,7 +1,7 @@
 import fs from 'graceful-fs'
 import { readdirRecursive } from './utils.js'
 
-const siadir = SiaAPI.config.siad.datadir
+const hyperspacedir = HyperspaceAPI.config.hsd.datadir
 
 const fileSize = (logpath) => fs.statSync(logpath).size
 
@@ -33,9 +33,9 @@ const matchingLogs = (namefilters, datadir) =>
 	readdirRecursive(datadir)
 		.filter((file) => namefilters.reduce((matches, filtername) => matches || file.includes(filtername), false))
 
-// parseLogs takes a sia directory and an array of log name filters to match,
+// parseLogs takes a hyperspace directory and an array of log name filters to match,
 // and returns a concatenated, sorted log string composed of every log that
-// matched inside the sia directory.
+// matched inside the hyperspace directory.
 export const parseLogs = (datadir, nbytes, namefilters = ['.log']) => {
 	const logFiles = matchingLogs(namefilters, datadir)
 	const unsortedLogLines = logFiles.map((log) => readLog(log, nbytes))
@@ -53,7 +53,7 @@ export const parseLogs = (datadir, nbytes, namefilters = ['.log']) => {
 export const updateLogFilters = (state, size, filters) =>
 	state.set('logFilters', filters)
 	     .set('logSize', size)
-	     .set('logText', parseLogs(siadir, size, filters))
+	     .set('logText', parseLogs(hyperspacedir, size, filters))
 
 // addLogFilters adds an array of filters.
 export const addLogFilters = (state, filters) =>

@@ -15,7 +15,7 @@ import BackupButton from '../containers/backupbutton.js'
 import BackupPrompt from '../containers/backupprompt.js'
 import BalanceInfo from '../containers/balanceinfo.js'
 
-const Wallet = ({showBackupPrompt, siafundbalance, showReceivePrompt, showChangePasswordDialog, showSendPrompt, showNewWalletDialog, showRecoveryDialog, actions }) => {
+const Wallet = ({showBackupPrompt, showReceivePrompt, showChangePasswordDialog, showSendPrompt, showNewWalletDialog, showRecoveryDialog, actions }) => {
 	const onSendClick = (currencytype) => () => actions.startSendPrompt(currencytype)
 	return (
 		<div className="wallet">
@@ -40,7 +40,6 @@ const Wallet = ({showBackupPrompt, siafundbalance, showReceivePrompt, showChange
 }
 
 Wallet.propTypes = {
-	siafundbalance: PropTypes.string.isRequired,
 	showNewWalletDialog: PropTypes.bool,
 	showSendPrompt: PropTypes.bool,
 	showReceivePrompt: PropTypes.bool,

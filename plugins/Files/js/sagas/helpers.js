@@ -10,20 +10,19 @@ export const allowancePeriod = blockMonth*allowanceMonths
 export const ncontracts = 24
 export const baseRedundancy = 6
 export const baseFee = 240
-export const siafundRate = 0.12
 
 // sendError sends the error given by e to the ui for display.
 export const sendError = (e) => {
-	SiaAPI.showError({
-		title: 'Sia-UI Files Error',
+	HyperspaceAPI.showError({
+		title: 'Hyperspace Files Error',
 		content: typeof e.message !== 'undefined' ? e.message : e.toString(),
 	})
 }
 
-// siadCall: promisify Siad API calls.  Resolve the promise with `response` if the call was successful,
+// hsdCall: promisify Hsd API calls.  Resolve the promise with `response` if the call was successful,
 // otherwise reject the promise with `err`.
-export const siadCall = (uri) => new Promise((resolve, reject) => {
-	SiaAPI.call(uri, (err, response) => {
+export const hsdCall = (uri) => new Promise((resolve, reject) => {
+	HyperspaceAPI.call(uri, (err, response) => {
 		if (err) {
 			reject(err)
 		} else {
@@ -94,17 +93,17 @@ const directoriesFirst = (file1, file2) => {
 // return a list of files filtered with path.
 // ... it's ls.
 export const ls = (files, path) => {
-	const fileList = files.filter((file) => file.siapath.includes(path) && file.siapath !== path)
+	const fileList = files.filter((file) => file.hyperspacepath.includes(path) && file.hyperspacepath !== path)
 	let parsedFiles = Map()
 	fileList.forEach((file) => {
 		let type = 'file'
-		const relativePath = Path.posix.relative(path, file.siapath)
+		const relativePath = Path.posix.relative(path, file.hyperspacepath)
 		let filename = Path.posix.basename(relativePath)
 		let uploadprogress = Math.floor(file.uploadprogress)
-		let siapath = file.siapath
+		let hyperspacepath = file.hyperspacepath
 		let filesize = readableFilesize(file.filesize)
 		let redundancy = file.redundancy
-		if (relativePath.indexOf('/') !== -1 || file.siaUIFolder === true) {
+		if (relativePath.indexOf('/') !== -1 || file.hyperspaceAppFolder === true) {
 			type = 'directory'
 			filename = relativePath.split('/')[0]
 		}
@@ -117,11 +116,11 @@ export const ls = (files, path) => {
 				return
 			}
 
-			siapath = Path.posix.join(path, filename) + '/'
-			const subfiles = files.filter((subfile) => subfile.siapath.includes(siapath))
+			hyperspacepath = Path.posix.join(path, filename) + '/'
+			const subfiles = files.filter((subfile) => subfile.hyperspacepath.includes(hyperspacepath))
 			const totalFilesize = subfiles.reduce((sum, subfile) => sum + subfile.filesize, 0)
 			filesize = readableFilesize(totalFilesize)
-			if (!file.siaUIFolder) {
+			if (!file.hyperspaceAppFolder) {
 				redundancy = minRedundancy(subfiles)
 			} else {
 				redundancy = -1
@@ -131,11 +130,11 @@ export const ls = (files, path) => {
 		parsedFiles = parsedFiles.set(filename, {
 			size: filesize,
 			name: filename,
-			siapath: siapath,
+			hyperspacepath: hyperspacepath,
 			available: file.available,
 			redundancy: redundancy,
 			uploadprogress: uploadprogress,
-			siaUIFolder: file.siaUIFolder === true,
+			hyperspaceAppFolder: file.hyperspaceAppFolder === true,
 			type,
 		})
 	})
@@ -164,13 +163,13 @@ export const readdirRecursive = (path, files) => {
 }
 
 // uploadDirectory takes a `directory`, a list of files inside the directory,
-// and a destination siapath and returns a List of upload actions that will
+// and a destination hyperspacepath and returns a List of upload actions that will
 // upload each file to `destpath/directoryname/`.
 export const uploadDirectory = (directory, files, destpath) =>
 	files.map((file) => {
 		const relativePath = Path.dirname(file.substring(directory.length + 1))
-		const siapath = Path.posix.join(destpath, Path.basename(directory), relativePath)
-		return actions.uploadFile(siapath, file)
+		const hyperspacepath = Path.posix.join(destpath, Path.basename(directory), relativePath)
+		return actions.uploadFile(hyperspacepath, file)
 	})
 
 // Parse a response from `/renter/downloads`
@@ -184,8 +183,8 @@ export const parseDownloads = (downloads) =>
 				}
 				return 'Downloading'
 			})(),
-			siapath: download.siapath,
-			name: Path.basename(download.siapath),
+			hyperspacepath: download.hyperspacepath,
+			name: Path.basename(download.hyperspacepath),
 			bytestransferred: download.received,
 			totalbytes: download.filesize,
 			progress: Math.floor((download.received / download.filesize) * 100),
@@ -195,7 +194,7 @@ export const parseDownloads = (downloads) =>
 		}))
 		.sortBy((download) => -download.starttime)
 
-// Take a map of our historical transfer times, keyed by siapath, along with our most recent transfers,
+// Take a map of our historical transfer times, keyed by hyperspacepath, along with our most recent transfers,
 // and return a new map with the most recent data appended. Beyond a threshold, old transfer time data
 // is also discarded, so the returned map represents windows of timestamped byte counts over which we
 // can calculate average transfer speeds.
@@ -204,14 +203,14 @@ export const buildTransferTimes = (previousTransferTimes, transfers) => {
 	// we calculate our average speed. This number can be adjusted.
 	const lookbackCount = 5
 	return transfers.reduce((map, transfer) => {
-		const previousTransferTime = previousTransferTimes.get(transfer.siapath)
+		const previousTransferTime = previousTransferTimes.get(transfer.hyperspacepath)
 		if (previousTransferTime) {
-			return map.set(transfer.siapath, {
+			return map.set(transfer.hyperspacepath, {
 				timestamps: previousTransferTime.timestamps.concat(Date.now()).slice(-lookbackCount),
 				bytes: previousTransferTime.bytes.concat(transfer.bytestransferred).slice(-lookbackCount),
 			})
 		}
-		return map.set(transfer.siapath, {
+		return map.set(transfer.hyperspacepath, {
 			timestamps: [Date.now()],
 			bytes: [transfer.bytestransferred],
 		})
@@ -239,7 +238,7 @@ const calculateSpeed = (transferTime) => {
 // Take a list of untimed transfers and a transfer time window map and return a list of timed transfers
 export const addTransferSpeeds = (untimedTransfers, transferTimes) =>
 	untimedTransfers.map((transfer) => {
-		const transferTime = transferTimes.get(transfer.siapath)
+		const transferTime = transferTimes.get(transfer.hyperspacepath)
 		if (transferTime) {
 			transfer.speed = calculateSpeed(transferTime)
 		} else {
@@ -264,8 +263,8 @@ export const parseUploads = (files) =>
 				}
 				return 'Boosting Redundancy'
 			})(),
-			siapath: upload.siapath,
-			name: Path.basename(upload.siapath),
+			hyperspacepath: upload.hyperspacepath,
+			name: Path.basename(upload.hyperspacepath),
 			progress: Math.floor(upload.uploadprogress),
 			type: 'upload',
 		}))
@@ -275,30 +274,30 @@ export const parseUploads = (files) =>
 // Search `files` for `text`, excluding directories not in `path`
 export const searchFiles = (files, text, path) => {
 	const filteredFiles = List(files)
-	  .filter((file) => file.siapath.indexOf(path) === 0 && file.siapath !== path)
-	  .filter((file) => file.siapath.toLowerCase().includes(text.toLowerCase()))
+	  .filter((file) => file.hyperspacepath.indexOf(path) === 0 && file.hyperspacepath !== path)
+	  .filter((file) => file.hyperspacepath.toLowerCase().includes(text.toLowerCase()))
 
 	let parsedFiles = Map()
 	filteredFiles.forEach((file) => {
 		let type = 'file'
-		let name = Path.posix.basename(file.siapath)
-		let siapath = file.siapath
-		const pathComponents = file.siapath.split('/')
-		if (!Path.posix.basename(file.siapath).toLowerCase().includes(text.toLowerCase()) || file.siaUIFolder) {
+		let name = Path.posix.basename(file.hyperspacepath)
+		let hyperspacepath = file.hyperspacepath
+		const pathComponents = file.hyperspacepath.split('/')
+		if (!Path.posix.basename(file.hyperspacepath).toLowerCase().includes(text.toLowerCase()) || file.hyperspaceAppFolder) {
 			type = 'directory'
 			pathComponents.forEach((component, idx) => {
 				if (component.toLowerCase().includes(text.toLowerCase())) {
 					name = component
-					siapath = pathComponents.slice(0, idx+1).join('/') + '/'
+					hyperspacepath = pathComponents.slice(0, idx+1).join('/') + '/'
 				}
 			})
 		}
-		if (!parsedFiles.has(siapath) && siapath !== path) {
+		if (!parsedFiles.has(hyperspacepath) && hyperspacepath !== path) {
 			const parsedFile = Object.assign({}, file)
-			parsedFile.siapath = siapath
+			parsedFile.hyperspacepath = hyperspacepath
 			parsedFile.type = type
 			parsedFile.name = name
-			parsedFiles = parsedFiles.set(siapath, parsedFile)
+			parsedFiles = parsedFiles.set(hyperspacepath, parsedFile)
 		}
 	})
 
@@ -309,11 +308,11 @@ export const searchFiles = (files, text, path) => {
 // files and returns a new set of selected files consisting of all the files
 // between the last selected file and the clicked `file`.
 export const rangeSelect = (file, files, selectedFiles) => {
-	const siapaths = files.map((f) => f.siapath)
-	const selectedSiapaths = selectedFiles.map((selectedfile) => selectedfile.siapath)
+	const hyperspacepaths = files.map((f) => f.hyperspacepath)
+	const selectedHyperspacepaths = selectedFiles.map((selectedfile) => selectedfile.hyperspacepath)
 
-	const endSelectionIndex = siapaths.indexOf(file.siapath)
-	const startSelectionIndex = siapaths.indexOf(selectedSiapaths.first())
+	const endSelectionIndex = hyperspacepaths.indexOf(file.hyperspacepath)
+	const startSelectionIndex = hyperspacepaths.indexOf(selectedHyperspacepaths.first())
 	if (startSelectionIndex > endSelectionIndex) {
 		return files.slice(endSelectionIndex, startSelectionIndex + 1).toOrderedSet().reverse()
 	}
@@ -321,5 +320,5 @@ export const rangeSelect = (file, files, selectedFiles) => {
 }
 
 
-// allFiles returns all the files in the state, including Sia-UI folders
+// allFiles returns all the files in the state, including Hyperspace folders
 export const allFiles = (state) => state.get('files').concat(state.get('folders'))
