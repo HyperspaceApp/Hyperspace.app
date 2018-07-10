@@ -27,11 +27,6 @@ describe('wallet component', () => {
 		walletComponent.find('SendButton').first().simulate('click')
 		expect(testActions.startSendPrompt.calledWith('spacecash')).to.be.true
 	})
-	it('renders start send prompt with siafunds when send siafunds button is clicked', () => {
-		const walletComponent = shallow(<Wallet synced confirmedbalance="10" unconfirmedbalance="1" siafundbalance="1" actions={testActions} />)
-		walletComponent.find('SendButton [currencytype="Siafund"]').first().simulate('click')
-		expect(testActions.startSendPrompt.calledWith('siafunds')).to.be.true
-	})
 	it('renders a transaction list', () => {
 		const walletComponent = shallow(<Wallet synced confirmedbalance="10" unconfirmedbalance="1" siafundbalance="0" actions={testActions} />)
 		expect(walletComponent.contains(<TransactionList />)).to.be.true

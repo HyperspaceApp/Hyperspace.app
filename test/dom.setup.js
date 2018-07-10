@@ -7,9 +7,9 @@ const exposedProperties = ['window', 'navigator', 'document']
 global.HTMLElement = function() {}
 global.document = jsdom('')
 global.window = document.defaultView
-global.SiaAPI = {
+global.HyperspaceAPI = {
 	config: {
-		siad: {
+		hsd: {
 			datadir: testdir,
 		},
 	},

@@ -62,7 +62,7 @@ const FileList = ({files, selected, searchResults, path, showSearchField, dragFi
 		const onDoubleClick = (e) => {
 			e.stopPropagation()
 			if (file.type === 'directory') {
-				actions.setPath(file.siapath)
+				actions.setPath(file.hyperspacepath)
 			}
 		}
 		const handleDragRename = () => {
@@ -77,18 +77,18 @@ const FileList = ({files, selected, searchResults, path, showSearchField, dragFi
 			}
 			if (selected.size > 0) {
 				selected.forEach((selectedfile) => {
-					const destSiapath = Path.posix.join(path, dragFolderTarget, selectedfile.name)
-					actions.renameFile(selectedfile, destSiapath)
-					if (selected.type === 'directory' && !selected.isSiaUIFolder) {
-						actions.deleteSiaUIFolder(sourceSiapath)
+					const destHyperspacePath = Path.posix.join(path, dragFolderTarget, selectedfile.name)
+					actions.renameFile(selectedfile, destHyperspacePath)
+					if (selected.type === 'directory' && !selected.isHyperspaceAppFolder) {
+						actions.deleteHyperspaceAppFolder(sourceHyperspacePath)
 					}
 				})
 			} else {
-				const sourceSiapath = Path.posix.join(path, dragFileOrigin.name)
-				const destSiapath = Path.posix.join(path, dragFolderTarget, dragFileOrigin.name)
-				actions.renameFile({type: dragFileOrigin.type, siapath: sourceSiapath, isSiaUIFolder: dragFileOrigin.isSiaUIFolder}, destSiapath)
-				if (dragFileOrigin.type === 'directory' && !dragFileOrigin.isSiaUIFolder) {
-					actions.deleteSiaUIFolder(sourceSiapath)
+				const sourceHyperspacePath = Path.posix.join(path, dragFileOrigin.name)
+				const destHyperspacePath = Path.posix.join(path, dragFolderTarget, dragFileOrigin.name)
+				actions.renameFile({type: dragFileOrigin.type, hyperspacepath: sourceHyperspacePath, isHyperspaceAppFolder: dragFileOrigin.isHyperspaceAppFolder}, destHyperspacePath)
+				if (dragFileOrigin.type === 'directory' && !dragFileOrigin.isHyperspaceAppFolder) {
+					actions.deleteHyperspaceAppFolder(sourceHyperspacePath)
 				}
 			}
 			actions.getFiles()
@@ -100,7 +100,7 @@ const FileList = ({files, selected, searchResults, path, showSearchField, dragFi
 				key={key}
 				selected={isSelected}
 				isDragTarget={dragFolderTarget === file.name}
-				isSiaUIFolder={file.siaUIFolder}
+				isHyperspaceAppFolder={file.hyperspaceAppFolder}
 				filename={file.name}
 				filesize={file.size}
 				redundancy={file.redundancy}

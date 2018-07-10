@@ -2,16 +2,16 @@ import { Application } from 'spectron'
 import { spawn } from 'child_process'
 import { expect } from 'chai'
 import psTree from 'ps-tree'
-import * as Siad from 'sia.js'
+import * as Hsd from 'hyperspace.js'
 import fs from 'fs'
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-// getSiadChild takes an input pid and looks at all the child process of that
+// getHsdChild takes an input pid and looks at all the child process of that
 // pid, returning an object with the fields {exists, pid}, where exists is true
-// if the input pid has a 'siad' child, and the pid is the process id of the
+// if the input pid has a 'hsd' child, and the pid is the process id of the
 // child.
-const getSiadChild = (pid) => new Promise((resolve, reject) => {
+const getHsdChild = (pid) => new Promise((resolve, reject) => {
 	psTree(pid, (err, children) => {
 		if (err) {
 			reject(err)
@@ -25,9 +25,9 @@ const getSiadChild = (pid) => new Promise((resolve, reject) => {
 	})
 })
 
-// pkillSiad kills all siad processes running on the machine, used in these
+// pkillHsd kills all hsd processes running on the machine, used in these
 // tests to ensure a clean env
-const pkillSiad = () => new Promise((resolve, reject) => {
+const pkillHsd = () => new Promise((resolve, reject) => {
 	psTree(process.pid, (err, children) => {
 		if (err) {
 			reject(err)
@@ -64,13 +64,13 @@ const electronBinary = process.platform === 'win32' ? 'node_modules\\electron\\d
 /* eslint-disable no-unused-expressions */
 describe('startup and shutdown behaviour', () => {
 	after(async () => {
-		// never leave a dangling siad
-		await pkillSiad()
+		// never leave a dangling hsd
+		await pkillHsd()
 	})
 	describe('window closing behaviour', function() {
 		this.timeout(200000)
 		let app
-		let siadProcess
+		let hsdProcess
 		beforeEach(async () => {
 			app = new Application({
 				path: electronBinary,
@@ -86,8 +86,8 @@ describe('startup and shutdown behaviour', () => {
 		})
 		afterEach(async () => {
 			try {
-				await pkillSiad()
-				while (isProcessRunning(siadProcess.pid)) {
+				await pkillHsd()
+				while (isProcessRunning(hsdProcess.pid)) {
 					await sleep(10)
 				}
 				app.webContents.send('quit')
@@ -98,45 +98,45 @@ describe('startup and shutdown behaviour', () => {
 		})
 		it('hides the window and persists in tray if closeToTray = true', async () => {
 			const pid = await app.mainProcess.pid()
-			siadProcess = await getSiadChild(pid)
+			hsdProcess = await getHsdChild(pid)
 			app.webContents.executeJavaScript('window.closeToTray = true')
 			app.browserWindow.close()
 			await sleep(1000)
 			expect(await app.browserWindow.isDestroyed()).to.be.false
 			expect(await app.browserWindow.isVisible()).to.be.false
-			expect(isProcessRunning(siadProcess.pid)).to.be.true
+			expect(isProcessRunning(hsdProcess.pid)).to.be.true
 		})
 		it('quits gracefully on close if closeToTray = false', async () => {
 			app.webContents.executeJavaScript('window.closeToTray = false')
 			const pid = await app.mainProcess.pid()
-			expect(siadProcess.exists).to.be.true
+			expect(hsdProcess.exists).to.be.true
 
 			app.browserWindow.close()
 			while (isProcessRunning(pid)) {
 				await sleep(10)
 			}
-			expect(isProcessRunning(siadProcess.pid)).to.be.false
+			expect(isProcessRunning(hsdProcess.pid)).to.be.false
 		})
 		it('quits gracefully on close if already minimized and closed again', async () => {
 			const pid = await app.mainProcess.pid()
-			siadProcess = await getSiadChild(pid)
+			hsdProcess = await getHsdChild(pid)
 			app.webContents.executeJavaScript('window.closeToTray = true')
 			app.browserWindow.close()
 			await sleep(1000)
 			expect(await app.browserWindow.isDestroyed()).to.be.false
 			expect(await app.browserWindow.isVisible()).to.be.false
-			expect(isProcessRunning(siadProcess.pid)).to.be.true
+			expect(isProcessRunning(hsdProcess.pid)).to.be.true
 			app.browserWindow.close()
 			while (isProcessRunning(pid)) {
 				await sleep(10)
 			}
-			expect(isProcessRunning(siadProcess.pid)).to.be.false
+			expect(isProcessRunning(hsdProcess.pid)).to.be.false
 		})
 	})
-	describe('startup with no siad currently running', function() {
+	describe('startup with no hsd currently running', function() {
 		this.timeout(120000)
 		let app
-		let siadProcess
+		let hsdProcess
 		before(async () => {
 			app = new Application({
 				path: electronBinary,
@@ -151,8 +151,8 @@ describe('startup and shutdown behaviour', () => {
 			}
 		})
 		after(async () => {
-			await pkillSiad()
-			while (isProcessRunning(siadProcess.pid)) {
+			await pkillHsd()
+			while (isProcessRunning(hsdProcess.pid)) {
 				await sleep(10)
 			}
 			if (app.isRunning()) {
@@ -160,39 +160,39 @@ describe('startup and shutdown behaviour', () => {
 				app.stop()
 			}
 		})
-		it('starts siad and loads correctly on launch', async () => {
+		it('starts hsd and loads correctly on launch', async () => {
 			const pid = await app.mainProcess.pid()
 			await app.client.waitUntilWindowLoaded()
-			siadProcess = await getSiadChild(pid)
-			expect(siadProcess.exists).to.be.true
+			hsdProcess = await getHsdChild(pid)
+			expect(hsdProcess.exists).to.be.true
 		})
-		it('gracefully exits siad on quit', async () => {
+		it('gracefully exits hsd on quit', async () => {
 			const pid = await app.mainProcess.pid()
 			app.webContents.send('quit')
 			while (await app.client.isVisible('#overlay-text') === false) {
 				await sleep(10)
 			}
-			while (await app.client.getText('#overlay-text') !== 'Quitting Sia...') {
+			while (await app.client.getText('#overlay-text') !== 'Quitting Hyperspace...') {
 				await sleep(10)
 			}
 			while (isProcessRunning(pid)) {
 				await sleep(10)
 			}
-			expect(isProcessRunning(siadProcess.pid)).to.be.false
+			expect(isProcessRunning(hsdProcess.pid)).to.be.false
 		})
 	})
-	describe('startup with a siad already running', function() {
+	describe('startup with a hsd already running', function() {
 		this.timeout(120000)
 		let app
-		let siadProcess
+		let hsdProcess
 		before(async () => {
-			if (!fs.existsSync('sia-testing')) {
-				fs.mkdirSync('sia-testing')
+			if (!fs.existsSync('hyperspace-testing')) {
+				fs.mkdirSync('hyperspace-testing')
 			}
-			siadProcess = Siad.launch(process.platform === 'win32' ? 'Sia\\hsd.exe' : './Sia/hsd', {
-				'sia-directory': 'sia-testing',
+			hsdProcess = Hsd.launch(process.platform === 'win32' ? 'Hyperspace\\hsd.exe' : './Hyperspace/hsd', {
+				'hyperspace-directory': 'hyperspace-testing',
 			})
-			while (await Siad.isRunning('localhost:9980') === false) {
+			while (await Hsd.isRunning('localhost:9980') === false) {
 				await sleep(10)
 			}
 			app = new Application({
@@ -208,29 +208,29 @@ describe('startup and shutdown behaviour', () => {
 			}
 		})
 		after(async () => {
-			await pkillSiad()
+			await pkillHsd()
 			if (app.isRunning()) {
 				app.webContents.send('quit')
 				app.stop()
 			}
-			while (isProcessRunning(siadProcess.pid)) {
+			while (isProcessRunning(hsdProcess.pid)) {
 				await sleep(10)
 			}
 		})
-		it('connects and loads correctly to the running siad', async () => {
+		it('connects and loads correctly to the running hsd', async () => {
 			const pid = await app.mainProcess.pid()
 			await app.client.waitUntilWindowLoaded()
-			const childSiad = await getSiadChild(pid)
-			expect(childSiad.exists).to.be.false
+			const childHsd = await getHsdChild(pid)
+			expect(childHsd.exists).to.be.false
 		})
-		it('doesnt quit siad on exit', async () => {
+		it('doesnt quit hsd on exit', async () => {
 			const pid = await app.mainProcess.pid()
 			app.webContents.send('quit')
 			while (isProcessRunning(pid)) {
 				await sleep(200)
 			}
-			expect(isProcessRunning(siadProcess.pid)).to.be.true
-			siadProcess.kill('SIGKILL')
+			expect(isProcessRunning(hsdProcess.pid)).to.be.true
+			hsdProcess.kill('SIGKILL')
 		})
 	})
 })

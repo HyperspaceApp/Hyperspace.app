@@ -17,16 +17,16 @@ const AllowanceDialog = ({confirming, confirmationAllowance, unlocked, synced, f
 		<ConfirmationDialog allowance={confirmationAllowance} onConfirmClick={onConfirmClick} onCancelClick={onConfirmationCancel} />
 	) : (
 		<div className="allowance-dialog">
-			<h3> Buy storage on the Sia Decentralized Network</h3>
+			<h3> Buy storage on the Hyperspace Distributed Network</h3>
 			<div className="allowance-message">
-				<p>You need to allocate funds to upload and download on Sia. Your allowance remains locked for 3 months. Unspent funds are then refunded*. You can increase your allowance at any time.</p>
-				<p>Your storage allowance automatically refills every 6 weeks. Your computer must be online with your wallet unlocked to complete the refill. If Sia fails to refill the allowance by the end of the lock-in period, your data may be lost.</p>
+				<p>You need to allocate funds to upload and download on Hyperspace. Your allowance remains locked for 3 months. Unspent funds are then refunded*. You can increase your allowance at any time.</p>
+				<p>Your storage allowance automatically refills every 6 weeks. Your computer must be online with your wallet unlocked to complete the refill. If Hyperspace fails to refill the allowance by the end of the lock-in period, your data may be lost.</p>
 				<p className="footnote">*contract fees are non-refundable. They will be subtracted from the allowance that you set.</p>
 			</div>
 			<form onSubmit={onAcceptClick}>
 				<div className="allowance-input">
 					<label>Allowance: <input type="number" name="allowance" defaultValue="5000" onFocus={onAllowanceChange} onChange={onAllowanceChange} required autoFocus className="allowance-amount" /></label>
-					<span> SC</span>
+					<span> SPACE</span>
 				</div>
 				<div className="allowance-buttons">
 					<button type="submit" className="allowance-button-accept">Accept</button>
@@ -35,7 +35,7 @@ const AllowanceDialog = ({confirming, confirmationAllowance, unlocked, synced, f
 				<table className="estimates">
 					<tr>
 						<td className="estimate-label">Estimated Fees</td>
-						<td className="estimate-content">{new BigNumber(feeEstimate).round(2).toString()} SC</td>
+						<td className="estimate-content">{new BigNumber(feeEstimate).round(2).toString()} SPACE</td>
 					</tr>
 					<tr>
 						<td className="estimate-label">Estimated Storage</td>

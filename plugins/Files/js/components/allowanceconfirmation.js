@@ -23,7 +23,7 @@ const ConfirmationDialog = ({allowance, onConfirmClick, onCancelClick}) => {
 	return (
 		<div style={confirmationStyle}>
 			<h3 style={confirmationTextStyle}>
-				Please confirm that you would like to set aside {allowance} SC for storage on the Sia network.
+				Please confirm that you would like to set aside {allowance} SPACE for storage on the Hyperspace network.
 			</h3>
 			<div>
 				<button style={buttonStyle} onClick={onConfirmClick}>Confirm</button>

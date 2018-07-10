@@ -8,7 +8,7 @@ import { expect } from 'chai'
 import { spy } from 'sinon'
 import proxyquire from 'proxyquire'
 import { List } from 'immutable'
-import * as Siad from 'sia.js'
+import * as Hsd from 'hyperspace.js'
 import rootReducer from '../../plugins/Files/js/reducers/index.js'
 const sagaMiddleware = createSagaMiddleware()
 
@@ -34,7 +34,7 @@ const helperMocks = {
 const rootSaga = proxyquire('../../plugins/Files/js/sagas/index.js', helperMocks).default
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-// Stub the parts of the Sia API that the files plugin uses.
+// Stub the parts of the Hyperspace API that the files plugin uses.
 const contracts = []
 let testFiles
 let walletState
@@ -43,8 +43,8 @@ const setAllowanceSpy = spy()
 const downloadSpy = spy()
 const deleteSpy = spy()
 const renameSpy = spy()
-const testFunds = Siad.siacoinsToHastings(100000)
-const mockSiaAPI = {
+const testFunds = Hsd.siacoinsToHastings(100000)
+const mockHyperspaceAPI = {
 	call: (uri, callback) => {
 		if (uri === '/renter/contracts') {
 			callback(null, { contracts })
@@ -99,15 +99,15 @@ const mockSiaAPI = {
 		}
 	},
 	showError: spy(),
-	siacoinsToHastings: Siad.siacoinsToHastings,
-	hastingsToSiacoins: Siad.hastingsToSiacoins,
+	siacoinsToHastings: Hsd.siacoinsToHastings,
+	hastingsToSiacoins: Hsd.hastingsToSiacoins,
 }
 
 let store
 
 describe('files plugin sagas', () => {
 	before(() => {
-		global.SiaAPI = mockSiaAPI
+		global.HyperspaceAPI = mockHyperspaceAPI
 		store = createStore(
 			rootReducer,
 			applyMiddleware(sagaMiddleware)
@@ -115,7 +115,7 @@ describe('files plugin sagas', () => {
 		sagaMiddleware.run(rootSaga)
 	})
 	afterEach(() => {
-		SiaAPI.showError.reset()
+		HyperspaceAPI.showError.reset()
 	})
 	it('runs every watcher saga defined in files', () => {
 		expect(rootSaga().next().value).to.have.length(Object.keys(sagas).length)
@@ -128,7 +128,7 @@ describe('files plugin sagas', () => {
 		store.dispatch(actions.getContractCount())
 		await sleep(10)
 		expect(store.getState().files.get('contractCount')).to.equal(contracts.length)
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('sets files on getFiles', async () => {
 		testFiles = [
@@ -140,13 +140,13 @@ describe('files plugin sagas', () => {
 		store.dispatch(actions.getFiles())
 		await sleep(500)
 		expect(store.getState().files.get('files').size).to.equal(testFiles.length)
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('sets wallet lock state on getWalletLockstate', async () => {
 		walletState = {
 			unlocked: false,
 			encrypted: true,
-			confirmedsiacoinbalance: Siad.siacoinsToHastings(1000).toString(),
+			confirmedsiacoinbalance: Hsd.siacoinsToHastings(1000).toString(),
 		}
 		store.dispatch(actions.getWalletLockstate())
 		await sleep(10)
@@ -155,14 +155,14 @@ describe('files plugin sagas', () => {
 		store.dispatch(actions.getWalletLockstate())
 		await sleep(10)
 		expect(store.getState().wallet.get('unlocked')).to.be.true
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('calls /renter/upload on uploadFile', async () => {
 		uploadSpy.reset()
 		store.dispatch(actions.uploadFile('testfile', ''))
 		await sleep(10)
 		expect(uploadSpy.calledWithExactly('/renter/upload/testfile')).to.be.true
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('calls /renter/upload correctly on every file in a folder on uploadFolder', async () => {
 		uploadSpy.reset()
@@ -175,7 +175,7 @@ describe('files plugin sagas', () => {
 		])
 		store.dispatch(actions.uploadFolder('test/testsiapath', '/test/testdir'))
 		await sleep(10)
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 		expect(uploadSpy.callCount).to.equal(testDirectoryFiles.size)
 		expect(uploadSpy.calledWithExactly('/renter/upload/test/testsiapath/testdir/testfile5')).to.be.true
 		expect(uploadSpy.calledWithExactly('/renter/upload/test/testsiapath/testdir/testfile6')).to.be.true
@@ -192,7 +192,7 @@ describe('files plugin sagas', () => {
 		store.dispatch(actions.getUploads())
 		await sleep(10)
 		expect(store.getState().files.get('uploading')).to.deep.equal(testUploads)
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('sets downloads on getDownloads', async () => {
 		testDownloads = List([
@@ -203,7 +203,7 @@ describe('files plugin sagas', () => {
 		store.dispatch(actions.getDownloads())
 		await sleep(10)
 		expect(store.getState().files.get('downloading').toObject()).to.deep.equal(testDownloads.toObject())
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	const testFile = {
 		siapath: 'test/siapath',
@@ -214,34 +214,34 @@ describe('files plugin sagas', () => {
 		for (let i = 0; i < 4096; i++) {
 			store.dispatch(actions.deleteFile(testFile))
 		}
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('can buffer lots of upload actions', function() {
 		this.timeout(40000)
 		for (let i = 0; i < 4096; i++) {
 			store.dispatch(actions.uploadFile('testfile', ''))
 		}
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('can buffer lots of download actions', function() {
 		this.timeout(20000)
 		for (let i = 0; i < 4096; i++) {
 			store.dispatch(actions.downloadFile('testfile', ''))
 		}
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('calls /renter/download on downloadFile', async () => {
 		store.dispatch(actions.downloadFile(testFile, '/test/downloadpath'))
 		await sleep(10)
 		expect(downloadSpy.calledWithExactly('/renter/download/test/siapath', '/test/downloadpath')).to.be.true
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	describe('deletion sagas', () => {
 		it('calls /renter/delete on deleteFile', async () => {
 			store.dispatch(actions.deleteFile(testFile))
 			await sleep(10)
 			expect(deleteSpy.calledWithExactly('/renter/delete/test/siapath')).to.be.true
-			expect(SiaAPI.showError.called).to.be.false
+			expect(HyperspaceAPI.showError.called).to.be.false
 		})
 		it('calls /renter/delete for every file in a directory and subdirectories', async () => {
 			testFiles = [
@@ -270,19 +270,19 @@ describe('files plugin sagas', () => {
 		await sleep(10)
 		expect(store.getState().files.get('showAllowanceDialog')).to.be.false
 		expect(store.getState().files.get('settingAllowance')).to.be.false
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('sets the correct wallet balance on getWalletBalance', async () => {
 		store.dispatch(actions.getWalletBalance())
 		await sleep(10)
-		expect(store.getState().wallet.get('balance')).to.equal(Siad.hastingsToSiacoins(walletState.confirmedsiacoinbalance).round(2).toString())
-		expect(SiaAPI.showError.called).to.be.false
+		expect(store.getState().wallet.get('balance')).to.equal(Hsd.hastingsToSiacoins(walletState.confirmedsiacoinbalance).round(2).toString())
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('calls /renter/rename on renameFile', async () => {
 		store.dispatch(actions.renameFile(testFile, 'test/newsiapath'))
 		await sleep(10)
 		expect(renameSpy.calledWithExactly('/renter/rename/test/siapath', 'test/newsiapath')).to.be.true
-		expect(SiaAPI.showError.called).to.be.false
+		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 })
 /* eslint-enable no-unused-expressions */

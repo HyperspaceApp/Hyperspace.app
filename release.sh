@@ -10,7 +10,7 @@ set -e
 # being the Sia version, and third being the electron version.
 
 if [[ -z $1 || -z $2 ]]; then
-	echo "Usage: $0 privatekey publickey uiversion siaversion electronversion"
+	echo "Usage: $0 privatekey publickey uiversion hsdversion electronversion"
 	exit 1
 fi
 

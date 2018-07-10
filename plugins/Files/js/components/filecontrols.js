@@ -5,7 +5,7 @@ import Path from 'path'
 
 const FileControls = ({files, actions}) => {
 	const onDownloadClick = () => {
-		const downloadpath = SiaAPI.openFile({
+		const downloadpath = HyperspaceAPI.openFile({
 			title: 'Where should we download?',
 			properties: ['openDirectory', 'createDirectories'],
 		})
@@ -14,7 +14,7 @@ const FileControls = ({files, actions}) => {
 			return
 		}
 		files.forEach(async (file) => {
-			actions.downloadFile(file, Path.join(downloadpath[0], Path.basename(file.siapath)))
+			actions.downloadFile(file, Path.join(downloadpath[0], Path.basename(file.hyperspacepath)))
 			await new Promise((resolve) => setTimeout(resolve, 300))
 		})
 	}
