@@ -1,10 +1,10 @@
 {
-  "name": "Sia-UI",
-  "version": "v1.3.3",
-  "releaseName": "Capricorn",
+  "name": "Hyperspace.app",
+  "version": "v0.0.1",
+  "releaseName": "Sourdough",
   "main": "dist/main.js",
-  "author": "NebulousLabs",
-  "description": "A UI application for interfacing with Sia",
+  "author": "Hyperspace",
+  "description": "Fast, Private Storage",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "6.26.3",
@@ -51,7 +51,7 @@
     "redux": "^3.7.2",
     "redux-saga": "^0.15.6",
     "semver": "^5.4.1",
-    "sia.js": "^0.4.2"
+    "hyperspace.js": "^0.0.2"
   },
   "scripts": {
     "start": "webpack && electron .",
@@ -59,7 +59,7 @@
     "build-production": "webpack --config ./webpack.production.config.js",
     "build": "webpack",
     "watch": "webpack --watch",
-    "clean": "rm -rf release doc/Sia-UI node_modules Sia config.json **/*.swp npm-debug.log",
+    "clean": "rm -rf release doc/Hyperspace.app node_modules Hyperspace config.json **/*.swp npm-debug.log",
     "fresh": "npm run clean && npm install && npm start",
     "test-args": "BABEL_ENV=test mocha --require babel-polyfill --require test/dom.setup.js --compilers js:babel-register --recursive ./test",
     "test": "npm run lint && npm run build && npm run test-args",
@@ -68,9 +68,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/NebulousLabs/Sia-UI.git"
+    "url": "git://github.com/NebulousLabs/Hyperspace.app.git"
   },
   "bugs": {
-    "url": "https://github.com/NebulousLabs/Sia-UI/issues"
+    "url": "https://github.com/NebulousLabs/Hyperspace.app/issues"
   }
 }

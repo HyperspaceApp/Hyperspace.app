@@ -12,7 +12,7 @@ function isVendor(args) {
 	resource.match(/\.(js|json)$/)
 }
 
-// Compute the entry-points for Sia-UI.
+// Compute the entry-points for Hyperspace.app.
 const entrypoints = {}
 const plugins = glob.sync('./plugins/*/js/index.js')
 plugins.forEach((plugin) => {
