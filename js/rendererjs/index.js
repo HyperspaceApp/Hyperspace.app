@@ -1,6 +1,6 @@
 // Imported Electron modules
 import Path from 'path'
-import * as Siad from 'sia.js'
+import * as Hsd from 'hyperspace.js'
 import loadingScreen from './loadingScreen.js'
 import { remote, ipcRenderer } from 'electron'
 import { unloadPlugins, loadPlugin, setCurrentPlugin, getOrderedPlugins, getPluginName } from './plugins.js'
@@ -13,7 +13,7 @@ const config = remote.getGlobal('config')
 window.closeToTray = mainWindow.closeToTray
 
 // Called at window.onload by the loading screen.
-// Wait for siad to load, then load the plugin system.
+// Wait for hsd to load, then load the plugin system.
 function init(callback) {
 	// Initialize plugins.
 	const plugins = getOrderedPlugins(defaultPluginDirectory, defaultHomePlugin)
@@ -40,21 +40,21 @@ function init(callback) {
 	homePluginView.addEventListener('dom-ready', onHomeLoad)
 }
 
-// shutdown triggers a clean shutdown of siad.
+// shutdown triggers a clean shutdown of hsd.
 const shutdown = async () => {
 	unloadPlugins()
 
 	const overlay = document.getElementsByClassName('overlay')[0]
 	const overlayText = overlay.getElementsByClassName('centered')[0].getElementsByTagName('p')[0]
-	const siadConfig = config.attr('siad')
+	const hsdConfig = config.attr('hsd')
 
 	overlay.style.display = 'inline-flex'
-	overlayText.textContent = 'Quitting Sia...'
+	overlayText.textContent = 'Quitting Hyperspace...'
 
-	// Block, displaying Quitting Sia..., until Siad has stopped.
-	if (typeof window.siadProcess !== 'undefined') {
-		setTimeout(() => window.siadProcess.kill('SIGKILL'), 15000)
-		Siad.call(siadConfig.address, '/daemon/stop')
+	// Block, displaying Quitting Hyperspace..., until Hsd has stopped.
+	if (typeof window.hsdProcess !== 'undefined') {
+		setTimeout(() => window.hsdProcess.kill('SIGKILL'), 15000)
+		Hsd.call(hsdConfig.address, '/daemon/stop')
 		const running = (pid) => {
 			try {
 				process.kill(pid, 0)
@@ -64,7 +64,7 @@ const shutdown = async () => {
 			}
 		}
 		const sleep = (ms = 0) => new Promise((r) => setTimeout(r, ms))
-		while (running(window.siadProcess.pid)) {
+		while (running(window.hsdProcess.pid)) {
 			await sleep(200)
 		}
 	}
@@ -79,7 +79,7 @@ ipcRenderer.on('quit', async () => {
 
 // If closeToTray is set, hide the window and cancel the close.
 // On windows, display a balloon notification on first hide
-// to inform users that Sia-UI is still running.  NOTE: returning any value
+// to inform users that Hyperspace.app is still running.  NOTE: returning any value
 // other than `undefined` cancels the close.
 let hasClosed = false
 window.onbeforeunload = () => {
@@ -100,8 +100,8 @@ window.onbeforeunload = () => {
 
 		if (process.platform === 'win32' && !hasClosed) {
 			mainWindow.tray.displayBalloon({
-				title: 'Sia-UI information',
-				content: 'Sia is still running.  Right click this tray icon to quit or restore Sia.',
+				title: 'Hyperspace information',
+				content: 'Hyperspace is still running.  Right click this tray icon to quit or restore Hyperspace.',
 			})
 			hasClosed = true
 		}

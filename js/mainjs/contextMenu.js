@@ -78,13 +78,13 @@ const template = [
 		label: 'Help',
 		role: 'help',
 		submenu: [
-			{ label: 'Learn More', click: () => shell.openExternal('http://sia.tech/') },
+			{ label: 'Learn More', click: () => shell.openExternal('https://hspace.app/') },
 		],
 	},
 ]
 
 if (process.platform ==='darwin') {
-	const appName = 'Sia-UI'
+	const appName = 'Hyperspace'
 	template.unshift({
 		label: appName,
 		submenu: [

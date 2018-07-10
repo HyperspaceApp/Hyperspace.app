@@ -1,6 +1,6 @@
-// pluginapi.js: Sia-UI plugin API interface exposed to all plugins.
+// pluginapi.js: Hyperspace.app plugin API interface exposed to all plugins.
 // This is injected into every plugin's global namespace.
-import * as Siad from 'sia.js'
+import * as Hsd from 'hyperspace.js'
 import { remote } from 'electron'
 import React from 'react'
 import DisabledPlugin from './disabledplugin.js'
@@ -9,7 +9,7 @@ import Path from 'path'
 const dialog = remote.dialog
 const mainWindow = remote.getCurrentWindow()
 const config = remote.getGlobal('config')
-const siadConfig = config.siad
+const hsdConfig = config.hsd
 const fs = remote.require('fs')
 let disabled = false
 
@@ -24,63 +24,63 @@ window.onload = async function() {
 	const ReactDOM = require('react-dom')
 	/* eslint-enable global-require */
 
-	let startSiad = () => {}
+	let startHsd = () => {}
 
-	const renderSiadCrashlog = () => {
+	const renderHsdCrashlog = () => {
 		// load the error log and display it in the disabled plugin
-		let errorMsg = 'Siad exited unexpectedly for an unknown reason.'
+		let errorMsg = 'Hsd exited unexpectedly for an unknown reason.'
 		try {
-			errorMsg = fs.readFileSync(Path.join(siadConfig.datadir, 'siad-output.log'), {'encoding': 'utf-8'})
+			errorMsg = fs.readFileSync(Path.join(hsdConfig.datadir, 'hsd-output.log'), {'encoding': 'utf-8'})
 		} catch (e) {
 			console.error('error reading error log: ' +  e.toString())
 		}
 
 		document.body.innerHTML = '<div style="width:100%;height:100%;" id="crashdiv"></div>'
-		ReactDOM.render(<DisabledPlugin errorMsg={errorMsg} startSiad={startSiad} />, document.getElementById('crashdiv'))
+		ReactDOM.render(<DisabledPlugin errorMsg={errorMsg} startHsd={startHsd} />, document.getElementById('crashdiv'))
 	}
 
-	startSiad = () => {
-		const siadProcess = Siad.launch(siadConfig.path, {
-			'sia-directory': siadConfig.datadir,
-			'rpc-addr': siadConfig.rpcaddr,
-			'host-addr': siadConfig.hostaddr,
-			'api-addr': siadConfig.address,
+	startHsd = () => {
+		const hsdProcess = Hsd.launch(hsdConfig.path, {
+			'hyperspace-directory': hsdConfig.datadir,
+			'rpc-addr': hsdConfig.rpcaddr,
+			'host-addr': hsdConfig.hostaddr,
+			'api-addr': hsdConfig.address,
 			'modules': 'cghrtw',
 		})
-		siadProcess.on('error', renderSiadCrashlog)
-		siadProcess.on('close', renderSiadCrashlog)
-		siadProcess.on('exit', renderSiadCrashlog)
-		window.siadProcess = siadProcess
+		hsdProcess.on('error', renderHsdCrashlog)
+		hsdProcess.on('close', renderHsdCrashlog)
+		hsdProcess.on('exit', renderHsdCrashlog)
+		window.hsdProcess = hsdProcess
 	}
-	// Continuously check (every 2000ms) if siad is running.
-	// If siad is not running, disable the plugin by mounting
+	// Continuously check (every 2000ms) if hsd is running.
+	// If hsd is not running, disable the plugin by mounting
 	// the `DisabledPlugin` component in the DOM's body.
-	// If siad is running and the plugin has been disabled,
+	// If hsd is running and the plugin has been disabled,
 	// reload the plugin.
 	while (true) {
-		const running = await Siad.isRunning(siadConfig.address)
+		const running = await Hsd.isRunning(hsdConfig.address)
 		if (running && disabled) {
 			disabled = false
 			window.location.reload()
 		}
 		if (!running && !disabled) {
 			disabled = true
-			renderSiadCrashlog()
+			renderHsdCrashlog()
 		}
 		await sleep(2000)
 	}
 }
 
 
-window.SiaAPI = {
+window.HyperspaceAPI = {
 	call: function(url, callback) {
-		Siad.call(siadConfig.address, url)
+		Hsd.call(hsdConfig.address, url)
 		    .then((res) => callback(null, res))
 				.catch((err) => callback(err, null))
 	},
 	config: config,
-	hastingsToSiacoins: Siad.hastingsToSiacoins,
-	siacoinsToHastings: Siad.siacoinsToHastings,
+	hastingsToSiacoins: Hsd.hastingsToSiacoins,
+	siacoinsToHastings: Hsd.siacoinsToHastings,
 	openFile: (options) => dialog.showOpenDialog(mainWindow, options),
 	saveFile: (options) => dialog.showSaveDialog(mainWindow, options),
 	showMessage: (options) => dialog.showMessageBox(mainWindow, options),

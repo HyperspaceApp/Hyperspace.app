@@ -1,4 +1,4 @@
-// This module handles the construction of Sia-UI plugins.
+// This module handles the construction of Hyperspace.app plugins.
 import { List } from 'immutable'
 import Path from 'path'
 import fs from 'graceful-fs'

@@ -1,20 +1,20 @@
 import { Menu } from 'electron'
 
 export default function(window) {
-	// Template for Sia-UI tray menu.
+	// Template for Hyperspace tray menu.
 	const menutemplate = [
 		{
-			label: 'Show Sia',
+			label: 'Show Hyperspace',
 			click: () => window.show(),
 		},
 		{ type: 'separator' },
 		{
-			label: 'Hide Sia',
+			label: 'Hide Hyperspace',
 			click: () => window.hide(),
 		},
 		{ type: 'separator' },
 		{
-			label: 'Quit Sia',
+			label: 'Quit Hyperspace',
 			click: () => {
 				window.webContents.send('quit')
 			},

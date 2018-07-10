@@ -4,18 +4,18 @@ import { app } from 'electron'
 import { version } from '../../package.json'
 import semver from 'semver'
 
-const defaultSiadPath = Path.join(__dirname, '../Sia/' + (process.platform === 'win32' ? 'hsd.exe' : 'hsd'))
+const defaultHsdPath = Path.join(__dirname, '../Hyperspace/' + (process.platform === 'win32' ? 'hsd.exe' : 'hsd'))
 
 // The default settings
 const defaultConfig = {
 	homePlugin:  'Overview',
-	siad: {
-		path: defaultSiadPath,
-		datadir: Path.join(app.getPath('userData'), './sia'),
-		rpcaddr: ':9981',
-		hostaddr: ':9982',
+	hsd: {
+		path: defaultHsdPath,
+		datadir: Path.join(app.getPath('userData'), './hyperspace'),
+		rpcaddr: ':5581',
+		hostaddr: ':5582',
 		detached: false,
-		address: '127.0.0.1:9980',
+		address: '127.0.0.1:5580',
 	},
 	closeToTray: process.platform === 'win32' || process.platform === 'darwin' ? true : false,
 	width:	   1024,
@@ -39,13 +39,13 @@ export default function configManager(filepath) {
 		config = defaultConfig
 	}
 
-	// always use the default siad path after an upgrade
+	// always use the default hsd path after an upgrade
 	if (typeof config.version === 'undefined') {
 		config.version = version
-		config.siad.path = defaultSiadPath
+		config.hsd.path = defaultHsdPath
 	} else if (semver.lt(config.version, version)) {
 		config.version = version
-		config.siad.path = defaultSiadPath
+		config.hsd.path = defaultHsdPath
 	}
 
 	// fill out default values if config is incomplete
@@ -81,8 +81,8 @@ export default function configManager(filepath) {
 		config = configManager(filepath)
 	}
 
-	// expose the default siad path
-	config.defaultSiadPath = defaultSiadPath
+	// expose the default hsd path
+	config.defaultHsdPath = defaultHsdPath
 
 	// Save to disk immediately when loaded
 	try {

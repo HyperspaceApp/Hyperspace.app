@@ -25,24 +25,24 @@ const reportStyle = {
 }
 
 const handleReport = () => {
-	shell.openExternal('https://github.com/NebulousLabs/Sia/issues')
+	shell.openExternal('https://github.com/HyperspaceApp/Hyperspace/issues')
 }
 
 
-const DisabledPlugin = ({errorMsg, startSiad}) => (
+const DisabledPlugin = ({errorMsg, startHsd}) => (
 	<div style={containerStyle}>
-		<h2>Siad has exited unexpectedly. Please submit a bug report including the error log <a style={reportStyle} onClick={handleReport}>here.</a></h2>
+		<h2>Hsd has exited unexpectedly. Please submit a bug report including the error log <a style={reportStyle} onClick={handleReport}>here.</a></h2>
 		<h2> Error Log: </h2>
 		<textarea style={errorLogStyle} readOnly>
 			{errorMsg}
 		</textarea>
-		<button onClick={startSiad}>Start Siad</button>
+		<button onClick={startHsd}>Start Hsd</button>
 	</div>
 )
 
 DisabledPlugin.propTypes = {
 	errorMsg: PropTypes.string.isRequired,
-	startSiad: PropTypes.func.isRequired,
+	startHsd: PropTypes.func.isRequired,
 }
 
 export default DisabledPlugin
