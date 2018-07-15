@@ -42,16 +42,17 @@
     "bignumber.js": "^4.1.0",
     "electron": "2.0.2",
     "graceful-fs": "^4.1.11",
+    "hyperspace.js": "^0.0.4",
     "immutable": "^3.8.1",
     "mkdirp": "^0.5.1",
+    "npm": "^6.2.0",
     "object.entries": "^1.0.4",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-saga": "^0.15.6",
-    "semver": "^5.4.1",
-    "hyperspace.js": "^0.0.2"
+    "semver": "^5.4.1"
   },
   "scripts": {
     "start": "webpack && electron .",
