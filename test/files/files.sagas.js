@@ -265,7 +265,7 @@ describe('files plugin sagas', () => {
 		})
 	})
 	it('sets allowance with the correct allowance on setAllowance', async () => {
-		const allowance = '10000' // SC
+		const allowance = '10000' // SPACE
 		store.dispatch(actions.setAllowance(allowance))
 		await sleep(10)
 		expect(store.getState().files.get('showAllowanceDialog')).to.be.false
