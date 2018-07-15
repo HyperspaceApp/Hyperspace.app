@@ -3,11 +3,11 @@
 # error output terminates this script
 set -e
 
-# This script creates a Sia-UI release for all 3 platforms: osx (darwin),
+# This script creates a Hyperspace.app release for all 3 platforms: osx (darwin),
 # linux, and windows. It takes 5 arguments, the first two arguments are the
 # private and public key used to sign the release archives. The last three
 # arguments are semver strings, the first of which being the ui version, second
-# being the Sia version, and third being the electron version.
+# being the Hyperspace version, and third being the electron version.
 
 if [[ -z $1 || -z $2 ]]; then
 	echo "Usage: $0 privatekey publickey uiversion hsdversion electronversion"
@@ -23,7 +23,7 @@ rm -rf ./dist
 npm run build-production
 
 uiVersion=${3:-v1.3.3}
-siaVersion=${4:-v1.3.3}
+hyperspaceVersion=${4:-v1.3.3}
 electronVersion=${5:-v1.6.4}
 
 # fourth argument is the public key file path.
@@ -35,9 +35,9 @@ electronOSX="https://github.com/electron/electron/releases/download/${electronVe
 electronLinux="https://github.com/electron/electron/releases/download/${electronVersion}/electron-${electronVersion}-linux-x64.zip"
 electronWindows="https://github.com/electron/electron/releases/download/${electronVersion}/electron-${electronVersion}-win32-x64.zip"
 
-siaOSX="/home/luke/go/src/github.com/NebulousLabs/Sia/release/Sia-${siaVersion}-darwin-amd64.zip"
-siaLinux="/home/luke/go/src/github.com/NebulousLabs/Sia/release/Sia-${siaVersion}-linux-amd64.zip"
-siaWindows="/home/luke/go/src/github.com/NebulousLabs/Sia/release/Sia-${siaVersion}-windows-amd64.zip"
+hyperspaceOSX="/Users/mark/.go/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-darwin-amd64.zip"
+hyperspaceLinux="/Users/mark/.go/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-linux-amd64.zip"
+hyperspaceWindows="/Users/mark/.go/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-windows-amd64.zip"
 
 rm -rf release/
 mkdir -p release/{osx,linux,win32}
@@ -51,26 +51,26 @@ package() {
 
 buildOSX() {
 	cd release/osx
-	wget $electronOSX 
+	wget $electronOSX
 	unzip ./electron*
-	mv Electron.app Sia-UI.app
-	mv Sia-UI.app/Contents/MacOS/Electron Sia-UI.app/Contents/MacOS/Sia-UI
+	mv Electron.app Hyperspace.app
+	mv Hyperspace.app/Contents/MacOS/Electron Hyperspace.app/Contents/MacOS/Hyperspace
 	# NOTE: this only works with GNU sed, other platforms (like OSX) may fail here
-	sed -i 's/>Electron</>Sia-UI</' Sia-UI.app/Contents/Info.plist 
-	sed -i 's/>'"${electronVersion:1}"'</>'"${siaVersion:1}"'</' Sia-UI.app/Contents/Info.plist
-	sed -i 's/>com.github.electron\</>com.nebulouslabs.siaui</' Sia-UI.app/Contents/Info.plist
-	sed -i 's/>electron.icns</>icon.icns</' Sia-UI.app/Contents/Info.plist
-	cp ../../assets/icon.icns Sia-UI.app/Contents/Resources/
-	rm -r Sia-UI.app/Contents/Resources/default_app.asar
-	mkdir Sia-UI.app/Contents/Resources/app
+	sed -i 's/>Electron</>Hyperspace</' Hyperspace.app/Contents/Info.plist
+	sed -i 's/>'"${electronVersion:1}"'</>'"${hyperspaceVersion:1}"'</' Hyperspace.app/Contents/Info.plist
+	sed -i 's/>com.github.electron\</>com.hyperspace.hyperspaceapp</' Hyperspace.app/Contents/Info.plist
+	sed -i 's/>electron.icns</>icon.icns</' Hyperspace.app/Contents/Info.plist
+	cp ../../assets/icon.icns Hyperspace.app/Contents/Resources/
+	rm -r Hyperspace.app/Contents/Resources/default_app.asar
+	mkdir Hyperspace.app/Contents/Resources/app
 	(
-		cd Sia-UI.app/Contents/Resources/app
-		cp $siaOSX .
-		unzip ./Sia-*
-		rm ./Sia*.zip
-		mv ./Sia-* ./Sia
+		cd Hyperspace.app/Contents/Resources/app
+		cp $hyperspaceOSX .
+		unzip ./Hyperspace-*
+		rm ./Hyperspace*.zip
+		mv ./Hyperspace-* ./Hyperspace
 	)
-	package "../../" "Sia-UI.app/Contents/Resources/app"
+	package "../../" "Hyperspace.app/Contents/Resources/app"
 	rm -r electron*.zip
 	cp ../../LICENSE .
 }
@@ -79,15 +79,15 @@ buildLinux() {
 	cd release/linux
 	wget $electronLinux
 	unzip ./electron*
-	mv electron Sia-UI
+	mv electron Hyperspace
 	rm -r resources/default_app.asar
 	mkdir resources/app
 	(
 		cd resources/app
-		cp $siaLinux .
-		unzip ./Sia-*
-		rm ./Sia*.zip
-		mv ./Sia-* ./Sia
+		cp $hyperspaceLinux .
+		unzip ./Hyperspace-*
+		rm ./Hyperspace*.zip
+		mv ./Hyperspace-* ./Hyperspace
 	)
 	package "../../" "resources/app"
 	rm -r electron*.zip
@@ -98,18 +98,18 @@ buildWindows() {
 	cd release/win32
 	wget $electronWindows
 	unzip ./electron*
-	mv electron.exe Sia-UI.exe
+	mv electron.exe Hyperspace.exe
 	wget https://github.com/electron/rcedit/releases/download/v0.1.0/rcedit.exe
-	wine rcedit.exe Sia-UI.exe --set-icon '../../assets/icon.ico'
+	wine rcedit.exe Hyperspace.exe --set-icon '../../assets/icon.ico'
 	rm -f rcedit.exe
 	rm resources/default_app.asar
 	mkdir resources/app
 	(
 		cd resources/app
-		cp $siaWindows .
-		unzip ./Sia-*
-		rm ./Sia*.zip
-		mv ./Sia-* ./Sia
+		cp $hyperspaceWindows .
+		unzip ./Hyperspace-*
+		rm ./Hyperspace*.zip
+		mv ./Hyperspace-* ./Hyperspace
 	)
 	package "../../" "resources/app"
 	rm -r electron*.zip
@@ -129,11 +129,11 @@ buildWindows() {
 for os in win32 linux osx; do 
 	(
 		cd release/${os}
-		zip -r ../Sia-UI-${uiVersion}-${os}-x64.zip .
+		zip -r ../Hyperspace-${uiVersion}-${os}-x64.zip .
 		cd ..
-		openssl dgst -sha256 -sign $keyFile -out Sia-UI-${uiVersion}-${os}-x64.zip.sig Sia-UI-${uiVersion}-${os}-x64.zip
+		openssl dgst -sha256 -sign $keyFile -out Hyperspace-${uiVersion}-${os}-x64.zip.sig Hyperspace-${uiVersion}-${os}-x64.zip
 		if [[ -n $pubkeyFile ]]; then
-			openssl dgst -sha256 -verify $pubkeyFile -signature Sia-UI-${uiVersion}-${os}-x64.zip.sig Sia-UI-${uiVersion}-${os}-x64.zip
+			openssl dgst -sha256 -verify $pubkeyFile -signature Hyperspace-${uiVersion}-${os}-x64.zip.sig Hyperspace-${uiVersion}-${os}-x64.zip
 		fi
 		rm -rf release/${os}
 	)
