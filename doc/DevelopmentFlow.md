@@ -1,12 +1,12 @@
 # Development Flow
 
-## Packaging & Releasing Sia-UI
+## Packaging & Releasing Hyperspace.app
 
 There are some packaging scripts (using electron-packager) in the package.json.
 
 For them to work, you will need to have release archives of the correct version
-in the `release` folder of the Sia package in your GOPATH. To do so, run `make
-xc` from the Sia repository followed by `npm run release` from the Sia-UI
+in the `release` folder of the Hyperspace package in your GOPATH. To do so, run `make
+xc` from the Hyperspace repository followed by `npm run release` from the Hyperspace.app
 repository.
 
 ## Building Distributables
@@ -20,7 +20,7 @@ Places packaged versions into release/ folder, see the package.json for details.
 Useful commands for development.
 
 * `npm run clean`
-will remove node_modules, your Sia state kept in lib/Sia, and the
+will remove node_modules, your Hyperspace state kept in lib/Hyperspace, and the
 configuration settings from config.json.
 * `npm run fresh`
 will run clean, install, then start to simulate a fresh install run of the UI.

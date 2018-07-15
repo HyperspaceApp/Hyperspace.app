@@ -79,8 +79,8 @@ window.HyperspaceAPI = {
 				.catch((err) => callback(err, null))
 	},
 	config: config,
-	hastingsToSiacoins: Hsd.hastingsToSiacoins,
-	siacoinsToHastings: Hsd.siacoinsToHastings,
+	hastingsToSpaceCash: Hsd.hastingsToSpaceCash,
+	spaceCashToHastings: Hsd.spaceCashToHastings,
 	openFile: (options) => dialog.showOpenDialog(mainWindow, options),
 	saveFile: (options) => dialog.showSaveDialog(mainWindow, options),
 	showMessage: (options) => dialog.showMessageBox(mainWindow, options),

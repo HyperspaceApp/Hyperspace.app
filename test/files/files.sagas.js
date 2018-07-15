@@ -43,7 +43,7 @@ const setAllowanceSpy = spy()
 const downloadSpy = spy()
 const deleteSpy = spy()
 const renameSpy = spy()
-const testFunds = Hsd.siacoinsToHastings(100000)
+const testFunds = Hsd.spaceCashToHastings(100000)
 const mockHyperspaceAPI = {
 	call: (uri, callback) => {
 		if (uri === '/renter/contracts') {
@@ -99,8 +99,8 @@ const mockHyperspaceAPI = {
 		}
 	},
 	showError: spy(),
-	siacoinsToHastings: Hsd.siacoinsToHastings,
-	hastingsToSiacoins: Hsd.hastingsToSiacoins,
+	spaceCashToHastings: Hsd.spaceCashToHastings,
+	hastingsToSpaceCash: Hsd.hastingsToSpaceCash,
 }
 
 let store
@@ -146,7 +146,7 @@ describe('files plugin sagas', () => {
 		walletState = {
 			unlocked: false,
 			encrypted: true,
-			confirmedspacecashbalance: Hsd.siacoinsToHastings(1000).toString(),
+			confirmedspacecashbalance: Hsd.spaceCashToHastings(1000).toString(),
 		}
 		store.dispatch(actions.getWalletLockstate())
 		await sleep(10)
@@ -275,7 +275,7 @@ describe('files plugin sagas', () => {
 	it('sets the correct wallet balance on getWalletBalance', async () => {
 		store.dispatch(actions.getWalletBalance())
 		await sleep(10)
-		expect(store.getState().wallet.get('balance')).to.equal(Hsd.hastingsToSiacoins(walletState.confirmedspacecashbalance).round(2).toString())
+		expect(store.getState().wallet.get('balance')).to.equal(Hsd.hastingsToSpaceCash(walletState.confirmedspacecashbalance).round(2).toString())
 		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('calls /renter/rename on renameFile', async () => {

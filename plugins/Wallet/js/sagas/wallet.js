@@ -124,9 +124,9 @@ function* createWalletSaga(action) {
 function* getBalanceSaga() {
 	try {
 		const response = yield hsdCall('/wallet')
-		const confirmed = HyperspaceAPI.hastingsToSiacoins(response.confirmedsiacoinbalance)
-		const unconfirmedIncoming = HyperspaceAPI.hastingsToSiacoins(response.unconfirmedincomingsiacoins)
-		const unconfirmedOutgoing = HyperspaceAPI.hastingsToSiacoins(response.unconfirmedoutgoingsiacoins)
+		const confirmed = HyperspaceAPI.hastingsToSpaceCash(response.confirmedspacecashbalance)
+		const unconfirmedIncoming = HyperspaceAPI.hastingsToSpaceCash(response.unconfirmedincomingspacecashs)
+		const unconfirmedOutgoing = HyperspaceAPI.hastingsToSpaceCash(response.unconfirmedoutgoingspacecashs)
 		const unconfirmed = unconfirmedIncoming.minus(unconfirmedOutgoing)
 		yield put(actions.setBalance(confirmed.round(2).toString(), unconfirmed.round(2).toString()))
 	} catch (e) {
@@ -225,7 +225,7 @@ function* sendCurrencySaga(action) {
 		if (action.currencytype !== 'spacecash') {
 			throw { message: 'Invalid currency type!' }
 		}
-		const sendAmount = action.currencytype === 'spacecash' ? HyperspaceAPI.siacoinsToHastings(action.amount).toString() : action.amount
+		const sendAmount = action.currencytype === 'spacecash' ? HyperspaceAPI.spaceCashToHastings(action.amount).toString() : action.amount
 		yield hsdCall({
 			url: '/wallet/' + action.currencytype,
 			method: 'POST',
@@ -267,7 +267,7 @@ function* changePasswordSaga(action) {
 function *startSendPromptSaga() {
 	try {
 		const response = yield hsdCall('/tpool/fee')
-		const feeEstimate = HyperspaceAPI.hastingsToSiacoins(response.maximum).times(1e3).round(8).toString() + ' SPACE/KB'
+		const feeEstimate = HyperspaceAPI.hastingsToSpaceCash(response.maximum).times(1e3).round(8).toString() + ' SPACE/KB'
 		yield put(actions.setFeeEstimate(feeEstimate))
 	} catch (e) {
 		console.error('error fetching fee estimate for send prompt: ' + e.toString())

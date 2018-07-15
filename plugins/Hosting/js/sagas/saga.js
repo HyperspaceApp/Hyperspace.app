@@ -223,11 +223,11 @@ function *fetchData() {
 		const data = Map({
 			numContracts: updatedData.financialmetrics.contractcount,
 			storage: (new BigNumber(updatedData.externalsettings.totalstorage)).minus(new BigNumber(updatedData.externalsettings.remainingstorage)).toString(),
-			earned: HyperspaceAPI.hastingsToSiacoins(parseRevenue(updatedData.financialmetrics)).round(2).toString(),
-			expected: HyperspaceAPI.hastingsToSiacoins(parseExpectedRevenue(updatedData.financialmetrics)).round(2).toString(),
+			earned: HyperspaceAPI.hastingsToSpaceCash(parseRevenue(updatedData.financialmetrics)).round(2).toString(),
+			expected: HyperspaceAPI.hastingsToSpaceCash(parseExpectedRevenue(updatedData.financialmetrics)).round(2).toString(),
 			files: yield fetchStorageFiles(),
 			walletLocked: !walletUnlocked.unlocked,
-			walletsize: walletUnlocked.confirmedsiacoinbalance,
+			walletsize: walletUnlocked.confirmedspacecashbalance,
 		})
 
 		const modals = Map({

@@ -43,8 +43,8 @@ const computeTransactionSum = (txn) => {
 		totalMinerOutput = sumCurrency(walletOutputs, 'miner')
 	}
 	return {
-		totalSpaceCash: HyperspaceAPI.hastingsToSiacoins(totalSpaceCashOutput.minus(totalSpaceCashInput)),
-		totalMiner:   HyperspaceAPI.hastingsToSiacoins(totalMinerOutput.minus(totalMinerInput)),
+		totalSpaceCash: HyperspaceAPI.hastingsToSpaceCash(totalSpaceCashOutput.minus(totalSpaceCashInput)),
+		totalMiner:   HyperspaceAPI.hastingsToSpaceCash(totalMinerOutput.minus(totalMinerInput)),
 	}
 }
 

@@ -1,6 +1,6 @@
 # Testing
 
-Testing Sia-UI is fairly immature and needs many more tests written to aide
+Testing Hyperspace.app is fairly immature and needs many more tests written to aide
 development.
 
 ## Technologies

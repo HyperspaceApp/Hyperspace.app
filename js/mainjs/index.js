@@ -39,8 +39,8 @@ app.on('window-all-closed', () => {
 	app.quit()
 })
 
-// On quit, save the config.  There's no need to call siad.stop here, since if
-// siad was launched by the UI, it will be a descendant of the UI in the
+// On quit, save the config.  There's no need to call hsd.stop here, since if
+// hsd was launched by the UI, it will be a descendant of the UI in the
 // process tree and will therefore be killed.
 app.on('quit', () => {
 	config.save()

@@ -8,8 +8,8 @@ import hyperspaceConfig from '../js/mainjs/config.js'
 const mockHyperspaceAPI = {
 	call: stub(),
 	config: hyperspaceConfig(''),
-	hastingsToSiacoins: Hsd.hastingsToSiacoins,
-	siacoinsToHastings: Hsd.siacoinsToHastings,
+	hastingsToSpaceCash: Hsd.hastingsToSpaceCash,
+	spaceCashToHastings: Hsd.spaceCashToHastings,
 	openFile: () => spy(),
 	saveFile: () => spy(),
 	showMessage: () => spy(),
@@ -378,7 +378,7 @@ describe('wallet plugin integration tests', () => {
 				method: 'POST',
 				qs: {
 					destination: 'testaddress',
-					amount: HyperspaceAPI.siacoinsToHastings('100').toString(),
+					amount: HyperspaceAPI.spaceCashToHastings('100').toString(),
 				},
 			})
 		})

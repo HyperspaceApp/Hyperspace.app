@@ -13,11 +13,11 @@ export const chooseFileLocation = function() {
 }
 
 export const hastingsByteToSCTB = (hastings) => (
-	HyperspaceAPI.hastingsToSiacoins(hastings).times('1e12')
+	HyperspaceAPI.hastingsToSpaceCash(hastings).times('1e12')
 )
 
 export const SCTBToHastingsByte = (SC) => (
-	HyperspaceAPI.siacoinsToHastings(SC).dividedBy('1e12')
+	HyperspaceAPI.spaceCashToHastings(SC).dividedBy('1e12')
 )
 
 export const validNumbers = (values) => (

@@ -47,10 +47,10 @@ function* getStorageEstimateSaga(action) {
 			yield put(actions.setStorageEstimate('No Hosts'))
 			return
 		}
-		const estimate = new BigNumber(HyperspaceAPI.siacoinsToHastings(action.funds)).dividedBy(response.storageterabytemonth).times(1e12)
+		const estimate = new BigNumber(HyperspaceAPI.spaceCashToHastings(action.funds)).dividedBy(response.storageterabytemonth).times(1e12)
 
 		yield put(actions.setStorageEstimate('~' + readableFilesize(estimate.toPrecision(1))))
-		yield put(actions.setFeeEstimate(HyperspaceAPI.hastingsToSiacoins(response.formcontracts).toString()))
+		yield put(actions.setFeeEstimate(HyperspaceAPI.hastingsToSpaceCash(response.formcontracts).toString()))
 	} catch (e) {
 		console.error(e)
 	}
@@ -60,12 +60,12 @@ function* getStorageEstimateSaga(action) {
 function* getAllowanceSaga() {
 	try {
 		const response = yield hsdCall('/renter')
-		const allowance = HyperspaceAPI.hastingsToSiacoins(response.settings.allowance.funds)
-		const downloadspending = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.downloadspending)
-		const uploadspending = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.uploadspending)
-		const contractspending = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.contractspending)
-		const storagespending = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.storagespending)
-		const unspent = HyperspaceAPI.hastingsToSiacoins(response.financialmetrics.unspent)
+		const allowance = HyperspaceAPI.hastingsToSpaceCash(response.settings.allowance.funds)
+		const downloadspending = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.downloadspending)
+		const uploadspending = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.uploadspending)
+		const contractspending = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.contractspending)
+		const storagespending = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.storagespending)
+		const unspent = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.unspent)
 
 		const consensus = yield hsdCall('/consensus')
 		const renewheight = (() => {
@@ -85,7 +85,7 @@ function* getAllowanceSaga() {
 // Set the user's renter allowance.
 function* setAllowanceSaga(action) {
 	try {
-		const newAllowance = HyperspaceAPI.siacoinsToHastings(action.funds)
+		const newAllowance = HyperspaceAPI.spaceCashToHastings(action.funds)
 		yield put(actions.closeAllowanceDialog())
 		yield hsdCall({
 			url: '/renter',
@@ -108,7 +108,7 @@ function* setAllowanceSaga(action) {
 function* getWalletBalanceSaga() {
 	try {
 		const response = yield hsdCall('/wallet')
-		const confirmedBalance = HyperspaceAPI.hastingsToSiacoins(response.confirmedsiacoinbalance).round(2).toString()
+		const confirmedBalance = HyperspaceAPI.hastingsToSpaceCash(response.confirmedspacecashbalance).round(2).toString()
 		yield put(actions.receiveWalletBalance(confirmedBalance))
 	} catch (e) {
 		console.error('error fetching wallet balance: ' + e.toString())
