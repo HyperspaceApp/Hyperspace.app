@@ -89,7 +89,7 @@ const mockHyperspaceAPI = {
 				callback()
 			}
 			if (uri.url.indexOf('/renter/rename') !== -1) {
-				renameSpy(uri.url, uri.qs.newsiapath)
+				renameSpy(uri.url, uri.qs.newhyperspacepath)
 				callback()
 			}
 			if (uri.url === '/renter') {
@@ -132,10 +132,10 @@ describe('files plugin sagas', () => {
 	})
 	it('sets files on getFiles', async () => {
 		testFiles = [
-			{ siapath: 'testfile', available: true, redundancy: 6 },
-			{ siapath: 'testfile2', available: true, redundancy: 6 },
-			{ siapath: 'testfile3', available: true, redundancy: 6 },
-			{ siapath: 'testfile4', available: true, redundancy: 6 },
+			{ hyperspacepath: 'testfile', available: true, redundancy: 6 },
+			{ hyperspacepath: 'testfile2', available: true, redundancy: 6 },
+			{ hyperspacepath: 'testfile3', available: true, redundancy: 6 },
+			{ hyperspacepath: 'testfile4', available: true, redundancy: 6 },
 		]
 		store.dispatch(actions.getFiles())
 		await sleep(500)
@@ -146,7 +146,7 @@ describe('files plugin sagas', () => {
 		walletState = {
 			unlocked: false,
 			encrypted: true,
-			confirmedsiacoinbalance: Hsd.siacoinsToHastings(1000).toString(),
+			confirmedspacecashbalance: Hsd.siacoinsToHastings(1000).toString(),
 		}
 		store.dispatch(actions.getWalletLockstate())
 		await sleep(10)
@@ -173,21 +173,21 @@ describe('files plugin sagas', () => {
 			'/test/testdir/testfolder/testfolder2/testfolder.png',
 			'/test/testdir/testfile.app.png',
 		])
-		store.dispatch(actions.uploadFolder('test/testsiapath', '/test/testdir'))
+		store.dispatch(actions.uploadFolder('test/testhyperspacepath', '/test/testdir'))
 		await sleep(10)
 		expect(HyperspaceAPI.showError.called).to.be.false
 		expect(uploadSpy.callCount).to.equal(testDirectoryFiles.size)
-		expect(uploadSpy.calledWithExactly('/renter/upload/test/testsiapath/testdir/testfile5')).to.be.true
-		expect(uploadSpy.calledWithExactly('/renter/upload/test/testsiapath/testdir/testfile6')).to.be.true
-		expect(uploadSpy.calledWithExactly('/renter/upload/test/testsiapath/testdir/testfolder/testfile2.jpg')).to.be.true
-		expect(uploadSpy.calledWithExactly('/renter/upload/test/testsiapath/testdir/testfolder/testfolder2/testfolder.png')).to.be.true
-		expect(uploadSpy.calledWithExactly('/renter/upload/test/testsiapath/testdir/testfile.app.png')).to.be.true
+		expect(uploadSpy.calledWithExactly('/renter/upload/test/testhyperspacepath/testdir/testfile5')).to.be.true
+		expect(uploadSpy.calledWithExactly('/renter/upload/test/testhyperspacepath/testdir/testfile6')).to.be.true
+		expect(uploadSpy.calledWithExactly('/renter/upload/test/testhyperspacepath/testdir/testfolder/testfile2.jpg')).to.be.true
+		expect(uploadSpy.calledWithExactly('/renter/upload/test/testhyperspacepath/testdir/testfolder/testfolder2/testfolder.png')).to.be.true
+		expect(uploadSpy.calledWithExactly('/renter/upload/test/testhyperspacepath/testdir/testfile.app.png')).to.be.true
 	})
 	it('sets uploads on getUploads', async () => {
 		testUploads = List([
-			{siapath: 'upload1'},
-			{siapath: 'upload2'},
-			{siapath: 'upload3'},
+			{hyperspacepath: 'upload1'},
+			{hyperspacepath: 'upload2'},
+			{hyperspacepath: 'upload3'},
 		])
 		store.dispatch(actions.getUploads())
 		await sleep(10)
@@ -196,9 +196,9 @@ describe('files plugin sagas', () => {
 	})
 	it('sets downloads on getDownloads', async () => {
 		testDownloads = List([
-			{ siapath: 'upload4', name: 'upload4', starttime: new Date() },
-			{ siapath: 'upload5', name: 'upload5', starttime: new Date() },
-			{ siapath: 'upload6', name: 'upload6', starttime: new Date() },
+			{ hyperspacepath: 'upload4', name: 'upload4', starttime: new Date() },
+			{ hyperspacepath: 'upload5', name: 'upload5', starttime: new Date() },
+			{ hyperspacepath: 'upload6', name: 'upload6', starttime: new Date() },
 		])
 		store.dispatch(actions.getDownloads())
 		await sleep(10)
@@ -206,7 +206,7 @@ describe('files plugin sagas', () => {
 		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	const testFile = {
-		siapath: 'test/siapath',
+		hyperspacepath: 'test/hyperspacepath',
 		type: 'file',
 	}
 	it('can buffer lots of delete actions', function() {
@@ -233,30 +233,30 @@ describe('files plugin sagas', () => {
 	it('calls /renter/download on downloadFile', async () => {
 		store.dispatch(actions.downloadFile(testFile, '/test/downloadpath'))
 		await sleep(10)
-		expect(downloadSpy.calledWithExactly('/renter/download/test/siapath', '/test/downloadpath')).to.be.true
+		expect(downloadSpy.calledWithExactly('/renter/download/test/hyperspacepath', '/test/downloadpath')).to.be.true
 		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	describe('deletion sagas', () => {
 		it('calls /renter/delete on deleteFile', async () => {
 			store.dispatch(actions.deleteFile(testFile))
 			await sleep(10)
-			expect(deleteSpy.calledWithExactly('/renter/delete/test/siapath')).to.be.true
+			expect(deleteSpy.calledWithExactly('/renter/delete/test/hyperspacepath')).to.be.true
 			expect(HyperspaceAPI.showError.called).to.be.false
 		})
 		it('calls /renter/delete for every file in a directory and subdirectories', async () => {
 			testFiles = [
-				{ siapath: 'testfile', available: true, redundancy: 6 },
-				{ siapath: 'testfile2', available: true, redundancy: 6 },
-				{ siapath: 'testfile3', available: true, redundancy: 6 },
-				{ siapath: 'testfile4', available: true, redundancy: 6 },
-				{ siapath: 'testdir/testfile', available: true, redundancy: 6 },
-				{ siapath: 'testdir/testfile2', available: true, redundancy: 6 },
-				{ siapath: 'testdir/testdir2/testfile2', available: true, redundancy: 6 },
-				{ siapath: 'testdir/testdir2/testdir3/testfile2', available: true, redundancy: 6 },
+				{ hyperspacepath: 'testfile', available: true, redundancy: 6 },
+				{ hyperspacepath: 'testfile2', available: true, redundancy: 6 },
+				{ hyperspacepath: 'testfile3', available: true, redundancy: 6 },
+				{ hyperspacepath: 'testfile4', available: true, redundancy: 6 },
+				{ hyperspacepath: 'testdir/testfile', available: true, redundancy: 6 },
+				{ hyperspacepath: 'testdir/testfile2', available: true, redundancy: 6 },
+				{ hyperspacepath: 'testdir/testdir2/testfile2', available: true, redundancy: 6 },
+				{ hyperspacepath: 'testdir/testdir2/testdir3/testfile2', available: true, redundancy: 6 },
 			]
 			store.dispatch(actions.getFiles())
 			await sleep(10)
-			store.dispatch(actions.deleteFile({ type: 'directory', siapath: 'testdir' }))
+			store.dispatch(actions.deleteFile({ type: 'directory', hyperspacepath: 'testdir' }))
 			await sleep(10)
 			expect(deleteSpy.calledWith('/renter/delete/testdir/testfile')).to.be.true
 			expect(deleteSpy.calledWith('/renter/delete/testdir/testfile2')).to.be.true
@@ -275,13 +275,13 @@ describe('files plugin sagas', () => {
 	it('sets the correct wallet balance on getWalletBalance', async () => {
 		store.dispatch(actions.getWalletBalance())
 		await sleep(10)
-		expect(store.getState().wallet.get('balance')).to.equal(Hsd.hastingsToSiacoins(walletState.confirmedsiacoinbalance).round(2).toString())
+		expect(store.getState().wallet.get('balance')).to.equal(Hsd.hastingsToSiacoins(walletState.confirmedspacecashbalance).round(2).toString())
 		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 	it('calls /renter/rename on renameFile', async () => {
-		store.dispatch(actions.renameFile(testFile, 'test/newsiapath'))
+		store.dispatch(actions.renameFile(testFile, 'test/newhyperspacepath'))
 		await sleep(10)
-		expect(renameSpy.calledWithExactly('/renter/rename/test/siapath', 'test/newsiapath')).to.be.true
+		expect(renameSpy.calledWithExactly('/renter/rename/test/hyperspacepath', 'test/newhyperspacepath')).to.be.true
 		expect(HyperspaceAPI.showError.called).to.be.false
 	})
 })

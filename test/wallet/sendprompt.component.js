@@ -33,7 +33,7 @@ describe('wallet send prompt component', () => {
 		expect(testActions.closeSendPrompt.called).to.be.true
 	})
 	it('calls sendCurrency with correct currency and value on send click', () => {
-		sendpromptComponentSC.find('.send-siacoin-button').first().simulate('click')
+		sendpromptComponentSC.find('.send-spacecash-button').first().simulate('click')
 		expect(testActions.sendCurrency.calledWith('testaddr', '1', 'spacecash')).to.be.true
 		testActions.sendCurrency.reset()
 	})

@@ -4,7 +4,7 @@ import Path from 'path'
 import fs from 'fs'
 
 describe('log parsing', () => {
-	const consensusLog = Path.join(SiaAPI.config.siad.datadir, './consensus/consensus.log')
+	const consensusLog = Path.join(HyperspaceAPI.config.hsd.datadir, './consensus/consensus.log')
 	const consensusLogText = cleanLog(fs.readFileSync(consensusLog, 'utf8'))
 	describe('readLog', () => {
 		it('reads logs given a log path', () => {

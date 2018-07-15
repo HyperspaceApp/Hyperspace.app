@@ -41,13 +41,13 @@ const TransactionList = ({ transactions, ntransactions, actions, filter }) => {
 			if (!filter) {
 				return true
 			}
-			return txn.transactionsums.totalSiacoin.abs().gt(0) || txn.transactionsums.totalMiner.abs().gt(0)
+			return txn.transactionsums.totalSpaceCash.abs().gt(0) || txn.transactionsums.totalMiner.abs().gt(0)
 		})
 		.map((txn, key) => {
 			let valueData = ''
-			if (txn.transactionsums.totalSiacoin.abs().gt(0)) {
+			if (txn.transactionsums.totalSpaceCash.abs().gt(0)) {
 				valueData +=
-					txn.transactionsums.totalSiacoin
+					txn.transactionsums.totalSpaceCash
 						.round(4)
 						.toNumber()
 						.toLocaleString() + ' SPACE '

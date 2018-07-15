@@ -12,7 +12,7 @@ const mock = {
 	'react-dom': {
 		render: sinon.spy(),
 	},
-	'sia.js': {
+	'hyperspace.js': {
 		isRunning: () => new Promise((resolve) => {
 			resolve(running)
 		}),
@@ -24,8 +24,8 @@ const mock = {
 			getGlobal: (name) => {
 				if (name === 'config') {
 					return {
-						siad: {
-							path: 'testpath/siad',
+						hsd: {
+							path: 'testpath/hsd',
 							datadir: 'testpath/datadir',
 							detached: false,
 						},
@@ -47,10 +47,10 @@ const mock = {
 proxyquire('../js/rendererjs/pluginapi.js', mock)
 
 describe('plugin API', () => {
-	it('creates a SiaAPI window object', () => {
-		expect(window.SiaAPI).to.exist
+	it('creates a HyperspaceAPI window object', () => {
+		expect(window.HyperspaceAPI).to.exist
 	})
-	it('does not mount disabled plugin component if siad is running', function(done) {
+	it('does not mount disabled plugin component if hsd is running', function(done) {
 		running = true
 		this.timeout(10000)
 		const poll = setInterval(() => {
@@ -60,7 +60,7 @@ describe('plugin API', () => {
 			}
 		}, 50)
 	})
-	it('mounts disabled plugin if siad is not running', function(done) {
+	it('mounts disabled plugin if hsd is not running', function(done) {
 		running = false
 		this.timeout(10000)
 		const poll = setInterval(() => {
@@ -71,10 +71,10 @@ describe('plugin API', () => {
 		}, 50)
 	})
 	describe('DisabledPlugin component', () => {
-		it('calls siajs.launch on click', () => {
-			const component = shallow(<DisabledPlugin startSiad={mock['sia.js'].launch} />)
+		it('calls hyperspacejs.launch on click', () => {
+			const component = shallow(<DisabledPlugin startHsd={mock['hyperspace.js'].launch} />)
 			component.find('button').first().simulate('click')
-			expect(mock['sia.js'].launch.called).to.be.true
+			expect(mock['hyperspace.js'].launch.called).to.be.true
 		})
 	})
 })

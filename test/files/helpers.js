@@ -39,11 +39,11 @@ describe('files plugin helper functions', () => {
 				'/tmp/test/testdir/testfile.png',
 				'/tmp/test/testdir/test.png',
 			])
-			expect(uploadDirectory('/tmp/test', directoryTree, 'testsiapath')).to.deep.equal(List([
-				actions.uploadFile('testsiapath/test', '/tmp/test/testfile.png'),
-				actions.uploadFile('testsiapath/test', '/tmp/test/test_file.pdf'),
-				actions.uploadFile('testsiapath/test/testdir', '/tmp/test/testdir/testfile.png'),
-				actions.uploadFile('testsiapath/test/testdir', '/tmp/test/testdir/test.png'),
+			expect(uploadDirectory('/tmp/test', directoryTree, 'testhyperspacepath')).to.deep.equal(List([
+				actions.uploadFile('testhyperspacepath/test', '/tmp/test/testfile.png'),
+				actions.uploadFile('testhyperspacepath/test', '/tmp/test/test_file.pdf'),
+				actions.uploadFile('testhyperspacepath/test/testdir', '/tmp/test/testdir/testfile.png'),
+				actions.uploadFile('testhyperspacepath/test/testdir', '/tmp/test/testdir/test.png'),
 			]))
 		})
 		it('handles windows paths correctly', () => {
@@ -53,88 +53,88 @@ describe('files plugin helper functions', () => {
 				'C:\\tmp\\test\\testdir\\testfile.png',
 				'C:\\tmp\\test\\testdir\\test.png',
 			])
-			expect(uploadDirectoryWin32('C:\\tmp\\test', directoryTree, 'testsiapath')).to.deep.equal(List([
-				actions.uploadFile('testsiapath/test', 'C:\\tmp\\test\\testfile.png'),
-				actions.uploadFile('testsiapath/test', 'C:\\tmp\\test\\test_file.pdf'),
-				actions.uploadFile('testsiapath/test/testdir', 'C:\\tmp\\test\\testdir\\testfile.png'),
-				actions.uploadFile('testsiapath/test/testdir', 'C:\\tmp\\test\\testdir\\test.png'),
+			expect(uploadDirectoryWin32('C:\\tmp\\test', directoryTree, 'testhyperspacepath')).to.deep.equal(List([
+				actions.uploadFile('testhyperspacepath/test', 'C:\\tmp\\test\\testfile.png'),
+				actions.uploadFile('testhyperspacepath/test', 'C:\\tmp\\test\\test_file.pdf'),
+				actions.uploadFile('testhyperspacepath/test/testdir', 'C:\\tmp\\test\\testdir\\testfile.png'),
+				actions.uploadFile('testhyperspacepath/test/testdir', 'C:\\tmp\\test\\testdir\\test.png'),
 			]))
 		})
 	})
 	describe('range selection', () => {
 		const testFiles = List([
-			{ siapath: 'test1' },
-			{ siapath: 'test2' },
-			{ siapath: 'test3' },
-			{ siapath: 'test4' },
-			{ siapath: 'test5' },
+			{ hyperspacepath: 'test1' },
+			{ hyperspacepath: 'test2' },
+			{ hyperspacepath: 'test3' },
+			{ hyperspacepath: 'test4' },
+			{ hyperspacepath: 'test5' },
 		])
 		it('selects all from first -> last', () => {
 			const selected = OrderedSet([
-				{ siapath: 'test1' },
+				{ hyperspacepath: 'test1' },
 			])
 			expect(rangeSelect(testFiles.last(), testFiles, selected).toArray()).to.deep.equal(testFiles.toArray())
 		})
 		it('selects all from last -> first', () => {
 			const selected = OrderedSet([
-				{ siapath: 'test5' },
+				{ hyperspacepath: 'test5' },
 			])
 			expect(rangeSelect(testFiles.first(), testFiles, selected).toArray()).to.deep.equal(testFiles.reverse().toArray())
 		})
 		it('adds selections correctly top -> bottom', () => {
 			const selected = OrderedSet([
-				{ siapath: 'test2' },
+				{ hyperspacepath: 'test2' },
 			])
 			const expectedSelection = [
-				{ siapath: 'test2' },
-				{ siapath: 'test3' },
+				{ hyperspacepath: 'test2' },
+				{ hyperspacepath: 'test3' },
 			]
-			expect(rangeSelect({ siapath: 'test3' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
+			expect(rangeSelect({ hyperspacepath: 'test3' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
 		})
 		it('adds selections correctly bottom -> top', () => {
 			const selected = OrderedSet([
-				{ siapath: 'test4' },
+				{ hyperspacepath: 'test4' },
 			])
 			const expectedSelection = [
-				{ siapath: 'test4' },
-				{ siapath: 'test3' },
-				{ siapath: 'test2' },
+				{ hyperspacepath: 'test4' },
+				{ hyperspacepath: 'test3' },
+				{ hyperspacepath: 'test2' },
 			]
-			expect(rangeSelect({ siapath: 'test2' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
+			expect(rangeSelect({ hyperspacepath: 'test2' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
 		})
 		it('adds selections correctly given subsequent shift clicks top -> bottom', () => {
 			let selected = OrderedSet([
-				{ siapath: 'test1' },
+				{ hyperspacepath: 'test1' },
 			])
 			let expectedSelection = [
-				{ siapath: 'test1' },
-				{ siapath: 'test2' },
-				{ siapath: 'test3' },
+				{ hyperspacepath: 'test1' },
+				{ hyperspacepath: 'test2' },
+				{ hyperspacepath: 'test3' },
 			]
-			expect(rangeSelect({ siapath: 'test3' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
+			expect(rangeSelect({ hyperspacepath: 'test3' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
 			selected = OrderedSet(expectedSelection)
 			expectedSelection = [
-				{ siapath: 'test1' },
-				{ siapath: 'test2' },
+				{ hyperspacepath: 'test1' },
+				{ hyperspacepath: 'test2' },
 			]
-			expect(rangeSelect({ siapath: 'test2' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
+			expect(rangeSelect({ hyperspacepath: 'test2' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
 		})
 		it('adds selections correctly given subsequent shift clicks bottom -> top', () => {
 			let selected = OrderedSet([
-				{ siapath: 'test5' },
+				{ hyperspacepath: 'test5' },
 			])
 			let expectedSelection = [
-				{ siapath: 'test5' },
-				{ siapath: 'test4' },
-				{ siapath: 'test3' },
+				{ hyperspacepath: 'test5' },
+				{ hyperspacepath: 'test4' },
+				{ hyperspacepath: 'test3' },
 			]
-			expect(rangeSelect({ siapath: 'test3' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
+			expect(rangeSelect({ hyperspacepath: 'test3' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
 			selected = OrderedSet(expectedSelection)
 			expectedSelection = [
-				{ siapath: 'test5' },
-				{ siapath: 'test4' },
+				{ hyperspacepath: 'test5' },
+				{ hyperspacepath: 'test4' },
 			]
-			expect(rangeSelect({ siapath: 'test4' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
+			expect(rangeSelect({ hyperspacepath: 'test4' }, testFiles, selected).toArray()).to.deep.equal(expectedSelection)
 		})
 	})
 	describe('ls helper function', () => {
@@ -142,65 +142,65 @@ describe('files plugin helper functions', () => {
 			'path': Path.win32,
 		}).ls
 		it('should ls a file list correctly', () => {
-			const siapathInputs = List([
-				{ filesize: 1337, siapath: 'folder/file.jpg', siaUIFolder: false, redundancy: 2.0, available: true, uploadprogress: 50 },
-				{ filesize: 13117, siapath: 'folder/file2.jpg', siaUIFolder: false, redundancy: 2.0, available: true, uploadprogress: 100 },
-				{ filesize: 1237, siapath: 'rare_pepe.png', siaUIFolder: false, redundancy: 2.0, available: true, uploadprogress: 100 },
-				{ filesize: 1317, siapath: 'memes/waddup.png', siaUIFolder: false, redundancy: 2.5, available: true, uploadprogress: 10 },
-				{ filesize: 1337, siapath: 'memes/itsdatboi.mov', siaUIFolder: false, redundancy: 2.0, available: true, uploadprogress: 20 },
-				{ filesize: 1337, siapath: 'memes/rares/lordkek.gif', siaUIFolder: false, redundancy: 1.6, available: true, uploadprogress: 30 },
-				{ filesize: 13117, siapath: 'sibyl_system.avi', siaUIFolder: false, redundancy: 1.0, available: true, uploadprogress: 75 },
-				{ filesize: 13117, siapath: 'test_0bytes.avi', siaUIFolder: false, redundancy: -1, available: true, uploadprogress: 100 },
-				{ filesize: 1331, siapath: 'doggos/borkborkdoggo.png', siaUIFolder: false, redundancy: 1.5, available: true, uploadprogress: 100 },
-				{ filesize: 1333, siapath: 'doggos/snip_snip_doggo_not_bork_bork_kind.jpg', siaUiFolder: false, redundancy: 1.0, available: true, uploadprogress: 100 },
+			const hyperspacepathInputs = List([
+				{ filesize: 1337, hyperspacepath: 'folder/file.jpg', hyperspaceAppFolder: false, redundancy: 2.0, available: true, uploadprogress: 50 },
+				{ filesize: 13117, hyperspacepath: 'folder/file2.jpg', hyperspaceAppFolder: false, redundancy: 2.0, available: true, uploadprogress: 100 },
+				{ filesize: 1237, hyperspacepath: 'rare_pepe.png', hyperspaceAppFolder: false, redundancy: 2.0, available: true, uploadprogress: 100 },
+				{ filesize: 1317, hyperspacepath: 'memes/waddup.png', hyperspaceAppFolder: false, redundancy: 2.5, available: true, uploadprogress: 10 },
+				{ filesize: 1337, hyperspacepath: 'memes/itsdatboi.mov', hyperspaceAppFolder: false, redundancy: 2.0, available: true, uploadprogress: 20 },
+				{ filesize: 1337, hyperspacepath: 'memes/rares/lordkek.gif', hyperspaceAppFolder: false, redundancy: 1.6, available: true, uploadprogress: 30 },
+				{ filesize: 13117, hyperspacepath: 'sibyl_system.avi', hyperspaceAppFolder: false, redundancy: 1.0, available: true, uploadprogress: 75 },
+				{ filesize: 13117, hyperspacepath: 'test_0bytes.avi', hyperspaceAppFolder: false, redundancy: -1, available: true, uploadprogress: 100 },
+				{ filesize: 1331, hyperspacepath: 'doggos/borkborkdoggo.png', hyperspaceAppFolder: false, redundancy: 1.5, available: true, uploadprogress: 100 },
+				{ filesize: 1333, hyperspacepath: 'doggos/snip_snip_doggo_not_bork_bork_kind.jpg', hyperspaceAppFolder: false, redundancy: 1.0, available: true, uploadprogress: 100 },
 			])
 			const expectedOutputs = {
 				'': List([
-					{ size: readableFilesize(1331+1333), name: 'doggos', siapath: 'doggos/', redundancy: 1.0, available: true, siaUIFolder: false, uploadprogress: 100, type: 'directory' },
-					{ size: readableFilesize(1337+13117), name: 'folder', siapath: 'folder/', redundancy: 2.0, available: true, siaUIFolder: false, uploadprogress: 50, type: 'directory' },
-					{ size: readableFilesize(1317+1337+1337), name: 'memes', siapath: 'memes/', redundancy: 1.6, available: true, siaUIFolder: false, uploadprogress: 10, type: 'directory' },
-					{ size: readableFilesize(1237), name: 'rare_pepe.png', siapath: 'rare_pepe.png', redundancy: 2.0, available: true, siaUIFolder: false, uploadprogress: 100, type: 'file' },
-					{ size: readableFilesize(13117), name: 'sibyl_system.avi', siapath: 'sibyl_system.avi', redundancy: 1.0, available: true, siaUIFolder: false, uploadprogress: 75, type: 'file' },
-					{ size: readableFilesize(13117), name: 'test_0bytes.avi', siapath: 'test_0bytes.avi', redundancy: -1.0, available: true, siaUIFolder: false, uploadprogress: 100, type: 'file'},
+					{ size: readableFilesize(1331+1333), name: 'doggos', hyperspacepath: 'doggos/', redundancy: 1.0, available: true, hyperspaceAppFolder: false, uploadprogress: 100, type: 'directory' },
+					{ size: readableFilesize(1337+13117), name: 'folder', hyperspacepath: 'folder/', redundancy: 2.0, available: true, hyperspaceAppFolder: false, uploadprogress: 50, type: 'directory' },
+					{ size: readableFilesize(1317+1337+1337), name: 'memes', hyperspacepath: 'memes/', redundancy: 1.6, available: true, hyperspaceAppFolder: false, uploadprogress: 10, type: 'directory' },
+					{ size: readableFilesize(1237), name: 'rare_pepe.png', hyperspacepath: 'rare_pepe.png', redundancy: 2.0, available: true, hyperspaceAppFolder: false, uploadprogress: 100, type: 'file' },
+					{ size: readableFilesize(13117), name: 'sibyl_system.avi', hyperspacepath: 'sibyl_system.avi', redundancy: 1.0, available: true, hyperspaceAppFolder: false, uploadprogress: 75, type: 'file' },
+					{ size: readableFilesize(13117), name: 'test_0bytes.avi', hyperspacepath: 'test_0bytes.avi', redundancy: -1.0, available: true, hyperspaceAppFolder: false, uploadprogress: 100, type: 'file'},
 				]),
 				'doggos/': List([
-					{ size: readableFilesize(1331), name: 'borkborkdoggo.png', siapath: 'doggos/borkborkdoggo.png', redundancy: 1.5, available: true, siaUIFolder: false, uploadprogress: 100, type: 'file' },
-					{ size: readableFilesize(1333), name: 'snip_snip_doggo_not_bork_bork_kind.jpg', redundancy: 1.0, siapath: 'doggos/snip_snip_doggo_not_bork_bork_kind.jpg', available: true, siaUIFolder: false, uploadprogress: 100, type: 'file' },
+					{ size: readableFilesize(1331), name: 'borkborkdoggo.png', hyperspacepath: 'doggos/borkborkdoggo.png', redundancy: 1.5, available: true, hyperspaceAppFolder: false, uploadprogress: 100, type: 'file' },
+					{ size: readableFilesize(1333), name: 'snip_snip_doggo_not_bork_bork_kind.jpg', redundancy: 1.0, hyperspacepath: 'doggos/snip_snip_doggo_not_bork_bork_kind.jpg', available: true, hyperspaceAppFolder: false, uploadprogress: 100, type: 'file' },
 				]),
 				'memes/': List([
-					{ size: readableFilesize(1337), name: 'rares', siapath: 'memes/rares/', available: true, siaUIFolder: false,  redundancy: 1.6, uploadprogress: 30, type: 'directory' },
-					{ size: readableFilesize(1337), name: 'itsdatboi.mov', siapath: 'memes/itsdatboi.mov', redundancy: 2.0, siaUIFolder: false, available: true, uploadprogress: 20, type: 'file' },
-					{ size: readableFilesize(1317), name: 'waddup.png', siapath: 'memes/waddup.png', available: true, siaUIFolder: false, redundancy: 2.5, uploadprogress: 10, type: 'file' },
+					{ size: readableFilesize(1337), name: 'rares', hyperspacepath: 'memes/rares/', available: true, hyperspaceAppFolder: false,  redundancy: 1.6, uploadprogress: 30, type: 'directory' },
+					{ size: readableFilesize(1337), name: 'itsdatboi.mov', hyperspacepath: 'memes/itsdatboi.mov', redundancy: 2.0, hyperspaceAppFolder: false, available: true, uploadprogress: 20, type: 'file' },
+					{ size: readableFilesize(1317), name: 'waddup.png', hyperspacepath: 'memes/waddup.png', available: true, hyperspaceAppFolder: false, redundancy: 2.5, uploadprogress: 10, type: 'file' },
 				]),
 			}
 			for (const path in expectedOutputs) {
-				const output = ls(siapathInputs, path)
-				const outputWin32 = lsWin32(siapathInputs, path)
+				const output = ls(hyperspacepathInputs, path)
+				const outputWin32 = lsWin32(hyperspacepathInputs, path)
 				expect(output).to.deep.equal(outputWin32)
 				expect(output.size).to.equal(expectedOutputs[path].size)
 				expect(output.toObject()).to.deep.equal(expectedOutputs[path].toObject())
 			}
 		})
-		it('should work with siapaths that have a folder or file ending in ..', () => {
-			const siapathInputs = List([
-				{ filesize: 1000, siapath: 'test/test/..test.png', siaUIFolder: false, redundancy: 2.0, available: true, uploadprogress: 100 },
-				{ filesize: 1000, siapath: 'test/test../test.png', siaUIFolder: false, redundancy: 2.0, available: true, uploadprogress: 100},
+		it('should work with hyperspacepaths that have a folder or file ending in ..', () => {
+			const hyperspacepathInputs = List([
+				{ filesize: 1000, hyperspacepath: 'test/test/..test.png', hyperspaceAppFolder: false, redundancy: 2.0, available: true, uploadprogress: 100 },
+				{ filesize: 1000, hyperspacepath: 'test/test../test.png', hyperspaceAppFolder: false, redundancy: 2.0, available: true, uploadprogress: 100},
 			])
 			const expectedOutputs = {
 				'': List([
-					{ size: readableFilesize(1000+1000), name: 'test', siapath: 'test/', siaUIFolder: false, redundancy: 2.0, available: true, uploadprogress: 100, type: 'directory' },
+					{ size: readableFilesize(1000+1000), name: 'test', hyperspacepath: 'test/', hyperspaceAppFolder: false, redundancy: 2.0, available: true, uploadprogress: 100, type: 'directory' },
 				]),
 				'test': List([
-					{ size: readableFilesize(1000), name: 'test', siapath: 'test/test/', siaUIFolder: false, redundancy: 2.0, available: true, uploadprogress: 100, type: 'directory' },
-					{ size: readableFilesize(1000), name: 'test..', siapath: 'test/test../', redundancy: 2.0, siaUIFolder: false, available: true, uploadprogress: 100, type: 'directory' },
+					{ size: readableFilesize(1000), name: 'test', hyperspacepath: 'test/test/', hyperspaceAppFolder: false, redundancy: 2.0, available: true, uploadprogress: 100, type: 'directory' },
+					{ size: readableFilesize(1000), name: 'test..', hyperspacepath: 'test/test../', redundancy: 2.0, hyperspaceAppFolder: false, available: true, uploadprogress: 100, type: 'directory' },
 				]),
 				'test/test': List([
-					{ size: readableFilesize(1000), name: '..test.png', siapath: 'test/test/..test.png', redundancy: 2.0, siaUIFolder: false, available: true, uploadprogress: 100, type: 'file' },
+					{ size: readableFilesize(1000), name: '..test.png', hyperspacepath: 'test/test/..test.png', redundancy: 2.0, hyperspaceAppFolder: false, available: true, uploadprogress: 100, type: 'file' },
 				]),
 			}
 			for (const path in expectedOutputs) {
-				const output = ls(siapathInputs, path)
-				const outputWin32 = lsWin32(siapathInputs, path)
+				const output = ls(hyperspacepathInputs, path)
+				const outputWin32 = lsWin32(hyperspacepathInputs, path)
 				expect(output).to.deep.equal(outputWin32)
 				expect(output.size).to.equal(expectedOutputs[path].size)
 				expect(output.toObject()).to.deep.equal(expectedOutputs[path].toObject())
@@ -232,39 +232,39 @@ describe('files plugin helper functions', () => {
 	describe('buildTransferTimes', () => {
 		it('correctly appends new transfers to a set of previous transfer times', () => {
 			const previousTransferTimes = Map({
-				'siapath1': { timestamps: [1, 2], bytes: [10, 20] },
-				'siapath2': { timestamps: [1, 2, 3, 4, 5], bytes: [10, 20, 30, 40, 50] },
+				'hyperspacepath1': { timestamps: [1, 2], bytes: [10, 20] },
+				'hyperspacepath2': { timestamps: [1, 2, 3, 4, 5], bytes: [10, 20, 30, 40, 50] },
 			})
 			const transfers = List([
-				{ siapath: 'siapath1', bytestransferred: 60 },
-				{ siapath: 'siapath2', bytestransferred: 70 },
-				{ siapath: 'siapath3', bytestransferred: 80 },
+				{ hyperspacepath: 'hyperspacepath1', bytestransferred: 60 },
+				{ hyperspacepath: 'hyperspacepath2', bytestransferred: 70 },
+				{ hyperspacepath: 'hyperspacepath3', bytestransferred: 80 },
 			])
 			const transferTimes = buildTransferTimes(previousTransferTimes, transfers)
-			expect(transferTimes.get('siapath1').timestamps.length).to.equal(3)
-			expect(transferTimes.get('siapath1').bytes.length).to.equal(3)
-			expect(transferTimes.get('siapath1').bytes[2]).to.equal(60)
-			expect(transferTimes.get('siapath2').timestamps.length).to.equal(5)
-			expect(transferTimes.get('siapath2').bytes.length).to.equal(5)
-			expect(transferTimes.get('siapath2').timestamps[0]).to.equal(2)
-			expect(transferTimes.get('siapath2').bytes[0]).to.equal(20)
-			expect(transferTimes.get('siapath2').bytes[4]).to.equal(70)
-			expect(transferTimes.get('siapath3').timestamps.length).to.equal(1)
-			expect(transferTimes.get('siapath3').bytes.length).to.equal(1)
-			expect(transferTimes.get('siapath3').bytes[0]).to.equal(80)
+			expect(transferTimes.get('hyperspacepath1').timestamps.length).to.equal(3)
+			expect(transferTimes.get('hyperspacepath1').bytes.length).to.equal(3)
+			expect(transferTimes.get('hyperspacepath1').bytes[2]).to.equal(60)
+			expect(transferTimes.get('hyperspacepath2').timestamps.length).to.equal(5)
+			expect(transferTimes.get('hyperspacepath2').bytes.length).to.equal(5)
+			expect(transferTimes.get('hyperspacepath2').timestamps[0]).to.equal(2)
+			expect(transferTimes.get('hyperspacepath2').bytes[0]).to.equal(20)
+			expect(transferTimes.get('hyperspacepath2').bytes[4]).to.equal(70)
+			expect(transferTimes.get('hyperspacepath3').timestamps.length).to.equal(1)
+			expect(transferTimes.get('hyperspacepath3').bytes.length).to.equal(1)
+			expect(transferTimes.get('hyperspacepath3').bytes[0]).to.equal(80)
 		})
 	})
 	describe('addTransferSpeeds', () => {
 		it('correctly appends speeds to a set of previous transfer times', () => {
 			const transferTimes = Map({
-				'siapath1': { timestamps: [1, 2000], bytes: [10, 4000000] },
-				'siapath2': { timestamps: [1, 2, 3, 4, 5000], bytes: [10, 20, 30, 40, 10000] },
-				'siapath3': { timestamps: [1000, 2000], bytes: [50, 60] },
+				'hyperspacepath1': { timestamps: [1, 2000], bytes: [10, 4000000] },
+				'hyperspacepath2': { timestamps: [1, 2, 3, 4, 5000], bytes: [10, 20, 30, 40, 10000] },
+				'hyperspacepath3': { timestamps: [1000, 2000], bytes: [50, 60] },
 			})
 			const untimedTransfers = List([
-				{ siapath: 'siapath1', bytestransferred: 4000000 },
-				{ siapath: 'siapath2', bytestransferred: 10000 },
-				{ siapath: 'siapath3', bytestransferred: 60 },
+				{ hyperspacepath: 'hyperspacepath1', bytestransferred: 4000000 },
+				{ hyperspacepath: 'hyperspacepath2', bytestransferred: 10000 },
+				{ hyperspacepath: 'hyperspacepath3', bytestransferred: 60 },
 			])
 			const timedTransfers = addTransferSpeeds(untimedTransfers, transferTimes)
 			expect(timedTransfers.get(0).speed).to.equal('2 MB/s')
@@ -275,12 +275,12 @@ describe('files plugin helper functions', () => {
 	describe('searchFiles', () => {
 		it('parses a file tree and returns expected search results', () => {
 			const files = List([
-				{ siapath: 'test/test1/testfile' },
-				{ siapath: 'test/test1/testaaa' },
-				{ siapath: 'test/test2/testfile2' },
-				{ siapath: 'test/test3/testfile3' },
-				{ siapath: 'test2/asdf.mov' },
-				{ siapath: 'test/testuifolder', siaUIFolder: true},
+				{ hyperspacepath: 'test/test1/testfile' },
+				{ hyperspacepath: 'test/test1/testaaa' },
+				{ hyperspacepath: 'test/test2/testfile2' },
+				{ hyperspacepath: 'test/test3/testfile3' },
+				{ hyperspacepath: 'test2/asdf.mov' },
+				{ hyperspacepath: 'test/testuifolder', hyperspaceAppFolder: true},
 			])
 
 			expect(searchFiles(files, '', 'test/testuifolder').size).to.equal(0)

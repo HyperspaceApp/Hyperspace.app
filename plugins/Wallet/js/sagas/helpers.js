@@ -26,24 +26,24 @@ const sumCurrency = (txns, currency) => txns.reduce((sum, txn) => {
 
 // Compute the net value and currency type of a transaction.
 const computeTransactionSum = (txn) => {
-	let totalSiacoinInput = new BigNumber(0)
+	let totalSpaceCashInput = new BigNumber(0)
 	let totalMinerInput = new BigNumber(0)
 
-	let totalSiacoinOutput = new BigNumber(0)
+	let totalSpaceCashOutput = new BigNumber(0)
 	let totalMinerOutput = new BigNumber(0)
 
 	if (txn.inputs) {
 		const walletInputs = txn.inputs.filter((input) => input.walletaddress && input.value)
-		totalSiacoinInput = sumCurrency(walletInputs, 'siacoin')
+		totalSpaceCashInput = sumCurrency(walletInputs, 'spacecash')
 		totalMinerInput = sumCurrency(walletInputs, 'miner')
 	}
 	if (txn.outputs) {
 		const walletOutputs = txn.outputs.filter((input) => input.walletaddress && input.value)
-		totalSiacoinOutput = sumCurrency(walletOutputs, 'siacoin')
+		totalSpaceCashOutput = sumCurrency(walletOutputs, 'spacecash')
 		totalMinerOutput = sumCurrency(walletOutputs, 'miner')
 	}
 	return {
-		totalSiacoin: HyperspaceAPI.hastingsToSiacoins(totalSiacoinOutput.minus(totalSiacoinInput)),
+		totalSpaceCash: HyperspaceAPI.hastingsToSiacoins(totalSpaceCashOutput.minus(totalSpaceCashInput)),
 		totalMiner:   HyperspaceAPI.hastingsToSiacoins(totalMinerOutput.minus(totalMinerInput)),
 	}
 }
@@ -52,7 +52,7 @@ const computeTransactionSum = (txn) => {
 // The transaction objects contain the following values:
 // {
 //   confirmed (boolean): whether this transaction has been confirmed by the network
-//	 transactionsums: the net siacoin and miner values
+//	 transactionsums: the net spacecash and miner values
 //   transactionid: The transaction ID
 //   confirmationtimestamp:  The time at which this transaction occurred
 // }

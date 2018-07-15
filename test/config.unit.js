@@ -30,29 +30,29 @@ describe('config.js', () => {
 		const config2 = loadConfig('test.json')
 		expect(config2).to.deep.equal(config)
 	})
-	it('sets the default siad path if the config version is undefined', () => {
+	it('sets the default hsd path if the config version is undefined', () => {
 		const config = loadConfig('test.json')
-		const defaultSiadPath = config.siad.path
+		const defaultHsdPath = config.hsd.path
 		config.version = undefined
-		config.siad.path = '/test/siad/path'
+		config.hsd.path = '/test/hsd/path'
 		config.save()
 		const config2 = loadConfig('test.json')
-		expect(config2.siad.path).to.equal(defaultSiadPath)
+		expect(config2.hsd.path).to.equal(defaultHsdPath)
 		expect(config2.version).to.equal(version)
 	})
-	it('sets the default siad path if the config version is outdated', () => {
+	it('sets the default hsd path if the config version is outdated', () => {
 		const config = loadConfig('test.json')
-		const defaultSiadPath = config.siad.path
+		const defaultHsdPath = config.hsd.path
 		config.version = '1.2.0'
-		config.siad.path = '/test/siad/path'
+		config.hsd.path = '/test/hsd/path'
 		config.save()
 		const config2 = loadConfig('test.json')
-		expect(config2.siad.path).to.equal(defaultSiadPath)
+		expect(config2.hsd.path).to.equal(defaultHsdPath)
 		expect(config2.version).to.equal(version)
-		config2.siad.path = '/test/new/path'
+		config2.hsd.path = '/test/new/path'
 		config2.save()
 		const config3 = loadConfig('test.json')
-		expect(config3.siad.path).to.equal('/test/new/path')
+		expect(config3.hsd.path).to.equal('/test/new/path')
 	})
 })
 

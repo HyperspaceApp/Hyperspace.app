@@ -267,7 +267,7 @@ function* changePasswordSaga(action) {
 function *startSendPromptSaga() {
 	try {
 		const response = yield hsdCall('/tpool/fee')
-		const feeEstimate = HyperspaceAPI.hastingsToSiacoins(response.maximum).times(1e3).round(8).toString() + ' SC/KB'
+		const feeEstimate = HyperspaceAPI.hastingsToSiacoins(response.maximum).times(1e3).round(8).toString() + ' SPACE/KB'
 		yield put(actions.setFeeEstimate(feeEstimate))
 	} catch (e) {
 		console.error('error fetching fee estimate for send prompt: ' + e.toString())

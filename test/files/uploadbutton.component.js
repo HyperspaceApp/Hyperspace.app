@@ -6,12 +6,12 @@ import sinon from 'sinon'
 
 import UploadButton from '../../plugins/Files/js/components/uploadbutton.js'
 
-const siaOpenFilesArg = {
+const hyperspaceOpenFilesArg = {
 	title: 'Choose a file to upload',
 	properties: ['openFile', 'multiSelections'],
 }
 
-const siaOpenFoldersArg = {
+const hyperspaceOpenFoldersArg = {
 	title: 'Choose a folder to upload',
 	properties: ['openDirectory'],
 }
@@ -22,7 +22,7 @@ const testButton = (files, isDir) => {
 		showUploadDialog: uploadSpy,
 	}
 	const openFileSpy = sinon.spy( () => files )
-	global.SiaAPI = { openFile: openFileSpy }
+	global.HyperspaceAPI = { openFile: openFileSpy }
 	const uploadButton = shallow(<UploadButton contracts={18} actions={testActions} />)
 	if (isDir) {
 		uploadButton.find('.upload-button').at(1).simulate('click')
@@ -38,7 +38,7 @@ describe('files upload button component', () => {
 		const spies = testButton(testFiles)
 		expect(spies.uploadSpy.alwaysCalledWithExactly(testFiles)).to.be.true
 		expect(spies.uploadSpy.calledOnce).to.be.true
-		expect(spies.openFileSpy.alwaysCalledWithExactly(siaOpenFilesArg)).to.be.true
+		expect(spies.openFileSpy.alwaysCalledWithExactly(hyperspaceOpenFilesArg)).to.be.true
 		expect(spies.openFileSpy.calledOnce).to.be.true
 	})
 
@@ -47,7 +47,7 @@ describe('files upload button component', () => {
 		const spies = testButton(testFiles)
 		expect(spies.uploadSpy.alwaysCalledWithExactly(testFiles)).to.be.true
 		expect(spies.uploadSpy.calledOnce).to.be.true
-		expect(spies.openFileSpy.alwaysCalledWithExactly(siaOpenFilesArg)).to.be.true
+		expect(spies.openFileSpy.alwaysCalledWithExactly(hyperspaceOpenFilesArg)).to.be.true
 		expect(spies.openFileSpy.calledOnce).to.be.true
 	})
 
@@ -56,7 +56,7 @@ describe('files upload button component', () => {
 		const spies = testButton(testFolders, true)
 		expect(spies.uploadSpy.alwaysCalledWithExactly(testFolders)).to.be.true
 		expect(spies.uploadSpy.calledOnce).to.be.true
-		expect(spies.openFileSpy.alwaysCalledWithExactly(siaOpenFoldersArg)).to.be.true
+		expect(spies.openFileSpy.alwaysCalledWithExactly(hyperspaceOpenFoldersArg)).to.be.true
 		expect(spies.openFileSpy.calledOnce).to.be.true
 	})
 
@@ -65,7 +65,7 @@ describe('files upload button component', () => {
 		const spies = testButton(testFolders, true)
 		expect(spies.uploadSpy.alwaysCalledWithExactly(testFolders)).to.be.true
 		expect(spies.uploadSpy.calledOnce).to.be.true
-		expect(spies.openFileSpy.alwaysCalledWithExactly(siaOpenFoldersArg)).to.be.true
+		expect(spies.openFileSpy.alwaysCalledWithExactly(hyperspaceOpenFoldersArg)).to.be.true
 		expect(spies.openFileSpy.calledOnce).to.be.true
 	})
 })

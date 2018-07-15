@@ -7,7 +7,7 @@ import { parseLogs } from '../../plugins/Logs/js/logparse.js'
 const sleep = (n) => new Promise((resolve) => setTimeout(resolve, n))
 
 describe('logs plugin', () => {
-	const siadir = SiaAPI.config.siad.datadir
+	const hyperspacedir = HyperspaceAPI.config.hsd.datadir
 	const rootComponent = mount(logsPlugin())
 
 	before(() => {
@@ -35,7 +35,7 @@ describe('logs plugin', () => {
 		})
 	})
 	it('starts with consensus and gateway logs shown', () => {
-		expect(rootComponent.find('LogView').props().logText).to.equal(parseLogs(siadir, 50000, ['gateway.log', 'consensus.log']))
+		expect(rootComponent.find('LogView').props().logText).to.equal(parseLogs(hyperspacedir, 50000, ['gateway.log', 'consensus.log']))
 	})
 	it('filters log view text when filter button is clicked', async () => {
 		const filterControlNodes = rootComponent.find('FilterControl')
@@ -45,7 +45,7 @@ describe('logs plugin', () => {
 			const filterFilters = filters.filter((f) => f.name === node.props().name)[0].filters
 			node.simulate('click')
 			await sleep(50)
-			expect(rootComponent.find('LogView').props().logText).to.equal(parseLogs(siadir, 50000, filterFilters))
+			expect(rootComponent.find('LogView').props().logText).to.equal(parseLogs(hyperspacedir, 50000, filterFilters))
 		}
 	})
 	it('deselects filter controls when selected and shift-clicked', async () => {
@@ -58,6 +58,6 @@ describe('logs plugin', () => {
 		await sleep(50)
 		const expectedFilters = filters.filter((f) => f.name === filterControlNodes.at(0).props().name)[0].filters
 		expect(filterControlNodes.at(1).props().checked).to.equal(false)
-		expect(rootComponent.find('LogView').props().logText).to.equal(parseLogs(siadir, 50000, expectedFilters))
+		expect(rootComponent.find('LogView').props().logText).to.equal(parseLogs(hyperspacedir, 50000, expectedFilters))
 	})
 })
