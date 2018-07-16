@@ -98,8 +98,8 @@ describe('startup and shutdown behaviour', () => {
 			}
 		})
 		afterEach(async () => {
-			await pkillSiad()
-			while (isProcessRunning(siadProcess.pid)) {
+			await pkillHsd()
+			while (isProcessRunning(hsdProcess.pid)) {
 				await sleep(100)
 			}
 			let isBrowserWindowDestroyed = false
