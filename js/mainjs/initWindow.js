@@ -25,14 +25,16 @@ export default function(config) {
 	// This should be used in the renderer to cancel close() events using window.onbeforeunload
 	mainWindow.closeToTray = config.closeToTray
 
-	if (process.platform === 'win32') {
-		mainWindow.tray = new Tray(
-			Path.join(app.getAppPath(), 'assets', 'trayWin.png')
-		)
-	} else {
-		mainWindow.tray = new Tray(
-			Path.join(app.getAppPath(), 'assets', 'trayTemplate.png')
-		)
+	if (process.env.NODE_ENV !== 'development') {
+		if (process.platform === 'win32') {
+			mainWindow.tray = new Tray(
+				Path.join(app.getAppPath(), 'assets', 'trayWin.png')
+			)
+		} else {
+			mainWindow.tray = new Tray(
+				Path.join(app.getAppPath(), 'assets', 'trayTemplate.png')
+			)
+		}
 	}
 	mainWindow.tray.setToolTip('Hyperspace - Distributed Cloud Storage')
 	mainWindow.tray.setContextMenu(appTray(mainWindow))
@@ -43,7 +45,10 @@ export default function(config) {
 	mainWindow.on('resize', onBoundsChange(mainWindow, config))
 
 	// Load the index.html of the app.
-	mainWindow.loadURL(Path.join('file://', app.getAppPath(), 'index.html'))
+	const appEntry = process.env.NODE_ENV === 'development'
+		? process.cwd()
+		: app.getAppPath()
+	mainWindow.loadURL(Path.join('file://', app.getAppPath(), 'app.html'))
 	// Choose not to show the menubar
 	if (process.platform !== 'darwin') {
 		mainWindow.setMenuBarVisibility(false)
