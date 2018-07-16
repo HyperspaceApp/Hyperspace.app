@@ -57,7 +57,13 @@ const isProcessRunning = (pid) => {
 	}
 }
 
-const electronBinary = process.platform === 'win32' ? 'node_modules\\electron\\dist\\electron.exe' : './node_modules/electron/dist/electron'
+let electronBinary = './node_modules/electron/dist/electron'
+if (process.platform === 'win32') {
+	electronBinary = 'node_modules\\electron\\dist\\electron.exe'
+} else if (process.platform === 'darwin') {
+	electronBinary = './node_modules/electron/dist/Electron.app/Contents/MacOS/Electron'
+}
+
 
 // we need functions for mocha's `this` for setting timeouts.
 /* eslint-disable no-invalid-this */
