@@ -20,16 +20,20 @@ npm install
 
 # build the UI's js
 rm -rf ./dist
-npm run build-production
+npm run build-main
 
 uiVersion=${3:-v0.0.1}
 hyperspaceVersion=${4:-v0.0.1}
 electronVersion=${5:-v1.6.4}
 
 # fourth argument is the public key file path.
-keyFile=`readlink -f $1`
-pubkeyFile=`readlink -f $2`
-
+if [ "$(uname -s)" = 'Linux' ]; then
+	keyFile=`readlink -f $1`
+	pubkeyFile=`readlink -f $2`
+else
+	keyFile=`readlink $1`
+	pubkeyFile=`readlink $2`
+fi
 
 electronOSX="https://github.com/electron/electron/releases/download/${electronVersion}/electron-${electronVersion}-darwin-x64.zip"
 electronLinux="https://github.com/electron/electron/releases/download/${electronVersion}/electron-${electronVersion}-linux-x64.zip"
