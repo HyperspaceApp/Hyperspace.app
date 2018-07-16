@@ -17,7 +17,7 @@ const getHsdChild = (pid) => new Promise((resolve, reject) => {
 			reject(err)
 		}
 		children.forEach((child) => {
-			if (child.COMMAND === 'hsd' || child.COMMAND === 'hsd.exe') {
+			if (child.COMM.includes('hsd') || child.COMM.includes('hsd.exe')) {
 				resolve({exists: true, pid: child.PID})
 			}
 		})
@@ -30,14 +30,19 @@ const getHsdChild = (pid) => new Promise((resolve, reject) => {
 const pkillHsd = () => new Promise((resolve, reject) => {
 	psTree(process.pid, (err, children) => {
 		if (err) {
+			console.log('pkill err', err)
 			reject(err)
 		}
 		children.forEach((child) => {
-			if (child.COMMAND === 'hsd' || child.COMMAND === 'hsd.exe') {
+			if (child.COMM.includes('hsd') || child.COMM.includes('hsd.exe')) {
 				if (process.platform === 'win32') {
 					spawn('taskkill', ['/pid', child.PID, '/f', '/t'])
 				} else {
-					process.kill(child.PID, 'SIGKILL')
+					try {
+						process.kill(child.PID, 'SIGKILL')
+					} catch (e) {
+						console.log('Error SIGKILL', e)
+					}
 				}
 			}
 		})
@@ -53,6 +58,7 @@ const isProcessRunning = (pid) => {
 		process.kill(pid, 0)
 		return true
 	} catch (e) {
+		console.log(`PID ${pid} not killed, ${e}`)
 		return false
 	}
 }
@@ -64,7 +70,6 @@ if (process.platform === 'win32') {
 	electronBinary = './node_modules/electron/dist/Electron.app/Contents/MacOS/Electron'
 }
 
-
 // we need functions for mocha's `this` for setting timeouts.
 /* eslint-disable no-invalid-this */
 /* eslint-disable no-unused-expressions */
@@ -74,7 +79,7 @@ describe('startup and shutdown behaviour', () => {
 		await pkillHsd()
 	})
 	describe('window closing behaviour', function() {
-		this.timeout(200000)
+		this.timeout(120000)
 		let app
 		let hsdProcess
 		beforeEach(async () => {
@@ -87,19 +92,22 @@ describe('startup and shutdown behaviour', () => {
 			await app.start()
 			await app.client.waitUntilWindowLoaded()
 			while (await app.client.isVisible('#overlay-text') === true) {
-				await sleep(10)
+				await sleep(100)
 			}
 		})
 		afterEach(async () => {
+			await pkillSiad()
+			while (isProcessRunning(siadProcess.pid)) {
+				await sleep(100)
+			}
+			let isBrowserWindowDestroyed = false
 			try {
-				await pkillHsd()
-				while (isProcessRunning(hsdProcess.pid)) {
-					await sleep(10)
-				}
-				app.webContents.send('quit')
-				await app.stop()
-
+				isBrowserWindowDestroyed = await app.browserWindow.isDestroyed()
 			} catch (e) {
+				isBrowserWindowDestroyed = true
+			}
+			if (!isBrowserWindowDestroyed) {
+				await app.stop()
 			}
 		})
 		it('hides the window and persists in tray if closeToTray = true', async () => {
@@ -110,6 +118,7 @@ describe('startup and shutdown behaviour', () => {
 			await sleep(1000)
 			expect(await app.browserWindow.isDestroyed()).to.be.false
 			expect(await app.browserWindow.isVisible()).to.be.false
+			expect(hsdProcess.exists).to.be.true
 			expect(isProcessRunning(hsdProcess.pid)).to.be.true
 		})
 		it('quits gracefully on close if closeToTray = false', async () => {
@@ -136,7 +145,9 @@ describe('startup and shutdown behaviour', () => {
 			while (isProcessRunning(pid)) {
 				await sleep(10)
 			}
-			expect(isProcessRunning(hsdProcess.pid)).to.be.false
+			if (hsdProcess.exists) {
+				expect(isProcessRunning(hsdProcess.pid)).to.be.false
+			}
 		})
 	})
 	describe('startup with no hsd currently running', function() {
@@ -191,6 +202,7 @@ describe('startup and shutdown behaviour', () => {
 		this.timeout(120000)
 		let app
 		let hsdProcess
+		let beforeDone = false
 		before(async () => {
 			if (!fs.existsSync('hyperspace-testing')) {
 				fs.mkdirSync('hyperspace-testing')
@@ -198,8 +210,8 @@ describe('startup and shutdown behaviour', () => {
 			hsdProcess = Hsd.launch(process.platform === 'win32' ? 'Hyperspace\\hsd.exe' : './Hyperspace/hsd', {
 				'hyperspace-directory': 'hyperspace-testing',
 			})
-			while (await Hsd.isRunning('localhost:9980') === false) {
-				await sleep(10)
+			while (await Hsd.isRunning('localhost:5580') === false) {
+				await sleep(100)
 			}
 			app = new Application({
 				path: electronBinary,
@@ -210,10 +222,14 @@ describe('startup and shutdown behaviour', () => {
 			await app.start()
 			await app.client.waitUntilWindowLoaded()
 			while (await app.client.isVisible('#overlay-text') === true) {
-				await sleep(10)
+				await sleep(500)
 			}
+			beforeDone = true
 		})
 		after(async () => {
+			while (!beforeDone) {
+				await sleep(100)
+			}
 			await pkillHsd()
 			if (app.isRunning()) {
 				app.webContents.send('quit')
