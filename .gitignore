@@ -21,3 +21,6 @@ hyperspace-testing
 
 profiles
 test.json
+
+*.zip
+*.exe
