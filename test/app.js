@@ -17,7 +17,8 @@ const getHsdChild = (pid) => new Promise((resolve, reject) => {
 			reject(err)
 		}
 		children.forEach((child) => {
-			if (child.COMM.includes('hsd') || child.COMM.includes('hsd.exe')) {
+			const commString = child.COMM ? 'COMM' : 'COMMAND'
+			if (child[commString].includes('hsd') || child[commString].includes('hsd.exe')) {
 				resolve({exists: true, pid: child.PID})
 			}
 		})
@@ -34,7 +35,8 @@ const pkillHsd = () => new Promise((resolve, reject) => {
 			reject(err)
 		}
 		children.forEach((child) => {
-			if (child.COMM.includes('hsd') || child.COMM.includes('hsd.exe')) {
+			const commString = child.COMM ? 'COMM' : 'COMMAND'
+			if (child[commString].includes('hsd') || child[commString].includes('hsd.exe')) {
 				if (process.platform === 'win32') {
 					spawn('taskkill', ['/pid', child.PID, '/f', '/t'])
 				} else {
