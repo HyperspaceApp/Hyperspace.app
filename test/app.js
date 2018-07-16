@@ -31,7 +31,6 @@ const getHsdChild = (pid) => new Promise((resolve, reject) => {
 const pkillHsd = () => new Promise((resolve, reject) => {
 	psTree(process.pid, (err, children) => {
 		if (err) {
-			console.log('pkill err', err)
 			reject(err)
 		}
 		children.forEach((child) => {
