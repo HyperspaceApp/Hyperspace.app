@@ -3,8 +3,8 @@ release
 node_modules
 npm-debug.log
 config.json
-Sia
-doc/Sia-UI
+Hyperspace
+doc/Hyperspace
 errors.log
 dist
 hyperspace-testing
