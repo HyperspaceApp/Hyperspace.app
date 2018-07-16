@@ -14,7 +14,7 @@ if [[ -z $1 || -z $2 ]]; then
 	exit 1
 fi
 
-# ensure we have a clean node_modules
+## ensure we have a clean node_modules
 rm -rf ./node_modules
 npm install
 
@@ -31,8 +31,8 @@ if [ "$(uname -s)" = 'Linux' ]; then
 	keyFile=`readlink -f $1`
 	pubkeyFile=`readlink -f $2`
 else
-	keyFile=`readlink $1`
-	pubkeyFile=`readlink $2`
+	keyFile=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $1`
+	pubkeyFile=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $2`
 fi
 
 electronOSX="https://github.com/electron/electron/releases/download/${electronVersion}/electron-${electronVersion}-darwin-x64.zip"
