@@ -3,13 +3,18 @@ import Path from 'path'
 import * as Hsd from 'hyperspace.js'
 import loadingScreen from './loadingScreen.js'
 import { remote, ipcRenderer } from 'electron'
-import { unloadPlugins, loadPlugin, setCurrentPlugin, getOrderedPlugins, getPluginName } from './plugins.js'
+import {
+	unloadPlugins,
+	loadPlugin,
+	setCurrentPlugin,
+	getOrderedPlugins,
+	getPluginName,
+} from './plugins.js'
 
 const App = remote.app
 const mainWindow = remote.getCurrentWindow()
-const appEntry = process.env.NODE_ENV === 'development'
-  ? process.cwd()
-  : App.getAppPath()
+const appEntry =
+	process.env.NODE_ENV === 'development' ? process.cwd() : App.getAppPath()
 const defaultPluginDirectory = Path.join(appEntry, 'plugins')
 const defaultHomePlugin = 'Files'
 const config = remote.getGlobal('config')
@@ -48,7 +53,9 @@ const shutdown = async () => {
 	unloadPlugins()
 
 	const overlay = document.getElementsByClassName('overlay')[0]
-	const overlayText = overlay.getElementsByClassName('centered')[0].getElementsByTagName('p')[0]
+	const overlayText = overlay
+		.getElementsByClassName('centered')[0]
+		.getElementsByTagName('p')[0]
 	const hsdConfig = config.attr('hsd')
 
 	overlay.style.display = 'inline-flex'
@@ -104,7 +111,8 @@ window.onbeforeunload = () => {
 		if (process.platform === 'win32' && !hasClosed) {
 			mainWindow.tray.displayBalloon({
 				title: 'Hyperspace information',
-				content: 'Hyperspace is still running.  Right click this tray icon to quit or restore Hyperspace.',
+				content:
+					'Hyperspace is still running.  Right click this tray icon to quit or restore Hyperspace.',
 			})
 			hasClosed = true
 		}
@@ -118,4 +126,3 @@ window.onbeforeunload = () => {
 window.onload = function() {
 	loadingScreen(init)
 }
-

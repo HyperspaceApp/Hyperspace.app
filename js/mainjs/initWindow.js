@@ -45,9 +45,8 @@ export default function(config) {
 	mainWindow.on('resize', onBoundsChange(mainWindow, config))
 
 	// Load the index.html of the app.
-	const appEntry = process.env.NODE_ENV === 'development'
-		? process.cwd()
-		: app.getAppPath()
+	const appEntry =
+		process.env.NODE_ENV === 'development' ? process.cwd() : app.getAppPath()
 	mainWindow.loadURL(Path.join('file://', app.getAppPath(), 'app.html'))
 	// Choose not to show the menubar
 	if (process.platform !== 'darwin') {
