@@ -63,7 +63,7 @@ const isProcessRunning = (pid) => {
 	}
 }
 
-let electronBinary = './node_modules/electron/dist/electron'
+let electronBinary = './node_modules/electron/dist/.bin/electron'
 if (process.platform === 'win32') {
 	electronBinary = 'node_modules\\electron\\dist\\electron.exe'
 } else if (process.platform === 'darwin') {
