@@ -24,7 +24,7 @@ npm run build-main
 
 uiVersion=${3:-v0.0.1}
 hyperspaceVersion=${4:-v0.0.1}
-electronVersion=${5:-v1.6.4}
+electronVersion=${5:-v2.0.2}
 
 # fourth argument is the public key file path.
 if [ "$(uname -s)" = 'Linux' ]; then
