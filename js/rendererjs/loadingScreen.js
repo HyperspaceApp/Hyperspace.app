@@ -114,8 +114,10 @@ export default async function loadingScreen(initUI) {
 		if (typeof hsdPath === 'undefined') {
 			// The user didn't choose hsd, we should just close.
 			app.quit()
+		// if we quit, there is no hsdPath to access
+		} else {
+			hsdConfig.path = hsdPath[0]
 		}
-		hsdConfig.path = hsdPath[0]
 	}
 
 	// Launch the new Hsd process

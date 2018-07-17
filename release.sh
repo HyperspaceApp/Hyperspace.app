@@ -20,7 +20,7 @@ npm install
 
 # build the UI's js
 rm -rf ./dist
-npm run build-main
+npm run build
 
 uiVersion=${3:-v0.0.1}
 hyperspaceVersion=${4:-v0.0.1}
