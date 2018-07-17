@@ -26,8 +26,9 @@ const defaultConfig = {
 		detached: false,
 		address: '127.0.0.1:5580',
 	},
-	closeToTray:
-		Boolean(process.platform === 'win32' || process.platform === 'darwin'),
+	closeToTray: Boolean(
+		process.platform === 'win32' || process.platform === 'darwin'
+	),
 	width: 1024,
 	height: 768,
 	x: 0,
