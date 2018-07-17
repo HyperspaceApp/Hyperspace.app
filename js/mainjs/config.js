@@ -4,7 +4,7 @@ import { app } from 'electron'
 import { version } from '../../package.json'
 import semver from 'semver'
 
-const defaultHsdPath = Path.join(__dirname, '../Hyperspace/' + (process.platform === 'win32' ? 'hsd.exe' : 'hsd'))
+const defaultHsdPath = process.env.NODE_ENV === 'development' ? Path.join(__dirname, '../../Hyperspace/' + (process.platform === 'win32' ? 'hsd.exe' : 'hsd')) : Path.join(__dirname, '../Hyperspace/' + (process.platform === 'win32' ? 'hsd.exe' : 'hsd'))
 
 // The default settings
 const defaultConfig = {

@@ -30,7 +30,7 @@ if (shouldQuit) {
 
 // When Electron loading has finished, start Hyperspace.app.
 app.on('ready', () => {
-	console.log(config)
+	//console.log(config)
 	// Load mainWindow
 	mainWindow = initWindow(config)
 })
