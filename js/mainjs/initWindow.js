@@ -23,8 +23,8 @@ export default function(config) {
 	})
 	// Set mainWindow's closeToTray flag from config.
 	// This should be used in the renderer to cancel close() events using window.onbeforeunload
+	// In dev mode, this feature is disabled as Electron cannot find the path for the tray icon.
 	mainWindow.closeToTray = config.closeToTray
-
 	if (process.env.NODE_ENV !== 'development') {
 		if (process.platform === 'win32') {
 			mainWindow.tray = new Tray(
@@ -35,9 +35,9 @@ export default function(config) {
 				Path.join(app.getAppPath(), 'assets', 'trayTemplate.png')
 			)
 		}
+		mainWindow.tray.setToolTip('Hyperspace - Distributed Cloud Storage')
+		mainWindow.tray.setContextMenu(appTray(mainWindow))
 	}
-	mainWindow.tray.setToolTip('Hyperspace - Distributed Cloud Storage')
-	mainWindow.tray.setContextMenu(appTray(mainWindow))
 
 	// Load the window's size and position
 	mainWindow.setBounds(config)
@@ -47,7 +47,7 @@ export default function(config) {
 	// Load the index.html of the app.
 	const appEntry =
 		process.env.NODE_ENV === 'development' ? process.cwd() : app.getAppPath()
-	mainWindow.loadURL(Path.join('file://', app.getAppPath(), 'app.html'))
+	mainWindow.loadURL(Path.join('file://', appEntry, 'app.html'))
 	// Choose not to show the menubar
 	if (process.platform !== 'darwin') {
 		mainWindow.setMenuBarVisibility(false)
