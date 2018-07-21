@@ -11,8 +11,25 @@
 	<body>
 		<!-- React root -->
 		<div id="react-root"></div>
-		<script src="../../dist/manifest.js"></script>
-		<script src="../../dist/vendor.js"></script>
-		<script src="../../dist/plugins/Logs.js"></script>
+		<script>
+			{
+				const scripts = [];
+
+				// Dynamically insert the bundled app script in the renderer process
+				const port = process.env.PORT || 1212;
+				if (process.env.HOT) {
+					scripts.push('http://localhost:' + port + '/dist/plugins/Logs.dev.js')
+				} else {
+					scripts.push('../../dist/plugins/Logs.prod.js')
+					scripts.push('../../dist/commons.prod.js')
+				}
+
+				document.write(
+					scripts
+						.map(script => `<script defer src="${script}"><\/script>`)
+						.join('')
+				);
+			}
+		</script>
 	</body>
 </html>
