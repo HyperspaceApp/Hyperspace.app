@@ -1,6 +1,6 @@
-/*  Style Guide: 
+/*  Style Guide:
  *	Transparent: 70% Opacity
- *	
+ *
  *	White:	  #FFFFFF
  *	Grey-White: #F5F5F5
  *	Faint-Grey: #ECECEC
@@ -413,7 +413,7 @@ div[tabindex="1"]:focus {
 	align-items: center;
 	justify-content: flex-start;
 	overflow-y: auto;
-	background-color: #C5C5C5;
+	background-color: #feffff;
 	margin: 0;
 	cursor: default;
 	-webkit-user-select: none;
