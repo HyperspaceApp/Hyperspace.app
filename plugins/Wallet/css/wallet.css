@@ -19,9 +19,12 @@
  }
 .wallet {
 	display: flex;
+	/*
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
+	*/
+	align-items: left;
 	height: 100%;
 }
 .balance-info {

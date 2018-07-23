@@ -41,13 +41,13 @@ html,body {
 .body {
 	position: relative;
 
-	height: -webkit-calc(100% - 80px);
+	height: -webkit-calc(100% - 110px);
 	-webkit-box-sizing:border-box;
 }
 
 /* UI Header */
 .header {
-	height: 80px;
+	height: 110px;
 	width: 100%;
 
 	background-color: #20333e;
@@ -57,6 +57,9 @@ html,body {
 	padding-left: 20px;
 	padding-top: 14px;
 	pointer-events: none;
+}
+.logo-container {
+	height: 70px;
 }
 .logo-container:hover {
 	cursor: pointer;
@@ -105,18 +108,47 @@ html,body {
 }
 
 /* Sidebar */
+#navbar {
+	z-index: 5;
+	height: 40px;
+	width: 100%;
+	background-color: #20333e;
+	padding-left: 20px;
+}
+
+.nav-button {
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.nav-button img {
+	height: 30px;
+}
+
+.nav-button img.standard {
+	display: inline-block;
+}
+
+.nav-button img.action {
+	display: none;
+}
+
+.nav-button.current img.standard {
+	display: none;
+}
+
+.nav-button.current img.action {
+	display: inline-block;
+}
+
 #sidebar {
 	position: relative;
-
 	background-color: #f6f7f8;
-	width: 160px;
-	z-index: 5;
-	height: 100%;
-
 	-webkit-box-sizing:border-box;
 	border-left: 0 solid #F5F5F5;
 	border-right: 1px solid #edeeef;
 }
+
 .button {
 	display: flex;
 	font-size: 16px;
@@ -179,7 +211,8 @@ html,body {
 .webview {
 	position: absolute;
 	height: 100%;
-	min-width: calc(100% - 160px);
+	/*min-width: calc(100% - 160px);*/
+	min-width: 100%;
 	right: 0;
 	opacity: 0;
 	z-index: -1;

@@ -10,7 +10,15 @@ const devtoolsShortcut = 'Ctrl+Shift+P'
 const createButtonIconElement = (path) => {
 	const i = document.createElement('img')
 	i.src = path
-	i.className = 'pure-u icon'
+	i.className = 'pure-u icon standard'
+	return i
+}
+
+// Create an icon element for a plugin button.
+const createActionButtonIconElement = (path) => {
+	const i = document.createElement('img')
+	i.src = path
+	i.className = 'pure-u icon action'
 	return i
 }
 
@@ -73,11 +81,13 @@ export const setCurrentPlugin = (pluginName) => {
 
 // Construct a plugin button element from an icon path and title
 const createPluginButtonElement = (iconPath, title) => {
-	const elem = document.createElement('div')
+	iconPath += '_dark_'
+	const elem = document.createElement('span')
 	elem.id = title + '-button'
-	elem.className = 'pure-u-1-1 button'
-	elem.appendChild(createButtonIconElement(iconPath))
-	elem.appendChild(createButtonTextElement(title))
+	elem.className = 'pure-u-1-24 nav-button'
+	elem.appendChild(createButtonIconElement(iconPath + 'normal.svg'))
+	elem.appendChild(createActionButtonIconElement(iconPath + 'action.svg'))
+	//elem.appendChild(createButtonTextElement(title))
 	// On click, set all other buttons and plugins to non-current except this one.
 	elem.onclick = () => setCurrentPlugin(title)
 	return elem
@@ -87,12 +97,12 @@ const createPluginButtonElement = (iconPath, title) => {
 export const getPluginName = (pluginPath) => Path.basename(pluginPath)
 
 // loadPlugin constructs plugin view and plugin button elements
-// and adds these elements to the main UI's mainbar/sidebar.
+// and adds these elements to the main UI's mainbar/navbar.
 // Returns the plugin's main view element.
 export const loadPlugin = (pluginPath, hidden = false, shortcut) => {
 	const name = getPluginName(pluginPath)
 	const markupPath = Path.join(pluginPath, 'index.html')
-	const iconPath = Path.join(pluginPath, 'assets', 'button.png')
+	const iconPath = Path.join(pluginPath, 'assets', 'button')
 
 	const viewElement = createPluginElement(markupPath, name)
 	const buttonElement = createPluginButtonElement(iconPath, name)
@@ -103,19 +113,19 @@ export const loadPlugin = (pluginPath, hidden = false, shortcut) => {
 		})
 	}
 	if (!hidden) {
-		document.getElementById('sidebar').appendChild(buttonElement)
+		document.getElementById('navbar').appendChild(buttonElement)
 	}
 	document.getElementById('mainbar').appendChild(viewElement)
 
 	return viewElement
 }
 
-// unloadPlugins removes the mainbar and the sidebar from the document.
+// unloadPlugins removes the mainbar and the navbar from the document.
 export const unloadPlugins = () => {
 	const mainbar = document.getElementById('mainbar')
-	const sidebar = document.getElementById('sidebar')
+	const navbar = document.getElementById('navbar')
 	mainbar.parentNode.removeChild(mainbar)
-	sidebar.parentNode.removeChild(sidebar)
+	navbar.parentNode.removeChild(navbar)
 }
 
 // Scan a folder at `path` for plugins.
