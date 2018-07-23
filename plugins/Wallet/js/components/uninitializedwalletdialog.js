@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import NewWalletForm from '../containers/newwalletform.js'
 import InitSeedForm from './initseedform.js'
+import * as actions from '../actions/wallet.js'
 
 const UninitializedWalletDialog = ({initializingSeed, useCustomPassphrase, showInitSeedForm, showNewWalletForm, actions}) => {
 	if (showNewWalletForm && useCustomPassphrase) {
@@ -31,11 +32,11 @@ const UninitializedWalletDialog = ({initializingSeed, useCustomPassphrase, showI
 		<div className="uninitialized-wallet-dialog">
 			<div className="wallet-init-buttons">
 				<div onClick={handleCreateWalletClick} className="create-wallet-button">
-					<i className="fa fa-plus-circle fa-4x" />
+					<img src={actions.getWalletCreateIconPath()} />
 					<h3> Create a new wallet </h3>
 				</div>
 				<div className="create-wallet-button">
-					<i className="fa fa-key fa-4x" onClick={handleCreateWalletFromSeedClick} />
+					<img src={actions.getWalletLoadIconPath()} onClick={handleCreateWalletFromSeedClick} />
 					<h3> Load a wallet from a seed </h3>
 				</div>
 			</div>
