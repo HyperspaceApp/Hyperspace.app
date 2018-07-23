@@ -125,8 +125,8 @@ function* getBalanceSaga() {
 	try {
 		const response = yield hsdCall('/wallet')
 		const confirmed = HyperspaceAPI.hastingsToSpaceCash(response.confirmedspacecashbalance)
-		const unconfirmedIncoming = HyperspaceAPI.hastingsToSpaceCash(response.unconfirmedincomingspacecashs)
-		const unconfirmedOutgoing = HyperspaceAPI.hastingsToSpaceCash(response.unconfirmedoutgoingspacecashs)
+		const unconfirmedIncoming = HyperspaceAPI.hastingsToSpaceCash(response.unconfirmedincomingspacecash)
+		const unconfirmedOutgoing = HyperspaceAPI.hastingsToSpaceCash(response.unconfirmedoutgoingspacecash)
 		const unconfirmed = unconfirmedIncoming.minus(unconfirmedOutgoing)
 		yield put(actions.setBalance(confirmed.round(2).toString(), unconfirmed.round(2).toString()))
 	} catch (e) {
