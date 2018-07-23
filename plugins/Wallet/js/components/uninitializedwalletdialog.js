@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import NewWalletForm from '../containers/newwalletform.js'
 import InitSeedForm from './initseedform.js'
-import * as actions from '../actions/wallet.js'
+import { WALLET_CREATE_ICON_PATH, WALLET_LOAD_ICON_PATH } from '../constants/wallet.js'
 
 const UninitializedWalletDialog = ({
 	initializingSeed,
@@ -37,12 +37,12 @@ const UninitializedWalletDialog = ({
 		<div className="uninitialized-wallet-dialog">
 			<div className="wallet-init-buttons">
 				<div onClick={handleCreateWalletClick} className="create-wallet-button">
-					<img src={actions.getWalletCreateIconPath()} />
+					<img src={WALLET_CREATE_ICON_PATH} />
 					<h3> Create a new wallet </h3>
 				</div>
 				<div className="create-wallet-button">
 					<img
-						src={actions.getWalletLoadIconPath()}
+						src={WALLET_LOAD_ICON_PATH}
 						onClick={handleCreateWalletFromSeedClick}
 					/>
 					<h3> Load a wallet from a seed </h3>

@@ -448,6 +448,11 @@
 .wallet-init-buttons {
 	display: flex;
 }
+
+.wallet-init-buttons img {
+	height: 120px;
+}
+
 .use-passphrase-checkbox {
 	margin-top: 20px;
 }
