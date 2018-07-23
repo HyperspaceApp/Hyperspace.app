@@ -2,7 +2,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import NewWalletForm from '../containers/newwalletform.js'
 import InitSeedForm from './initseedform.js'
-import { WALLET_CREATE_ICON_PATH, WALLET_LOAD_ICON_PATH } from '../constants/wallet.js'
+import {
+	WALLET_CREATE_ICON_PATH,
+	WALLET_LOAD_ICON_PATH,
+} from '../constants/wallet.js'
 
 const UninitializedWalletDialog = ({
 	initializingSeed,
