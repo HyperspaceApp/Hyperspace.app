@@ -209,3 +209,9 @@ export const setAddressDescription = (description) => ({
 	type: constants.SET_ADDRESS_DESCRIPTION,
 	description,
 })
+export const showBalanceInfo = () => ({
+	type: constants.SHOW_BALANCE_INFO,
+})
+export const hideBalanceInfo = () => ({
+	type: constants.HIDE_BALANCE_INFO,
+})

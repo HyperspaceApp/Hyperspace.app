@@ -55,6 +55,7 @@ function* walletUnlockSaga(action) {
 		yield put(actions.setEncrypted())
 		yield put(actions.setUnlocked())
 		yield put(actions.handlePasswordChange(''))
+		yield put(actions.showBalanceInfo())
 	} catch (e) {
 		yield put(actions.handlePasswordChange(''))
 		yield put(walletUnlockError(e.message))
@@ -69,6 +70,7 @@ function* walletLockSaga() {
 		})
 		yield put(actions.setEncrypted())
 		yield put(actions.setLocked())
+		yield put(actions.hideBalanceInfo())
 	} catch (e) {
 		sendError(e)
 	}
@@ -112,6 +114,7 @@ function* createWalletSaga(action) {
 
 		yield take(constants.SET_UNLOCKED)
 		yield put(actions.dismissNewWalletDialog())
+		yield put(actions.showBalanceInfo())
 	} catch (e) {
 		if (initSeed) {
 			yield put(actions.initSeedFinished())

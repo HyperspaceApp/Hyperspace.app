@@ -31,6 +31,10 @@ const initialState = Map({
 
 export default function walletReducer(state = initialState, action) {
 	switch (action.type) {
+	case constants.SHOW_BALANCE_INFO:
+		return state.set('showBalanceInfo', true)
+	case constants.HIDE_BALANCE_INFO:
+		return state.set('showBalanceInfo', false)
 	case constants.SET_CHANGE_PASSWORD_ERROR:
 		return state.set('changePasswordError', action.error)
 	case constants.SHOW_CHANGE_PASSWORD_DIALOG:

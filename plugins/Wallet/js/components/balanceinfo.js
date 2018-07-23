@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import TransactionList from '../containers/transactionlist.js'
 
 const BalanceInfo = ({synced, confirmedbalance, unconfirmedbalance}) => (
 	<div className="balance-info">
@@ -9,6 +10,7 @@ const BalanceInfo = ({synced, confirmedbalance, unconfirmedbalance}) => (
 			<span style={{marginRight: '40px', color: 'rgb(255, 93, 93)'}} className="fa fa-exclamation-triangle">Your wallet is not synced, balances are not final.</span>
 		) : null
 		}
+		<TransactionList />
 	</div>
 )
 BalanceInfo.propTypes = {
