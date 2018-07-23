@@ -4,11 +4,15 @@ import NewWalletForm from '../containers/newwalletform.js'
 import InitSeedForm from './initseedform.js'
 import * as actions from '../actions/wallet.js'
 
-const UninitializedWalletDialog = ({initializingSeed, useCustomPassphrase, showInitSeedForm, showNewWalletForm, actions}) => {
+const UninitializedWalletDialog = ({
+	initializingSeed,
+	useCustomPassphrase,
+	showInitSeedForm,
+	showNewWalletForm,
+	actions,
+}) => {
 	if (showNewWalletForm && useCustomPassphrase) {
-		return (
-			<NewWalletForm />
-		)
+		return <NewWalletForm />
 	}
 	if (showInitSeedForm) {
 		return (
@@ -24,7 +28,8 @@ const UninitializedWalletDialog = ({initializingSeed, useCustomPassphrase, showI
 		actions.createNewWallet()
 	}
 
-	const handleCustomPasswordClick = () => actions.setUseCustomPassphrase(!useCustomPassphrase)
+	const handleCustomPasswordClick = () =>
+		actions.setUseCustomPassphrase(!useCustomPassphrase)
 	const handleCreateWalletClick = () => actions.showNewWalletForm()
 	const handleCreateWalletFromSeedClick = () => actions.showInitSeedForm()
 
@@ -36,12 +41,19 @@ const UninitializedWalletDialog = ({initializingSeed, useCustomPassphrase, showI
 					<h3> Create a new wallet </h3>
 				</div>
 				<div className="create-wallet-button">
-					<img src={actions.getWalletLoadIconPath()} onClick={handleCreateWalletFromSeedClick} />
+					<img
+						src={actions.getWalletLoadIconPath()}
+						onClick={handleCreateWalletFromSeedClick}
+					/>
 					<h3> Load a wallet from a seed </h3>
 				</div>
 			</div>
 			<div className="use-passphrase-checkbox">
-				<input type="checkbox" checked={useCustomPassphrase} onChange={handleCustomPasswordClick} />
+				<input
+					type="checkbox"
+					checked={useCustomPassphrase}
+					onChange={handleCustomPasswordClick}
+				/>
 				<span> Use custom passphrase </span>
 			</div>
 		</div>
@@ -55,4 +67,3 @@ UninitializedWalletDialog.propTypes = {
 }
 
 export default UninitializedWalletDialog
-

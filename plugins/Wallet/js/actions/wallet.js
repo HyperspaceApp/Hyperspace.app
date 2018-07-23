@@ -1,13 +1,11 @@
 import Path from 'path'
 import * as constants from '../constants/wallet.js'
 
-export const getWalletCreateIconPath = () => (
+export const getWalletCreateIconPath = () =>
 	Path.join(pluginPath, 'assets', 'wallet_start_create.svg')
-)
 
-export const getWalletLoadIconPath = () => (
+export const getWalletLoadIconPath = () =>
 	Path.join(pluginPath, 'assets', 'wallet_start_load.svg')
-)
 
 export const getLockStatus = () => ({
 	type: constants.GET_LOCK_STATUS,
@@ -218,4 +216,3 @@ export const setAddressDescription = (description) => ({
 	type: constants.SET_ADDRESS_DESCRIPTION,
 	description,
 })
-
