@@ -16,7 +16,7 @@ const mainWindow = remote.getCurrentWindow()
 const appEntry =
 	process.env.NODE_ENV === 'development' ? process.cwd() : App.getAppPath()
 const defaultPluginDirectory = Path.join(appEntry, 'plugins')
-const defaultHomePlugin = 'Files'
+const defaultHomePlugin = 'Wallet'
 const config = remote.getGlobal('config')
 window.closeToTray = mainWindow.closeToTray
 

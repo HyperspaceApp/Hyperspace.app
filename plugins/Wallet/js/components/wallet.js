@@ -15,22 +15,34 @@ import BackupButton from '../containers/backupbutton.js'
 import BackupPrompt from '../containers/backupprompt.js'
 import BalanceInfo from '../containers/balanceinfo.js'
 
-const Wallet = ({showBackupPrompt, showReceivePrompt, showChangePasswordDialog, showSendPrompt, showNewWalletDialog, showRecoveryDialog, actions }) => {
-	const onSendClick = (currencytype) => () => actions.startSendPrompt(currencytype)
+const Wallet = ({
+	showBackupPrompt,
+	showReceivePrompt,
+	showChangePasswordDialog,
+	showSendPrompt,
+	showNewWalletDialog,
+	showRecoveryDialog,
+	actions,
+}) => {
+	const onSendClick = (currencytype) => () =>
+		actions.startSendPrompt(currencytype)
 	return (
 		<div className="wallet pure-g">
 			<div id="sidebar" className="pure-u-1-5">
-				Foo
+				<h1>Wallet</h1>
+				<SendButton
+					currencytype="spacecash"
+					onClick={onSendClick('spacecash')}
+				/>
+				<ReceiveButton />
+				<LockButton />
+				<ChangePasswordButton />
+				<RecoverButton />
+				<BackupButton />
 			</div>
 			<div className="pure-u-4-5">
 				<div className="wallet-toolbar">
 					<BalanceInfo />
-					<BackupButton />
-					<ChangePasswordButton />
-					<LockButton />
-					<RecoverButton />
-					<SendButton currencytype="spacecash" onClick={onSendClick('spacecash')} />
-					<ReceiveButton />
 				</div>
 				{showNewWalletDialog ? <NewWalletDialog /> : null}
 				{showSendPrompt ? <SendPrompt /> : null}

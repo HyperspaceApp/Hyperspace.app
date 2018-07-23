@@ -87,7 +87,7 @@ const createPluginButtonElement = (iconPath, title) => {
 	elem.className = 'pure-u-1-24 nav-button'
 	elem.appendChild(createButtonIconElement(iconPath + 'normal.svg'))
 	elem.appendChild(createActionButtonIconElement(iconPath + 'action.svg'))
-	//elem.appendChild(createButtonTextElement(title))
+	// elem.appendChild(createButtonTextElement(title))
 	// On click, set all other buttons and plugins to non-current except this one.
 	elem.onclick = () => setCurrentPlugin(title)
 	return elem
@@ -148,11 +148,11 @@ export const scanFolder = (path) => {
 
 // pushToBottom pushes a plugin to the bottom of a plugin list
 export const pushToBottom = (plugins, target) =>
-	plugins.sort((p) => getPluginName(p) === target ? 1 : 0)
+	plugins.sort((p) => (getPluginName(p) === target ? 1 : 0))
 
 // pushToTop pushes a plugin to the top of a plugin list
 export const pushToTop = (plugins, target) =>
-	plugins.sort((p) => getPluginName(p) === target ? -1 : 0)
+	plugins.sort((p) => (getPluginName(p) === target ? -1 : 0))
 
 // Scan a folder at path and return an ordered list of plugins.
 // The plugin specified by `homePlugin` is always moved to the top of the list,
@@ -160,6 +160,8 @@ export const pushToTop = (plugins, target) =>
 export const getOrderedPlugins = (path, homePlugin) => {
 	let plugins = scanFolder(path)
 
+	plugins = pushToBottom(plugins, 'Files')
+	plugins = pushToBottom(plugins, 'Hosting')
 	// Push the Terminal plugin to the bottom
 	plugins = pushToBottom(plugins, 'Terminal')
 
@@ -171,4 +173,3 @@ export const getOrderedPlugins = (path, homePlugin) => {
 
 	return plugins
 }
-

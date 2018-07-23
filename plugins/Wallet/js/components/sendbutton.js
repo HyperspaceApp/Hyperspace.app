@@ -3,8 +3,8 @@ import React from 'react'
 
 const SendButton = ({currencytype, onClick}) => (
 	<div onClick={onClick} className="wallet-button send-button">
-		<i className="fa fa-paper-plane fa-2x" />
-		<span>Send {currencytype}</span>
+		<i className="fa fa-paper-plane" />
+		<span>Send Space Cash</span>
 	</div>
 )
 

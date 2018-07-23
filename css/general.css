@@ -141,14 +141,6 @@ html,body {
 	display: inline-block;
 }
 
-#sidebar {
-	position: relative;
-	background-color: #f6f7f8;
-	-webkit-box-sizing:border-box;
-	border-left: 0 solid #F5F5F5;
-	border-right: 1px solid #edeeef;
-}
-
 .button {
 	display: flex;
 	font-size: 16px;

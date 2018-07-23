@@ -17,6 +17,19 @@
  	left: 0;
  	right: 0;
  }
+
+#sidebar {
+	position: relative;
+	background-color: #f6f7f8;
+	-webkit-box-sizing:border-box;
+	border-left: 0 solid #F5F5F5;
+	border-right: 1px solid #edeeef;
+	height: 100%;
+
+	padding: 20px;
+	font-size: 14px;
+}
+
 .wallet {
 	display: flex;
 	/*
@@ -27,6 +40,17 @@
 	align-items: left;
 	height: 100%;
 }
+
+.wallet-button {
+	padding: 3px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.wallet-button span {
+	padding-left: 5px;
+}
+
 .balance-info {
 	flex: 1;
 }
