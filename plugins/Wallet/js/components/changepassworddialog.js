@@ -24,7 +24,7 @@ const ChangePasswordDialog = ({changePasswordError, actions}) => {
 				<input className="newpassword-again-input" type="password" placeholder="New password again" name="newpassword-again" />
 				<div className="change-password-buttons">
 					<button type="submit">Change Password</button>
-					<button className="change-password-cancel" onClick={handleCancelClick}>Done</button>
+					<button className="cancel-button change-password-cancel" onClick={handleCancelClick}>Cancel</button>
 				</div>
 				<div className="change-password-error">{changePasswordError}</div>
 			</form>
