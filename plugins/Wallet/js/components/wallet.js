@@ -14,6 +14,7 @@ import ChangePasswordDialog from '../containers/changepassworddialog.js'
 import BackupButton from '../containers/backupbutton.js'
 import BackupPrompt from '../containers/backupprompt.js'
 import BalanceInfo from '../containers/balanceinfo.js'
+import LockScreen from '../containers/lockscreen.js'
 
 const Wallet = ({
 	showBackupPrompt,
@@ -41,6 +42,7 @@ const Wallet = ({
 				<BackupButton />
 			</div>
 			<div className="pure-u-4-5">
+				<LockScreen />
 				<div className="wallet-toolbar">
 					<BalanceInfo />
 				</div>
