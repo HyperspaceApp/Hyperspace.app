@@ -8,7 +8,7 @@
  *	Grey:	   #C5C5C5
  *	Grey-Black: #4A4A4A
  *	Black:	  #000000
- *	Neon-Green: #00CBA0
+ *	Neon-Green: #2c7cf6
  *	Venetian-Red: #CC0033
  */
 
@@ -51,7 +51,7 @@ div[tabindex="1"]:focus {
 	outline: 0;
 }
 .selected {
-	border-left: 5px solid #00CBA0;
+	border-left: 5px solid #2c7cf6;
 	background-color: #F5F5F5 !important;
 }
 .dragtarget {
@@ -75,7 +75,7 @@ div[tabindex="1"]:focus {
 	margin-top: 10px;
 }
 .file-controls i {
-	color: #00CBA0;
+	color: #2c7cf6;
 	cursor: pointer;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -89,7 +89,7 @@ div[tabindex="1"]:focus {
 .file-transfers {
 	width: 400px;
 	height: 100%;
-	box-shadow:inset 0px 0px 0px 1px #00CBA0;
+	box-shadow:inset 0px 0px 0px 1px #2c7cf6;
 	overflow-y: auto;
 	overflow-x: hidden;
 	display: flex;
@@ -195,9 +195,8 @@ div[tabindex="1"]:focus {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: #4a4a4a;
-	background: linear-gradient(to top, #5A5A5A 15%, #4A4A4A 85%);
-	color: #fff;
+	background-color: #f6f7f8;
+	color: black;
 	padding-bottom: 8px;
 	padding-top: 8px;
 	font-size: 16px;
@@ -218,7 +217,7 @@ div[tabindex="1"]:focus {
 	overflow: hidden;
 	padding: 5px 0px 0px;
 	max-height: 0px;
-	background-color: #575757;
+	background-color: #f6f7f8;
 	transition: all 1s .1s;
 }
 .upload-button-container:hover .upload-button:last-of-type {
@@ -305,7 +304,7 @@ div[tabindex="1"]:focus {
 	position: absolute;
 	top: 45px;
 	background: #808080;
-	border: 1px solid #00CBA0;
+	border: 1px solid #2c7cf6;
 	font-size: 18px;
 	padding: 10px 10px 10px 10px;
 	width: 300px;
@@ -337,7 +336,7 @@ div[tabindex="1"]:focus {
 
 .spending-breakdown:before {
 	border-color: rgba(0, 203, 160, 0);
-	border-bottom-color: #00CBA0;
+	border-bottom-color: #2c7cf6;
 	border-width: 30px;
 	margin-left: -30px;
 }
@@ -390,11 +389,11 @@ div[tabindex="1"]:focus {
 	margin-top: 2px;
 	margin-bottom: 2px;
 	font-size: 12px;
-	color: #f5f5f5;
+	color: black;
 	user-select: none;
 }
 .files-toolbar .buttons div i {
-	color: #00CBA0;
+	color: #2c7cf6;
 }
 .file-transfers .close-button {
 	position: absolute;
@@ -418,6 +417,8 @@ div[tabindex="1"]:focus {
 	cursor: default;
 	-webkit-user-select: none;
 	font-size: 14px;
+	border-top: 1px solid #edeeef;
+	border-bottom: 1px solid #edeeef;
 }
 .file-list ul {
 	margin: 0;
@@ -437,7 +438,7 @@ div[tabindex="1"]:focus {
 	height: 22px;
 	align-items: center;
 	justify-content: space-between;
-	background-color: #ECECEC;
+	background-color: #feffff;
 	padding-left: 10px;
 	padding-right: 10px;
 }
@@ -459,7 +460,7 @@ div[tabindex="1"]:focus {
 	background-color: #F5F5F5;
 }
 .file-list li i {
-	color: #00CBA0;
+	color: #2c7cf6;
 	margin-left: 10px;
 	margin-right: 10px;
 }
@@ -480,7 +481,7 @@ div[tabindex="1"]:focus {
 	display: inline-block;
 	width: 80%;
 	height: 25px;
-	border: 2px solid #00CBA0;
+	border: 2px solid #2c7cf6;
 }
 .drag-overlay {
 	position: absolute;
@@ -499,7 +500,7 @@ div[tabindex="1"]:focus {
 	text-align: center;
 }
 .drag-overlay i {
-	color: #00CBA0;
+	color: #2c7cf6;
 }
 .drag-overlay h3 {
 	margin-top: .2em;
@@ -703,7 +704,7 @@ div[tabindex="1"]:focus {
 	display: flex;
 }
 .file-buttons i {
-	color: #00CBA0;
+	color: #2c7cf6;
 }
 .unlock-dialog {
 	width: 100%;
@@ -729,7 +730,7 @@ div[tabindex="1"]:focus {
 	display: inline-block;
 	width: 80%;
 	height: 25px;
-	border: 2px solid #00CBA0;
+	border: 2px solid #2c7cf6;
 }
 .rename-form {
 	display: inline-block;
