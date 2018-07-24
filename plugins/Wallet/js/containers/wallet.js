@@ -8,7 +8,6 @@ const mapStateToProps = (state) => ({
 	showBalanceInfo: state.wallet.get('showBalanceInfo'),
 	showReceivePrompt: state.wallet.get('showReceivePrompt'),
 	showSendPrompt: state.wallet.get('showSendPrompt'),
-	showNewWalletDialog: state.wallet.get('showNewWalletDialog'),
 	showRecoveryDialog: state.wallet.get('showRecoveryDialog'),
 	showChangePasswordDialog: state.wallet.get('showChangePasswordDialog'),
 	showBackupPrompt: state.wallet.get('showBackupPrompt'),

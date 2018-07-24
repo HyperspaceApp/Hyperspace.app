@@ -2,6 +2,7 @@ import LockScreenView from '../components/lockscreen.js'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state) => ({
+	showNewWalletDialog: state.wallet.get('showNewWalletDialog'),
 	unlocked: state.wallet.get('unlocked'),
 	unlocking: state.wallet.get('unlocking'),
 	encrypted: state.wallet.get('encrypted'),

@@ -22,7 +22,6 @@ const sendError = (e) => {
 //  Call /wallet and dispatch the appropriate actions from the returned JSON.
 function * getLockStatusSaga() {
 	try {
-		yield put(actions.setLoading())
 		const response = yield hsdCall('/wallet')
 		if (!response.unlocked) {
 			yield put(actions.setLocked())
@@ -351,6 +350,7 @@ function * showBackupPromptSaga() {
 
 // exported redux-saga action watchers
 export function * dataFetcher() {
+	yield put(actions.setLoading())
 	while (true) {
 		let tasks = []
 		tasks = tasks.concat(yield fork(getSyncStateSaga))

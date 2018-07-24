@@ -4,7 +4,6 @@ import SendButton from './sendbutton.js'
 import SendPrompt from '../containers/sendprompt.js'
 import ReceiveButton from '../containers/receivebutton.js'
 import ReceivePrompt from '../containers/receiveprompt.js'
-import NewWalletDialog from '../containers/newwalletdialog.js'
 import LockButton from '../containers/lockbutton.js'
 import RecoverButton from '../containers/recoverbutton.js'
 import RecoveryDialog from '../containers/recoverydialog.js'
@@ -22,7 +21,6 @@ const Wallet = ({
 	showReceivePrompt,
 	showChangePasswordDialog,
 	showSendPrompt,
-	showNewWalletDialog,
 	showRecoveryDialog,
 	actions,
 }) => {
@@ -43,8 +41,7 @@ const Wallet = ({
 				<BackupButton />
 			</div>
 			<div id="main-panel" className="pure-u-4-5">
-				{!loading && showNewWalletDialog ? <NewWalletDialog /> : null}
-				{!loading && showNewWalletDialog ? null : <LockScreen />}
+				{loading ? null : <LockScreen />}
 				{showBalanceInfo ? <BalanceInfo /> : null}
 				{showSendPrompt ? <SendPrompt /> : null}
 				{showReceivePrompt ? <ReceivePrompt /> : null}
@@ -58,7 +55,6 @@ const Wallet = ({
 
 Wallet.propTypes = {
 	loading: PropTypes.bool,
-	showNewWalletDialog: PropTypes.bool,
 	showSendPrompt: PropTypes.bool,
 	showReceivePrompt: PropTypes.bool,
 	showChangePasswordDialog: PropTypes.bool,

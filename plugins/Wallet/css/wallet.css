@@ -297,6 +297,7 @@
 }
 .newwallet-dialog span {
 	color: black;
+	text-align: left;
 }
 .newwallet-dialog .success-message {
 	font-size: 14px;
