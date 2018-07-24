@@ -1,5 +1,14 @@
 import * as constants from '../constants/wallet.js'
 
+export const getLoadingStatus = () => ({
+	type: constants.GET_LOADING_STATUS,
+})
+export const setLoading = () => ({
+	type: constants.SET_LOADING,
+})
+export const setNotLoading = () => ({
+	type: constants.SET_NOT_LOADING,
+})
 export const getLockStatus = () => ({
 	type: constants.GET_LOCK_STATUS,
 })

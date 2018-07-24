@@ -16,6 +16,7 @@ import BalanceInfo from '../containers/balanceinfo.js'
 import LockScreen from '../containers/lockscreen.js'
 
 const Wallet = ({
+	loading,
 	showBalanceInfo,
 	showBackupPrompt,
 	showReceivePrompt,
@@ -42,8 +43,8 @@ const Wallet = ({
 				<BackupButton />
 			</div>
 			<div id="main-panel" className="pure-u-4-5">
-				{showNewWalletDialog ? <NewWalletDialog /> : null}
-				{showNewWalletDialog ? null : <LockScreen />}
+				{!loading && showNewWalletDialog ? <NewWalletDialog /> : null}
+				{!loading && showNewWalletDialog ? null : <LockScreen />}
 				{showBalanceInfo ? <BalanceInfo /> : null}
 				{showSendPrompt ? <SendPrompt /> : null}
 				{showReceivePrompt ? <ReceivePrompt /> : null}
@@ -56,6 +57,7 @@ const Wallet = ({
 }
 
 Wallet.propTypes = {
+	loading: PropTypes.bool,
 	showNewWalletDialog: PropTypes.bool,
 	showSendPrompt: PropTypes.bool,
 	showReceivePrompt: PropTypes.bool,

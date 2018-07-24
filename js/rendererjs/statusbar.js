@@ -28,6 +28,7 @@ const StatusBar = ({synced, blockheight, peers}) => {
 
 	const redColor = '#E0000B'
 	const greenColor = '#00CBA0'
+	//const blueColor = '#2c7cf6'
 	const yellowColor = '#E7D414'
 
 	const syncStyle = {

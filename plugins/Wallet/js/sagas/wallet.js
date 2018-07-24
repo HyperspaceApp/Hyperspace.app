@@ -22,6 +22,7 @@ const sendError = (e) => {
 //  Call /wallet and dispatch the appropriate actions from the returned JSON.
 function * getLockStatusSaga() {
 	try {
+		yield put(actions.setLoading())
 		const response = yield hsdCall('/wallet')
 		if (!response.unlocked) {
 			yield put(actions.setLocked())
@@ -33,6 +34,7 @@ function * getLockStatusSaga() {
 		} else {
 			yield put(actions.setUnencrypted())
 		}
+		yield put(actions.setNotLoading())
 		yield put(actions.setRescanning(response.rescanning))
 	} catch (e) {
 		console.error('error fetching lock status: ' + e.toString())
@@ -105,6 +107,7 @@ function * createWalletSaga(action) {
 				},
 			})
 		}
+		yield put(actions.setEncrypted())
 
 		if (
 			(!initSeed && typeof action.password === 'undefined') ||

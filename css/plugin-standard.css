@@ -62,16 +62,16 @@ select:hover {
 .header {
 	padding-top: 10px;
 	padding-left: 20px;
-	background-color: #4a4a4a;
-	background: linear-gradient(to top, #5A5A5A 15%, #4A4A4A 85%);
-	color: #fff;
+	background-color: #f6f7f8;
+	color: black;
 	height: 50px;
 	vertical-align: top;
+	border-bottom: 1px solid #edeeef;
 }
 .header .title {
 	display: inline-block;
 	font-size: 30px;
-	color: #fff;
+	color: black;
 }
 .header .capsule {
 	white-space: nowrap;

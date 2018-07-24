@@ -3,10 +3,11 @@ import * as constants from '../constants/wallet.js'
 import { WALLET_UNLOCK_ERROR } from '../constants/error.js'
 
 const initialState = Map({
+	loading: true,
 	synced: false,
 	rescanning: false,
 	unlocked: false,
-	encrypted: true,
+	encrypted: false,
 	unlocking: false,
 	recovering: false,
 	confirmedbalance: '0',
@@ -31,6 +32,14 @@ const initialState = Map({
 
 export default function walletReducer(state = initialState, action) {
 	switch (action.type) {
+		case constants.SET_LOADING:
+			return state.set('loading', true)
+		case constants.SET_NOT_LOADING:
+			return state.set('loading', false)
+		case constants.GET_LOADING_STATUS:
+			return state.get('loading')
+		case constants.HIDE_BALANCE_INFO:
+			return state.set('showBalanceInfo', false)
 		case constants.SHOW_BALANCE_INFO:
 			return state.set('showBalanceInfo', true)
 		case constants.HIDE_BALANCE_INFO:
