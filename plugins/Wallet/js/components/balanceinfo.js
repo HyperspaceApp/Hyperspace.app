@@ -4,16 +4,17 @@ import TransactionList from '../containers/transactionlist.js'
 
 const BalanceInfo = ({ synced, confirmedbalance, unconfirmedbalance }) => (
 	<div className="balance-info">
-		<span>Confirmed Balance: {confirmedbalance} SPACE </span>
-		<span>Unconfirmed Delta: {unconfirmedbalance} SPACE </span>
-		{!synced ? (
-			<span
-				style={{ marginRight: '40px', color: 'rgb(255, 93, 93)' }}
-				className="fa fa-exclamation-triangle"
-			>
-				Your wallet is not synced, balances are not final.
-			</span>
-		) : null}
+		<div className="balance-header">
+			<div className="balance-summary">
+				<div className="confirmed-balance">Confirmed Balance: {confirmedbalance} SPACE </div>
+			</div>
+			{!synced ? (
+				<div className="balance-not-synced">
+					<i className="fa fa-exclamation-triangle" />
+					<span className="balance-not-synced-message">Your wallet is not synced, balances are not final.</span>
+				</div>
+			) : null}
+		</div>
 		<TransactionList />
 	</div>
 )

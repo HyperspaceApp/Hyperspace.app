@@ -9,6 +9,7 @@
  *    Grey-Black: #4A4A4A
  *    Black:      #000000
  *    Neon-Green: #00CBA0
+ *    Blue:       #2c7cf6
  */
  .app {
  	position: absolute;
@@ -171,16 +172,38 @@
 	min-height: 60px;
 }
 .balance-info {
-	padding-left: 10px;
-	padding-right: 10px;
-	color: #DDDDDD;
+	padding-left: 30px;
+	padding-right: 30px;
+	color: #feffff;
 }
-.balance-info span {
-	display: block;
-	font-size: 15px;
-	margin-bottom: 3px;
+.balance-info .balance-summary {
+	width: 100%;
+	background-color: #2c7cf6;
+	margin-top: 20px;
+	border-radius: 5px;
+	padding-top: 30px;
+	padding-bottom: 30px;
 }
-
+.balance-info .balance-summary .confirmed-balance {
+	padding-left: 30px;
+}
+.balance-info .balance-not-synced {
+	background-color: #f09a38;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-top: 10px;
+	color: white;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 5px;
+	font-size: 14px;
+}
+.balance-info .balance-not-synced {
+	padding-left: 5px;
+}
+.balance-info .balance-not-synced-message {
+	padding-left: 5px;
+}
 @keyframes modal-fadein {
 	from {opacity: 0}
 	to {opacity: 1}
