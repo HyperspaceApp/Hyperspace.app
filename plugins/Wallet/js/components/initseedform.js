@@ -29,7 +29,7 @@ const InitSeedForm = ({ initializingSeed, useCustomPassphrase, hideInitSeedForm,
 			{useCustomPassphrase ? <input type="password" placeholder="Desired password" name="password" /> : null}
 			<div className="new-wallet-form-buttons">
 				<button type="submit">Confirm</button>
-				<button onClick={handleCancelClick}>Cancel</button>
+				<button className="cancel-button" onClick={handleCancelClick}>Cancel</button>
 			</div>
 		</form>
 	)

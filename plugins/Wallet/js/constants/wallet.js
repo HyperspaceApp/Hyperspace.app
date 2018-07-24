@@ -1,5 +1,9 @@
 import Path from 'path'
 
+export const COMMON_SUCCESS_WHITE_ICON_PATH = Path.join(
+	'assets',
+	'common_success_white.svg'
+)
 export const WALLET_CREATE_ICON_PATH = Path.join(
 	'assets',
 	'wallet_start_create.svg'
@@ -7,6 +11,10 @@ export const WALLET_CREATE_ICON_PATH = Path.join(
 export const WALLET_LOAD_ICON_PATH = Path.join(
 	'assets',
 	'wallet_start_load.svg'
+)
+export const WALLET_LOCKED_ICON_PATH = Path.join(
+	'assets',
+	'wallet_locked.svg'
 )
 export const GET_LOCK_STATUS = 'GET_LOCK_STATUS'
 export const SET_LOCKED = 'SET_LOCKED'
@@ -70,3 +78,5 @@ export const SET_SEND_ERROR = 'SET_SEND_ERROR'
 export const SAVE_ADDRESS = 'SAVE_ADDRESS'
 export const SET_RECEIVE_ADDRESSES = 'SET_RECEIVE_ADDRESSES'
 export const SET_ADDRESS_DESCRIPTION = 'SET_ADDRESS_DESCRIPTION'
+export const SHOW_BALANCE_INFO = 'SHOW_BALANCE_INFO'
+export const HIDE_BALANCE_INFO = 'HIDE_BALANCE_INFO'

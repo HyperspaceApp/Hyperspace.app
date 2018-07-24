@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { WALLET_LOCKED_ICON_PATH } from '../constants/wallet.js'
 
 const PasswordPrompt = ({password, error, unlocking, actions}) => {
 	const onPasswordChange = (e) => actions.handlePasswordChange(e.target.value)
@@ -13,8 +14,8 @@ const PasswordPrompt = ({password, error, unlocking, actions}) => {
 		<div className="password-prompt">
 			<h2> Wallet Locked </h2>
 			<span> Enter your wallet password to unlock the wallet. </span>
-			<i className="fa fa-lock fa-4x" />
-			<input type="password" value={password} className="password-input" onChange={onPasswordChange} />
+			<img src={WALLET_LOCKED_ICON_PATH} />
+			<input type="password" value={password} className="password-input" onChange={onPasswordChange} placeholder="Password" />
 			<button className="unlock-button" onClick={onUnlockClick}>Unlock</button>
 			<div className="password-prompt-error">{error}</div>
 		</div>

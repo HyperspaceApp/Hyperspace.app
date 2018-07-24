@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import TransactionList from '../containers/transactionlist.js'
 import SendButton from './sendbutton.js'
 import SendPrompt from '../containers/sendprompt.js'
 import ReceiveButton from '../containers/receivebutton.js'
@@ -17,6 +16,7 @@ import BalanceInfo from '../containers/balanceinfo.js'
 import LockScreen from '../containers/lockscreen.js'
 
 const Wallet = ({
+	showBalanceInfo,
 	showBackupPrompt,
 	showReceivePrompt,
 	showChangePasswordDialog,
@@ -41,18 +41,15 @@ const Wallet = ({
 				<RecoverButton />
 				<BackupButton />
 			</div>
-			<div className="pure-u-4-5">
-				<LockScreen />
-				<div className="wallet-toolbar">
-					<BalanceInfo />
-				</div>
+			<div id="main-panel" className="pure-u-4-5">
 				{showNewWalletDialog ? <NewWalletDialog /> : null}
+				{showNewWalletDialog ? null : <LockScreen />}
+				{showBalanceInfo ? <BalanceInfo /> : null}
 				{showSendPrompt ? <SendPrompt /> : null}
 				{showReceivePrompt ? <ReceivePrompt /> : null}
 				{showRecoveryDialog ? <RecoveryDialog /> : null}
 				{showChangePasswordDialog ? <ChangePasswordDialog /> : null}
 				{showBackupPrompt ? <BackupPrompt /> : null}
-				<TransactionList />
 			</div>
 		</div>
 	)
