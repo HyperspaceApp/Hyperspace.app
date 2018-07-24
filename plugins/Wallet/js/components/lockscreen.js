@@ -5,7 +5,13 @@ import UninitializedWalletDialog from '../containers/uninitializedwalletdialog.j
 import RescanDialog from './rescandialog.js'
 import NewWalletDialog from '../containers/newwalletdialog.js'
 
-const LockScreen = ({ showNewWalletDialog, unlocked, unlocking, encrypted, rescanning }) => {
+const LockScreen = ({
+	showNewWalletDialog,
+	unlocked,
+	unlocking,
+	encrypted,
+	rescanning,
+}) => {
 	if (unlocked && encrypted && !unlocking && !rescanning) {
 		// Wallet is unlocked and encrypted, return an empty lock screen.
 		return <div />
