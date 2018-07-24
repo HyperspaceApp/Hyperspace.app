@@ -6,11 +6,11 @@ import React from 'react'
 // currentEstimatedHeight returns the estimated block height for the current time.
 const currentEstimatedHeight = () => {
 	const knownBlockHeight = 100e3
-	const knownBlockTime = new Date(1492126189*1000) // timestamp for block 100000
-	const blockTime = 9 //minutes
+	const knownBlockTime = new Date(1492126189 * 1000) // timestamp for block 100000
+	const blockTime = 9 // minutes
 	const diffMinutes = Math.abs(new Date() - knownBlockTime) / 1000 / 60
 
-	const estimatedHeight = knownBlockHeight + (diffMinutes / blockTime)
+	const estimatedHeight = knownBlockHeight + diffMinutes / blockTime
 
 	return Math.floor(estimatedHeight + 0.5) // round to the nearest block
 }
@@ -22,13 +22,12 @@ const estimatedProgress = (currentHeight) =>
 
 // -- components --
 
-const StatusBar = ({synced, blockheight, peers}) => {
-
+const StatusBar = ({ synced, blockheight, peers }) => {
 	const progress = estimatedProgress(blockheight)
 
 	const redColor = '#E0000B'
 	const greenColor = '#00CBA0'
-	//const blueColor = '#2c7cf6'
+	// const blueColor = '#2c7cf6'
 	const yellowColor = '#E7D414'
 
 	const syncStyle = {
@@ -108,4 +107,3 @@ StatusBar.propTypes = {
 }
 
 export default StatusBar
-
