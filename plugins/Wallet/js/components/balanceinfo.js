@@ -6,12 +6,16 @@ const BalanceInfo = ({ synced, confirmedbalance, unconfirmedbalance }) => (
 	<div className="balance-info">
 		<div className="balance-header">
 			<div className="balance-summary">
-				<div className="confirmed-balance">Confirmed Balance: {confirmedbalance} SPACE </div>
+				<div className="confirmed-balance">
+					Confirmed Balance: {confirmedbalance} SPACE{' '}
+				</div>
 			</div>
 			{!synced ? (
 				<div className="balance-not-synced">
 					<i className="fa fa-exclamation-triangle" />
-					<span className="balance-not-synced-message">Your wallet is not synced, balances are not final.</span>
+					<span className="balance-not-synced-message">
+						Your wallet is not synced, balances are not final.
+					</span>
 				</div>
 			) : null}
 		</div>
