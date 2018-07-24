@@ -12,10 +12,7 @@ export const WALLET_LOAD_ICON_PATH = Path.join(
 	'assets',
 	'wallet_start_load.svg'
 )
-export const WALLET_LOCKED_ICON_PATH = Path.join(
-	'assets',
-	'wallet_locked.svg'
-)
+export const WALLET_LOCKED_ICON_PATH = Path.join('assets', 'wallet_locked.svg')
 export const GET_LOCK_STATUS = 'GET_LOCK_STATUS'
 export const SET_LOCKED = 'SET_LOCKED'
 export const SET_UNLOCKED = 'SET_UNLOCKED'
