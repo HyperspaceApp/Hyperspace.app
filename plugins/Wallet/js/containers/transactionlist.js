@@ -1,7 +1,11 @@
 import TransactionListView from '../components/transactionlist.js'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { showMoreTransactions, toggleFilter, copyText } from '../actions/wallet.js'
+import {
+	showMoreTransactions,
+	toggleFilter,
+	copyText,
+} from '../actions/wallet.js'
 
 const mapStateToProps = (state) => ({
 	filter: state.wallet.get('filter'),
@@ -9,7 +13,10 @@ const mapStateToProps = (state) => ({
 	ntransactions: state.wallet.get('ntransactions'),
 })
 const mapDispatchToProps = (dispatch) => ({
-	actions: bindActionCreators({ showMoreTransactions, toggleFilter, copyText }, dispatch),
+	actions: bindActionCreators(
+		{ showMoreTransactions, toggleFilter, copyText },
+		dispatch
+	),
 })
 
 const TransactionList = connect(mapStateToProps, mapDispatchToProps)(
