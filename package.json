@@ -1,6 +1,6 @@
 {
   "name": "Hyperspace.app",
-  "version": "v0.0.1",
+  "version": "v0.1.0",
   "releaseName": "Sourdough",
   "main": "dist/main.js",
   "author": "Hyperspace",
@@ -100,7 +100,7 @@
     "redux": "^3.7.2",
     "redux-saga": "^0.15.6",
     "semver": "^5.4.1",
-    "hyperspace.js": "^0.0.4"
+    "hyperspace.js": "^0.1.0"
   },
   "repository": {
     "type": "git",
