@@ -62,38 +62,39 @@ const TransactionList = ({ transactions, ntransactions, actions, filter }) => {
 			}
 			return (
 				<tr key={key}>
+					<td className="txid" onClick={() => copyTx(txn.transactionid)}>{txn.transactionid.slice(0, 12)+'...'}</td>
+					<td>{valueData}</td>
 					<td>
 						{txn.confirmed
 							? prettyTimestamp(txn.confirmationtimestamp)
 							: 'Not Confirmed'}
 					</td>
-					<td>{valueData}</td>
-					<td className="txid">{txn.transactionid}</td>
 					<td>
 						{txn.confirmed
-							? <i className="fa fa-check-square confirmed-icon"> Confirmed </i>
-							: <i className="fa fa-clock-o unconfirmed-icon"> Unconfirmed </i>}
+							? <i className="fa fa-check confirmed-icon"></i>
+							: <i className="fa fa-clock-o unconfirmed-icon"></i>}
 					</td>
 				</tr>
 			)
 		})
 	const onMoreClick = () => actions.showMoreTransactions()
 	const onToggleFilter = () => actions.toggleFilter()
+	const copyTx = (str) => actions.copyText(str)
+	//<div className="filter-toggle">
+	//<input type="checkbox" onClick={onToggleFilter} checked={filter} />Hide 0 SPACE Transactions
+	//</div>
 	return (
 		<div className="transaction-list">
 			<div className="transaction-header">
-				<h2> Recent Transactions </h2>
-				<div className="filter-toggle">
-					<input type="checkbox" onClick={onToggleFilter} checked={filter} />Hide 0 SPACE Transactions
-				</div>
+				<h2>Transaction History</h2>
 			</div>
 			<table className="pure-table transaction-table">
 				<thead>
 					<tr>
-						<th>Date</th>
-						<th>Net Value</th>
 						<th>Transaction ID</th>
-						<th>Confirmation Status</th>
+						<th>Amount</th>
+						<th>Date</th>
+						<th>Status</th>
 					</tr>
 				</thead>
 				<tbody>
