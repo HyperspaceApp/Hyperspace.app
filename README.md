@@ -4,7 +4,6 @@
 
 # A Highly Efficient Decentralized Storage Network
 
-![A snapshot of the file library](/doc/assets/files.png)
 This is the user interface for [Hyperspace](https://github.com/HyperspaceApp/Hyperspace), it
 is a desktop application based off the
 [electron](https://github.com/atom/electron) framework. The ambition behind
