@@ -22,8 +22,8 @@ npm install
 rm -rf ./dist
 npm run build
 
-uiVersion=${3:-v0.1.0}
-hyperspaceVersion=${4:-v0.1.0}
+uiVersion=${3:-v0.1.1}
+hyperspaceVersion=${4:-v0.1.1}
 electronVersion=${5:-v2.0.2}
 
 # fourth argument is the public key file path.
@@ -123,10 +123,10 @@ buildWindows() {
 	cd release/win32
 	unzip $electronWindowsZip
 	mv electron.exe Hyperspace.exe
-	wget https://github.com/electron/rcedit/releases/download/v0.1.0/rcedit.exe
+	#wget https://github.com/electron/rcedit/releases/download/v0.1.0/rcedit.exe
 	# NOTE the wine part needs to be handled manually right now
-	wine rcedit.exe Hyperspace.exe --set-icon '../../assets/icon.ico'
-	rm -f rcedit.exe
+	#wine rcedit.exe Hyperspace.exe --set-icon '../../assets/icon.ico'
+	#rm -f rcedit.exe
 	rm resources/default_app.asar
 	mkdir resources/app
 	(
@@ -163,4 +163,3 @@ for os in win32 linux osx; do
 		rm -rf release/${os}
 	)
 done
-
