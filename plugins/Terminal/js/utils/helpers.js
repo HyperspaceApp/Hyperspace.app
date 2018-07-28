@@ -243,7 +243,7 @@ export const httpCommand = function(commandStr, actions, newid) {
 		path: apiURL,
 		method: 'POST',
 		headers: {
-			'User-Agent': 'Sia-Agent',
+			'User-Agent': 'Hyperspace-Agent',
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
 	}
