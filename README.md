@@ -1,4 +1,4 @@
-# [![Hyperspace Logo](https://hspace.app/images/logo_horizontal@128.png)](https://hspace.app/) User Interface
+# [![Hyperspace Logo](http://i.imgur.com/9rxi9UV.png)](http://hspace.app) User Interface
 
 [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -9,6 +9,8 @@ is a desktop application based off the
 [electron](https://github.com/atom/electron) framework. The ambition behind
 this project is to facilitate easy, graphical interaction between users and
 the Hyperspace network.
+
+![UI](http://i.imgur.com/SQeaXQ3.png)
 
 ## Prerequisites
 
