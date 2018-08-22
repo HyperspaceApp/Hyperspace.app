@@ -1,6 +1,5 @@
 import React from 'react'
 import AssetSVG from 'components/AssetSVG'
-import WordmarkSVG from 'assets/siaLogo.svg'
 import styled from 'styled-components'
 import ds from 'theme'
 
@@ -9,11 +8,6 @@ class Sidebar extends React.Component {
     return (
       <SidebarWrap>
         <LogoWrap>
-          <AssetSVG
-            src={WordmarkSVG.id}
-            viewBox={WordmarkSVG.viewBox}
-            aspectRatio='xMidYMin'
-          />
           <span>v1.3.4</span>
         </LogoWrap>
         <NavWrap>
