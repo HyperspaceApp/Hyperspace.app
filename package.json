@@ -78,6 +78,7 @@
     "sinon": "^2.2.0",
     "spectron": "3.8.0",
     "standard": "11.0.1",
+    "svg-sprite-loader": "3.8.0",
     "uglify-js": "git://github.com/mishoo/UglifyJS2.git#harmony-v2.8.22",
     "uglifyjs-webpack-plugin": "1.2.7",
     "webpack": "4.12.1",
@@ -89,18 +90,22 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "bignumber.js": "^4.1.0",
+    "design-system-utils": "1.0.1",
     "electron": "2.0.2",
+    "electron-debug": "2.0.0",
     "graceful-fs": "^4.1.11",
     "immutable": "^3.8.1",
     "mkdirp": "^0.5.1",
     "object.entries": "^1.0.4",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
+    "react-electron-web-view": "2.0.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-saga": "^0.15.6",
     "semver": "^5.4.1",
-    "hyperspace.js": "^0.1.0"
+    "hyperspace.js": "^0.1.0",
+    "styled-components": "3.3.3"
   },
   "repository": {
     "type": "git",

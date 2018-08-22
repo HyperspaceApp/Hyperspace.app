@@ -28,12 +28,29 @@ if (shouldQuit) {
 	app.quit()
 }
 
+// Activates debug console for mainview
+require('electron-debug')()
+
 // When Electron loading has finished, start Hyperspace.app.
 app.on('ready', () => {
-	//console.log(config)
+	// Load Extenstions
+	if (process.env.NODE_ENV === 'development') {
+	  const {
+		default: installExtension,
+		REACT_DEVELOPER_TOOLS,
+		REDUX_DEVTOOLS
+	  } = require('electron-devtools-installer')
+	  const installExt = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS]
+	  installExt.forEach(p => {
+		installExtension(p)
+		  .then(name => console.log(`Added Extension:  ${name}`))
+		  .catch(err => console.log('An error occurred: ', err))
+	  })
+	}
 	// Load mainWindow
 	mainWindow = initWindow(config)
-})
+  })
+
 
 // Quit once all windows have been closed.
 app.on('window-all-closed', () => {

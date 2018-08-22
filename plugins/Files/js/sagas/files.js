@@ -6,11 +6,22 @@ import * as actions from '../actions/files.js'
 import * as constants from '../constants/files.js'
 import { List } from 'immutable'
 import BigNumber from 'bignumber.js'
-import { ls, uploadDirectory, sendError, allowancePeriod, readableFilesize, hsdCall, readdirRecursive, parseDownloads, parseUploads, allowanceMonths } from './helpers.js'
+import {
+	ls,
+	uploadDirectory,
+	sendError,
+	allowancePeriod,
+	readableFilesize,
+	hsdCall,
+	readdirRecursive,
+	parseDownloads,
+	parseUploads,
+	allowanceMonths,
+} from './helpers.js'
 
 // Query hsd for the state of the wallet.
 // dispatch `unlocked` in receiveWalletLockstate
-function* getWalletLockstateSaga() {
+function * getWalletLockstateSaga() {
 	try {
 		const response = yield hsdCall('/wallet')
 		yield put(actions.receiveWalletLockstate(response.unlocked))
@@ -20,7 +31,7 @@ function* getWalletLockstateSaga() {
 }
 
 // Query hsd for the sync state of the wallet.
-function* getWalletSyncstateSaga() {
+function * getWalletSyncstateSaga() {
 	try {
 		const response = yield hsdCall('/consensus')
 		yield put(actions.setWalletSyncstate(response.synced))
@@ -30,7 +41,7 @@ function* getWalletSyncstateSaga() {
 }
 
 // Query hsd for the user's files.
-function* getFilesSaga() {
+function * getFilesSaga() {
 	try {
 		const response = yield hsdCall('/renter/files')
 		const files = List(response.files)
@@ -40,7 +51,7 @@ function* getFilesSaga() {
 	}
 }
 
-function* getStorageEstimateSaga(action) {
+function * getStorageEstimateSaga(action) {
 	try {
 		const response = yield hsdCall('/renter/prices')
 		if (response.storageterabytemonth === '0') {
@@ -50,48 +61,80 @@ function* getStorageEstimateSaga(action) {
 		const storagePerTbMonth = new BigNumber(response.storageterabytemonth)
 		const monthsPerContract = allowanceMonths
 		const uploadPerTb = new BigNumber(response.uploadterabyte)
-		const allowance = new BigNumber(HyperspaceAPI.spaceCashToHastings(action.funds))
+		const allowance = new BigNumber(
+			HyperspaceAPI.spaceCashToHastings(action.funds)
+		)
 		const contractFees = new BigNumber(response.formcontracts)
 
 		const allowanceMinusFees = allowance.minus(contractFees)
-		const storageOverTime = storagePerTbMonth.times(monthsPerContract).plus(uploadPerTb)
+		const storageOverTime = storagePerTbMonth
+			.times(monthsPerContract)
+			.plus(uploadPerTb)
 
 		const estimate = allowanceMinusFees.dividedBy(storageOverTime).times(1e12)
-		yield put(actions.setStorageEstimate('~' + readableFilesize(estimate.toPrecision(1))))
-		yield put(actions.setFeeEstimate(HyperspaceAPI.hastingsToSpaceCash(response.formcontracts).toString()))
+		yield put(
+			actions.setStorageEstimate(
+				'~' + readableFilesize(estimate.toPrecision(1))
+			)
+		)
+		yield put(
+			actions.setFeeEstimate(
+				HyperspaceAPI.hastingsToSpaceCash(response.formcontracts).toString()
+			)
+		)
 	} catch (e) {
 		console.error(e)
 	}
 }
 
 // Get the renter's current allowance and spending.
-function* getAllowanceSaga() {
+function * getAllowanceSaga() {
 	try {
 		const response = yield hsdCall('/renter')
-		const allowance = HyperspaceAPI.hastingsToSpaceCash(response.settings.allowance.funds)
-		const downloadspending = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.downloadspending)
-		const uploadspending = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.uploadspending)
-		const contractspending = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.contractspending)
-		const storagespending = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.storagespending)
-		const unspent = HyperspaceAPI.hastingsToSpaceCash(response.financialmetrics.unspent)
+		const allowance = HyperspaceAPI.hastingsToSpaceCash(
+			response.settings.allowance.funds
+		)
+		const downloadspending = HyperspaceAPI.hastingsToSpaceCash(
+			response.financialmetrics.downloadspending
+		)
+		const uploadspending = HyperspaceAPI.hastingsToSpaceCash(
+			response.financialmetrics.uploadspending
+		)
+		const contractspending = HyperspaceAPI.hastingsToSpaceCash(
+			response.financialmetrics.contractspending
+		)
+		const storagespending = HyperspaceAPI.hastingsToSpaceCash(
+			response.financialmetrics.storagespending
+		)
+		const unspent = HyperspaceAPI.hastingsToSpaceCash(
+			response.financialmetrics.unspent
+		)
 
-		const consensus = yield hsdCall('/consensus')
 		const renewheight = (() => {
 			if (response.settings.allowance.renewwindow === 0) {
 				return 0
 			}
-			return response.settings.allowance.renewwindow + consensus.height
+			return response.currentperiod + response.settings.allowance.period
 		})()
 
 		yield put(actions.receiveAllowance(allowance.round(0).toNumber()))
-		yield put(actions.receiveSpending(downloadspending.round(2).toNumber(), uploadspending.round(2).toNumber(), storagespending.round(2).toNumber(), contractspending.round(2).toNumber(), unspent.round(2).toNumber(), renewheight))
+		yield put(
+			actions.receiveSpending(
+				downloadspending.round(2).toNumber(),
+				uploadspending.round(2).toNumber(),
+				storagespending.round(2).toNumber(),
+				contractspending.round(2).toNumber(),
+				unspent.round(2).toNumber(),
+				renewheight
+			)
+		)
 	} catch (e) {
 		console.error('error getting allowance: ' + e.toString())
 	}
 }
 
 // Set the user's renter allowance.
-function* setAllowanceSaga(action) {
+function * setAllowanceSaga(action) {
 	try {
 		const newAllowance = HyperspaceAPI.spaceCashToHastings(action.funds)
 		yield put(actions.closeAllowanceDialog())
@@ -113,10 +156,14 @@ function* setAllowanceSaga(action) {
 }
 
 // Query Hsd for the current wallet balance.
-function* getWalletBalanceSaga() {
+function * getWalletBalanceSaga() {
 	try {
 		const response = yield hsdCall('/wallet')
-		const confirmedBalance = HyperspaceAPI.hastingsToSpaceCash(response.confirmedspacecashbalance).round(2).toString()
+		const confirmedBalance = HyperspaceAPI.hastingsToSpaceCash(
+			response.confirmedspacecashbalance
+		)
+			.round(2)
+			.toString()
 		yield put(actions.receiveWalletBalance(confirmedBalance))
 	} catch (e) {
 		console.error('error fetching wallet balance: ' + e.toString())
@@ -127,7 +174,7 @@ function* getWalletBalanceSaga() {
 // action.hyperspacepath: the working directory to upload the file to
 // action.source: the path to the file to upload.
 // The full hyperspacepath is computed as Path.join(action.hyperspacepath, Path.basename(action.source))
-function* uploadFileSaga(action) {
+function * uploadFileSaga(action) {
 	try {
 		const filename = Path.basename(action.source)
 		const destpath = Path.posix.join(action.hyperspacepath, filename)
@@ -147,7 +194,7 @@ function* uploadFileSaga(action) {
 // uploadFolderSaga uploads a folder to the Hyperspace network.
 // action.source: the source path of the folder
 // action.hyperspacepath: the working directory to upload the folder inside
-function *uploadFolderSaga(action) {
+function * uploadFolderSaga(action) {
 	try {
 		const files = readdirRecursive(action.source)
 		const uploads = uploadDirectory(action.source, files, action.hyperspacepath)
@@ -159,7 +206,7 @@ function *uploadFolderSaga(action) {
 	}
 }
 
-function* downloadFileSaga(action) {
+function * downloadFileSaga(action) {
 	try {
 		if (action.file.type === 'file') {
 			yield hsdCall({
@@ -174,10 +221,15 @@ function* downloadFileSaga(action) {
 		if (action.file.type === 'directory') {
 			fs.mkdirSync(action.downloadpath)
 			const response = yield hsdCall('/renter/files')
-			const hyperspacefiles = ls(List(response.files), action.file.hyperspacepath)
+			const hyperspacefiles = ls(
+				List(response.files),
+				action.file.hyperspacepath
+			)
 			for (const hyperspacefile in hyperspacefiles.toArray()) {
 				const file = hyperspacefiles.get(hyperspacefile)
-				yield put(actions.downloadFile(file, Path.join(action.downloadpath, file.name)))
+				yield put(
+					actions.downloadFile(file, Path.join(action.downloadpath, file.name))
+				)
 				yield new Promise((resolve) => setTimeout(resolve, 300))
 			}
 		}
@@ -186,7 +238,7 @@ function* downloadFileSaga(action) {
 	}
 }
 
-function* getDownloadsSaga() {
+function * getDownloadsSaga() {
 	try {
 		const response = yield hsdCall('/renter/downloads')
 		const downloads = parseDownloads(response.downloads)
@@ -196,7 +248,7 @@ function* getDownloadsSaga() {
 	}
 }
 
-function* getUploadsSaga() {
+function * getUploadsSaga() {
 	try {
 		const response = yield hsdCall('/renter/files')
 		const uploads = parseUploads(response.files)
@@ -207,7 +259,7 @@ function* getUploadsSaga() {
 }
 
 // deleteFileSaga handles DELETE_FILE actions, which can include directories.
-function* deleteFileSaga(action) {
+function * deleteFileSaga(action) {
 	try {
 		if (action.file.hyperspaceAppFolder) {
 			yield put(actions.deleteHyperspaceAppFolder(action.file.hyperspacepath))
@@ -220,7 +272,10 @@ function* deleteFileSaga(action) {
 			yield put(actions.getFiles())
 		} else if (action.file.type === 'directory') {
 			const response = yield hsdCall('/renter/files')
-			const hyperspacefiles = ls(List(response.files), action.file.hyperspacepath)
+			const hyperspacefiles = ls(
+				List(response.files),
+				action.file.hyperspacepath
+			)
 			for (const hyperspacefile in hyperspacefiles.toArray()) {
 				const file = hyperspacefiles.get(hyperspacefile)
 				yield put(actions.deleteFile(file))
@@ -231,7 +286,7 @@ function* deleteFileSaga(action) {
 	}
 }
 
-function* getContractCountSaga() {
+function * getContractCountSaga() {
 	try {
 		const response = yield hsdCall('/renter/contracts')
 		yield put(actions.setContractCount(response.contracts.length))
@@ -240,10 +295,15 @@ function* getContractCountSaga() {
 	}
 }
 
-function* renameFileSaga(action) {
+function * renameFileSaga(action) {
 	try {
 		if (action.file.hyperspaceAppFolder) {
-			yield put(actions.renameHyperspaceAppFolder(action.file.hyperspacepath, action.newhyperspacepath))
+			yield put(
+				actions.renameHyperspaceAppFolder(
+					action.file.hyperspacepath,
+					action.newhyperspacepath
+				)
+			)
 		} else if (action.file.type === 'file') {
 			yield hsdCall({
 				url: '/renter/rename/' + encodeURI(action.file.hyperspacepath),
@@ -259,7 +319,10 @@ function* renameFileSaga(action) {
 			const hyperspacefiles = ls(List(response.files), directorypath)
 			for (const i in hyperspacefiles.toArray()) {
 				const file = hyperspacefiles.get(i)
-				const newfilepath = Path.posix.join(action.newhyperspacepath, file.hyperspacepath.split(directorypath)[1])
+				const newfilepath = Path.posix.join(
+					action.newhyperspacepath,
+					file.hyperspacepath.split(directorypath)[1]
+				)
 				yield put(actions.renameFile(file, newfilepath))
 			}
 		}
@@ -269,7 +332,7 @@ function* renameFileSaga(action) {
 	}
 }
 
-export function* dataFetcher() {
+export function * dataFetcher() {
 	while (true) {
 		let tasks = []
 		tasks = tasks.concat(yield fork(getDownloadsSaga))
@@ -288,48 +351,48 @@ export function* dataFetcher() {
 		})
 	}
 }
-export function* watchSetAllowance() {
-	yield *takeEvery(constants.SET_ALLOWANCE, setAllowanceSaga)
+export function * watchSetAllowance() {
+	yield * takeEvery(constants.SET_ALLOWANCE, setAllowanceSaga)
 }
-export function* watchGetAllowance() {
-	yield *takeEvery(constants.GET_ALLOWANCE, getAllowanceSaga)
+export function * watchGetAllowance() {
+	yield * takeEvery(constants.GET_ALLOWANCE, getAllowanceSaga)
 }
-export function* watchGetDownloads() {
-	yield *takeEvery(constants.GET_DOWNLOADS, getDownloadsSaga)
+export function * watchGetDownloads() {
+	yield * takeEvery(constants.GET_DOWNLOADS, getDownloadsSaga)
 }
-export function* watchGetUploads() {
-	yield *takeEvery(constants.GET_UPLOADS, getUploadsSaga)
+export function * watchGetUploads() {
+	yield * takeEvery(constants.GET_UPLOADS, getUploadsSaga)
 }
-export function* watchGetWalletLockstate() {
-	yield *takeEvery(constants.GET_WALLET_LOCKSTATE, getWalletLockstateSaga)
+export function * watchGetWalletLockstate() {
+	yield * takeEvery(constants.GET_WALLET_LOCKSTATE, getWalletLockstateSaga)
 }
-export function* watchGetFiles() {
-	yield *takeEvery(constants.GET_FILES, getFilesSaga)
+export function * watchGetFiles() {
+	yield * takeEvery(constants.GET_FILES, getFilesSaga)
 }
-export function* watchDeleteFile() {
-	yield *takeEvery(constants.DELETE_FILE, deleteFileSaga)
+export function * watchDeleteFile() {
+	yield * takeEvery(constants.DELETE_FILE, deleteFileSaga)
 }
-export function* watchGetWalletBalance() {
-	yield *takeEvery(constants.GET_WALLET_BALANCE, getWalletBalanceSaga)
+export function * watchGetWalletBalance() {
+	yield * takeEvery(constants.GET_WALLET_BALANCE, getWalletBalanceSaga)
 }
-export function* watchUploadFolder() {
-	yield *takeEvery(constants.UPLOAD_FOLDER, uploadFolderSaga)
+export function * watchUploadFolder() {
+	yield * takeEvery(constants.UPLOAD_FOLDER, uploadFolderSaga)
 }
-export function* watchGetContractCount() {
-	yield *takeEvery(constants.GET_CONTRACT_COUNT, getContractCountSaga)
+export function * watchGetContractCount() {
+	yield * takeEvery(constants.GET_CONTRACT_COUNT, getContractCountSaga)
 }
-export function* watchUploadFile() {
-	yield *takeEvery(constants.UPLOAD_FILE, uploadFileSaga)
+export function * watchUploadFile() {
+	yield * takeEvery(constants.UPLOAD_FILE, uploadFileSaga)
 }
-export function* watchDownloadFile() {
-	yield *takeEvery(constants.DOWNLOAD_FILE, downloadFileSaga)
+export function * watchDownloadFile() {
+	yield * takeEvery(constants.DOWNLOAD_FILE, downloadFileSaga)
 }
-export function* watchRenameFile() {
-	yield *takeEvery(constants.RENAME_FILE, renameFileSaga)
+export function * watchRenameFile() {
+	yield * takeEvery(constants.RENAME_FILE, renameFileSaga)
 }
-export function* watchGetStorageEstimate() {
-	yield *takeEvery(constants.GET_STORAGE_ESTIMATE, getStorageEstimateSaga)
+export function * watchGetStorageEstimate() {
+	yield * takeEvery(constants.GET_STORAGE_ESTIMATE, getStorageEstimateSaga)
 }
-export function* watchGetWalletSyncstate() {
-	yield *takeEvery(constants.GET_WALLET_SYNCSTATE, getWalletSyncstateSaga)
+export function * watchGetWalletSyncstate() {
+	yield * takeEvery(constants.GET_WALLET_SYNCSTATE, getWalletSyncstateSaga)
 }

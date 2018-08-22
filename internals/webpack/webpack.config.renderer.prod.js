@@ -21,7 +21,7 @@ plugins.forEach(plugin => {
   ]
 })
 
-entrypoints['renderer'] = [path.resolve('./js/rendererjs/index.js')]
+entrypoints['renderer'] = [path.resolve('./js/rendererjs/index.jsx')]
 
 export default merge.smart(baseConfig, {
   devtool: 'source-map',

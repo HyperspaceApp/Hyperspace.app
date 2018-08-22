@@ -28,7 +28,7 @@ entrypoints['renderer'] = [
   'react-hot-loader/patch',
   `webpack-dev-server/client?http://localhost:${port}/`,
   'webpack/hot/only-dev-server',
-  path.resolve('./js/rendererjs/index.js')
+  path.resolve('./js/rendererjs/index.jsx')
 ]
 
 export default merge.smart(baseConfig, {

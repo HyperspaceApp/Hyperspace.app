@@ -1,7 +1,8 @@
 import path from 'path'
 import webpack from 'webpack'
 const version = require('../../package.json').version
-
+console.log('webpacking')
+console.log(path.join(process.cwd(), 'js', 'rendererjs'))
 export default {
   module: {
     rules: [
@@ -14,6 +15,10 @@ export default {
             cacheDirectory: true
           }
         }
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader'
       }
     ]
   },
@@ -26,7 +31,11 @@ export default {
 
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-    modules: [path.join(__dirname, 'app'), 'node_modules']
+    modules: [
+      'node_modules',
+      path.join(process.cwd(), 'js'),
+      path.join(process.cwd(), 'js', 'rendererjs')
+    ]
   },
   plugins: [
     new webpack.EnvironmentPlugin({
@@ -34,7 +43,8 @@ export default {
     }),
 
     new webpack.DefinePlugin({
-      VERSION: JSON.stringify(version)
+      VERSION: JSON.stringify(version),
+      __DEV__: process.env.NODE_ENV !== 'production'
     }),
 
     new webpack.NamedModulesPlugin()
