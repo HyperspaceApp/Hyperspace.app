@@ -8,6 +8,7 @@ doc/Hyperspace
 errors.log
 dist
 hyperspace-testing
+.DS_Store
 
 #VSCode
 .vscode

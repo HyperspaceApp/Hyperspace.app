@@ -1,6 +1,6 @@
-/*  Style Guide: 
+/*  Style Guide:
  *    Transparent: 70% Opacity
- *    
+ *
  *    White:      #FFFFFF
  *    Grey-White: #F5F5F5
  *    Faint-Grey: #ECECEC
@@ -267,6 +267,16 @@
 	color: #1c1d1e;
 	border: 1px solid #c7c7c8;
 }
+.sendprompt .amount-input {
+	padding: 10px;
+	font-size: 12px;
+	border-color: #c7c7c8;
+}
+.sendprompt .sendto-input {
+	padding: 10px;
+	font-size: 12px;
+	border-color: #c7c7c8;
+}
 
 .backupprompt {
 	display: flex;
@@ -503,6 +513,9 @@
 	margin-top: 8px;
 	margin-bottom: 8px;
 	text-indent: 10px;
+	padding: 10px;
+	font-size: 12px;
+	border-color: #c7c7c8;
 }
 
 .change-password-error {
@@ -535,6 +548,9 @@
 }
 .recovery-form input {
 	width: 50%;
+	padding: 10px;
+	font-size: 12px;
+	border-color: #c7c7c8;
 }
 .uninitialized-wallet-dialog {
 	display: flex;
@@ -617,7 +633,7 @@
 	display: inline-block;
 	height: 150px;
 	overflow: scroll;
-	width: 90%; 
+	width: 90%;
 }
 .receive-address, .address-description {
 	width: 400px;

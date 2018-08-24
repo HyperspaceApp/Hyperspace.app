@@ -25,13 +25,23 @@ const SendPrompt = ({
 	return (
 		<div className="modal">
 			<div className="sendprompt">
-				<div className="sendamount">
-					<h3>Send Amount (SPACE) </h3>
-					<input onChange={handleSendAmountChange} value={sendAmount} />
-				</div>
 				<div className="sendaddress">
-					<h3> To Address </h3>
-					<input onChange={handleSendAddressChange} value={sendAddress} />
+					<h3> Send To </h3>
+					<input
+						className="sendto-input"
+						onChange={handleSendAddressChange}
+						placeholder="Address"
+						value={sendAddress}
+					/>
+				</div>
+				<div className="sendamount">
+					<h3> Amounts </h3>
+					<input
+						className="amount-input"
+						onChange={handleSendAmountChange}
+						placeholder="SpaceCash"
+						value={sendAmount}
+					/>
 				</div>
 				<div className="fee-estimation">Estimated fee: {feeEstimate}</div>
 				<span className="send-error">{sendError}</span>
