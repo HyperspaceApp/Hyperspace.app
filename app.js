@@ -6,7 +6,7 @@ import initWindow from './js/mainjs/initWindow.js'
 // load config.json manager
 global.config = loadConfig(Path.join(app.getPath('userData'), 'config.json'))
 let mainWindow
-
+console.log(app.getPath('userData'))
 // disable hardware accelerated rendering
 app.disableHardwareAcceleration()
 

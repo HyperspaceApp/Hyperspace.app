@@ -252,14 +252,30 @@
 	border-radius: 3px;
 }
 
-.sendprompt {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background-color: #feffff;
-	width: 400px;
-	height: 300px;
+.send-panel {
+	flex: 1;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.send-panel .balance-summary {
+	width: 100%;
+	background-color: #4bd963;
+	margin-top: 20px;
+	border-radius: 5px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+.send-panel .balance-summary .confirmed-balance {
+	padding-left: 30px;
+	font-size: 40px;
+	color: white;
+}
+
+.send-panel .balance-summary .confirmed-balance-text {
+	padding-left: 30px;
+	font-size: 12px;
+	color: white;
 }
 
 .sendprompt .cancel-button {
@@ -297,7 +313,10 @@
 	margin-bottom: 5px;
 }
 .sendprompt .fee-estimation {
-	margin-top: 6px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	font-size: 12px;
+	color: #fd810a;
 }
 .sendprompt button {
 	margin-left: 5px;
@@ -305,16 +324,18 @@
 	margin-top: 15px;
 }
 .sendamount, .sendaddress {
-	text-align: center;
+	text-align: left;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-.sendamount h3, .sendaddress h3 {
-	margin-top: 5px;
-	margin-bottom: 5px;
+.sendamount div, .sendaddress div {
+	color: #586973;
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 .sendamount input, .sendaddress input {
-	width: 250px;
+	box-sizing: border-box;
+	width: 100%;
 }
 
 .wallet-toolbar > .wallet-button {

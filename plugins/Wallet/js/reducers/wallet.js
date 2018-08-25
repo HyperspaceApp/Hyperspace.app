@@ -69,9 +69,9 @@ export default function walletReducer(state = initialState, action) {
 		case constants.HIDE_RECEIVE_PROMPT:
 			return state.set('showReceivePrompt', false)
 		case constants.START_SEND_PROMPT:
-			return state.set('showSendPrompt', true)
+			return state.set('showSendPrompt', true).set('showBalanceInfo', false)
 		case constants.CLOSE_SEND_PROMPT:
-			return state.set('showSendPrompt', false)
+			return state.set('showSendPrompt', false).set('showBalanceInfo', true)
 		case constants.UNLOCK_WALLET:
 			return state.set('unlocking', true)
 		case WALLET_UNLOCK_ERROR:

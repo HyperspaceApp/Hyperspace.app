@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state) => ({
+	synced: state.wallet.get('synced'),
+	confirmedbalance: state.wallet.get('confirmedbalance'),
 	sendAddress: state.sendprompt.get('sendaddress'),
 	sendAmount: state.sendprompt.get('sendamount'),
 	currencytype: state.sendprompt.get('currencytype'),
