@@ -15,15 +15,10 @@ const initialState = Map({
 	transactions: List(),
 	ntransactions: 30,
 	filter: true,
-	showSendPrompt: false,
-	showReceivePrompt: false,
 	showNewWalletDialog: false,
 	showNewWalletForm: false,
-	showChangePasswordDialog: false,
-	showInitSeedForm: false,
-	showBackupPrompt: false,
+	currentPanel: '',
 	useCustomPassphrase: false,
-	showRecoveryDialog: false,
 	initializingSeed: false,
 	changePasswordError: '',
 	primarySeed: '',
@@ -38,12 +33,10 @@ export default function walletReducer(state = initialState, action) {
 			return state.set('loading', false)
 		case constants.GET_LOADING_STATUS:
 			return state.get('loading')
-		case constants.HIDE_BALANCE_INFO:
-			return state.set('showBalanceInfo', false)
 		case constants.SHOW_BALANCE_INFO:
-			return state.set('showBalanceInfo', true)
+			return state.set('currentPanel', constants.BALANCE_INFO_PANEL) // lock screen empty <div/>
 		case constants.HIDE_BALANCE_INFO:
-			return state.set('showBalanceInfo', false)
+			return state.set('currentPanel', '') // set to empty for lock screen
 		case constants.SET_CHANGE_PASSWORD_ERROR:
 			return state.set('changePasswordError', action.error)
 		case constants.SHOW_CHANGE_PASSWORD_DIALOG:
@@ -65,13 +58,13 @@ export default function walletReducer(state = initialState, action) {
 		case constants.HIDE_NEW_WALLET_FORM:
 			return state.set('showNewWalletForm', false)
 		case constants.SHOW_RECEIVE_PROMPT:
-			return state.set('showReceivePrompt', true)
+			return state.set('currentPanel', constants.RECEIVE_PANEL)
 		case constants.HIDE_RECEIVE_PROMPT:
-			return state.set('showReceivePrompt', false)
+			return state.set('currentPanel', constants.BALANCE_INFO_PANEL)
 		case constants.START_SEND_PROMPT:
-			return state.set('showSendPrompt', true).set('showBalanceInfo', false)
+			return state.set('currentPanel', constants.SEND_PANEL)
 		case constants.CLOSE_SEND_PROMPT:
-			return state.set('showSendPrompt', false).set('showBalanceInfo', true)
+			return state.set('currentPanel', constants.BALANCE_INFO_PANEL)
 		case constants.UNLOCK_WALLET:
 			return state.set('unlocking', true)
 		case WALLET_UNLOCK_ERROR:

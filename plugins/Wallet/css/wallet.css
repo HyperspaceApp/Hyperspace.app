@@ -169,13 +169,10 @@
 .receive-prompt {
 	position: relative;
 	display: flex;
-	align-items: center;
+	align-items: left;
 	justify-content: flex-start;
 	flex-direction: column;
-	width: 700px;
-	height: 400px;
 	background-color: #feffff;
-	padding-top: 50px;
 }
 .wallet-toolbar {
 	width: 100%;
@@ -215,7 +212,8 @@
 	font-size: 14px;
 }
 .balance-info .balance-not-synced {
-	padding-left: 5px;
+	padding: 15px;
+	font-size: 12px;
 }
 .balance-info .balance-not-synced-message {
 	padding-left: 5px;
@@ -276,6 +274,19 @@
 	padding-left: 30px;
 	font-size: 12px;
 	color: white;
+}
+.send-panel .balance-not-synced {
+	background-color: #f09a38;
+	margin-top: 10px;
+	color: white;
+	border-radius: 5px;
+}
+.send-panel .balance-not-synced {
+	padding: 15px;
+	font-size: 12px;
+}
+.send-panel .balance-not-synced-message {
+	padding-left: 5px;
 }
 
 .sendprompt .cancel-button {
@@ -626,17 +637,28 @@
 	margin-top: 20px;
 }
 .receive-form {
-	width: 80%;
+	width: 100%;
 }
 .receive-form > .receive-form-item {
 	display: flex;
-	align-items: center;
+	align-items: left;
 	justify-content: space-between;
-	height: 25px;
+	margin: 20px 0px;
+}
+.receive-prompt {
+	padding: 35px;
+}
+.receive-prompt > .receive-title {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 40px;
+	color: #333333;
 }
 .receive-form-item > p {
 	margin-left: 5px;
 	margin-right: 5px;
+	margin-top: 30px;
+	margin-bottom: 30px;
 }
 .receive-buttons {
 	margin-top: 30px;
@@ -646,18 +668,22 @@
 	margin-left: 3px;
 	margin-right: 3px;
 }
-.done-button {
-	position: absolute;
-	bottom: 20px;
+.receive-buttons > .new-address-button {
+	background: #4bd963;
 }
 .address-table {
-	display: inline-block;
-	height: 150px;
-	overflow: scroll;
-	width: 90%;
+	width: 100%;
 }
-.receive-address, .address-description {
-	width: 400px;
+.receive-form-item > .address-description {
+	width: 100%;
+	font-size: 18px;
+	color: #333333;
+	border-color: #c7c7c8;
+	padding: 10px;
+}
+.receive-form-item > .receive-address-copy {
+	cursor: pointer;
+	color: #c2c2c2;
 }
 td {
 	padding-right: 5px;

@@ -15,21 +15,26 @@ const ReceivePrompt = ({addresses, address, description, actions}) => {
 		actions.saveAddress({ description: description, address: address })
 	}
 	return (
-		<div className="modal">
+		<div className="receive-panel">
 			<div className="receive-prompt">
+			    <div className="receive-title"> Receiving Address </div>
 				<div className="receive-form">
 					<div className="receive-form-item">
-						<p> Receiving Address </p>
-						<input className="receive-address" value={address} readOnly />
+						<div className="receive-address">{address}</div>
+						<div className="receive-address-copy">Copy</div>
 					</div>
 					<div className="receive-form-item">
-						<p> Description </p>
-						<input className="address-description" onChange={handleDescriptionChange} value={description} />
+						<input
+							className="address-description"
+							placeholder="Description"
+							onChange={handleDescriptionChange}
+							value={description} />
 					</div>
 				</div>
 				<div className="receive-buttons">
 					<button className="save-address-button" onClick={handleSaveClick}>Save</button>
 					<button className="new-address-button" onClick={handleGenerateClick}>New</button>
+					<button className="done-button" onClick={handleDismissClick}>Done</button>
 				</div>
 				<h3> Prior Addresses </h3>
 				{ addresses.size > 0 ? (
@@ -47,7 +52,6 @@ const ReceivePrompt = ({addresses, address, description, actions}) => {
 					</table>
 				) : ( <p> No prior addresses </p>)
 				}
-				<button className="done-button" onClick={handleDismissClick}>Done</button>
 			</div>
 		</div>
 	)

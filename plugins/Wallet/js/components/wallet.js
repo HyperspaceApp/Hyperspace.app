@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import * as constants from '../constants/wallet.js'
 import SendButton from './sendbutton.js'
 import SendPrompt from '../containers/sendprompt.js'
 import ReceiveButton from '../containers/receivebutton.js'
@@ -16,12 +17,7 @@ import LockScreen from '../containers/lockscreen.js'
 
 const Wallet = ({
 	loading,
-	showBalanceInfo,
-	showBackupPrompt,
-	showReceivePrompt,
-	showChangePasswordDialog,
-	showSendPrompt,
-	showRecoveryDialog,
+	currentPanel,
 	actions,
 }) => {
 	const onSendClick = (currencytype) => () =>
@@ -42,12 +38,12 @@ const Wallet = ({
 			</div>
 			<div id="main-panel" className="pure-u-4-5">
 				{loading ? null : <LockScreen />}
-				{showBalanceInfo ? <BalanceInfo /> : null}
-				{showSendPrompt ? <SendPrompt /> : null}
-				{showReceivePrompt ? <ReceivePrompt /> : null}
-				{showRecoveryDialog ? <RecoveryDialog /> : null}
-				{showChangePasswordDialog ? <ChangePasswordDialog /> : null}
-				{showBackupPrompt ? <BackupPrompt /> : null}
+				{constants.BALANCE_INFO_PANEL == currentPanel ? <BalanceInfo /> : null}
+				{constants.SEND_PANEL == currentPanel ? <SendPrompt /> : null}
+				{constants.RECEIVE_PANEL == currentPanel ? <ReceivePrompt /> : null}
+				{constants.RECOVERY_PANEL == currentPanel ? <RecoveryDialog /> : null}
+				{constants.CHANGE_PASSWORD_PANEL == currentPanel ? <ChangePasswordDialog /> : null}
+				{constants.BACKUP_PANEL == currentPanel ? <BackupPrompt /> : null}
 			</div>
 		</div>
 	)

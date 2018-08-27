@@ -26,15 +26,10 @@ const SendPrompt = ({
 	const handleCancelClick = () => actions.closeSendPrompt()
 	return (
 		<div className="send-panel">
-
 			<div className="balance-header">
 				<div className="balance-summary">
-					<div className="confirmed-balance">
-						{confirmedbalance}
-					</div>
-					<div className="confirmed-balance-text">
-						Confirmed Balance
-					</div>
+					<div className="confirmed-balance">{confirmedbalance}</div>
+					<div className="confirmed-balance-text">Confirmed Balance</div>
 				</div>
 				{!synced ? (
 					<div className="balance-not-synced">

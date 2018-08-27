@@ -80,3 +80,21 @@ export const HIDE_BALANCE_INFO = 'HIDE_BALANCE_INFO'
 export const SET_LOADING = 'SET_LOADING'
 export const SET_NOT_LOADING = 'SET_NOT_LOADING'
 export const GET_LOADING_STATUS = 'GET_LOADING_STATUS'
+
+// panels
+export const BALANCE_INFO_PANEL = 'BALANCE_INFO_PANEL'
+export const SEND_PANEL = 'SEND_PANEL'
+export const RECEIVE_PANEL = 'RECEIVE_PANEL'
+export const NEW_WALLET_DIALOG_PANEL = 'NEW_WALLET_DIALOG_PANEL'
+export const NEW_WALLET_FORM_PANEL = 'NEW_WALLET_FORM_PANEL'
+export const CHANGE_PASSWORD_PANEL = 'CHANGE_PASSWORD_PANEL'
+export const INIT_SEED_PANEL = 'INIT_SEED_PANEL'
+export const BACKUP_PANEL = 'BACKUP_PANEL'
+export const RECOVERY_PANEL = 'RECOVERY_PANEL'
+
+// showBalanceInfo,
+// showBackupPrompt,
+// showReceivePrompt,
+// showChangePasswordDialog,
+// showSendPrompt,
+// showRecoveryDialog,
