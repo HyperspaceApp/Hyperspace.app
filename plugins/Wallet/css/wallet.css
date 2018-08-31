@@ -308,10 +308,11 @@
 .backupprompt {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: left;
 	justify-content: center;
 	background-color: #feffff;
-	width: 500px;
+	box-sizing: border-box;
+	width: 100%;
 	padding: 25px 25px 25px 25px;
 }
 .backupprompt > .ok-button {
@@ -322,6 +323,25 @@
 }
 .backupprompt > h4 {
 	margin-bottom: 5px;
+}
+.backup-panel .backup-warn {
+	display: flex;
+	padding: 15px;
+	background-color: #ff9503;
+	margin-top: 10px;
+	color: white;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+.backup-panel .backup-warn > i {
+	font-size: 40px;
+	color: white;
+}
+.backup-panel .backup-warn-message {
+	padding-left: 15px;
+	font-size: 18px;
+	display: block;
 }
 .sendprompt .fee-estimation {
 	margin-top: 15px;
@@ -443,7 +463,6 @@
 	width: 400px;
 	padding: 10px;
 	font-size: 12px;
-	/*color: #c7c7c8;*/
 	border-color: #c7c7c8;
 }
 .confirmation-dialog .confirmation-buttons {
@@ -518,19 +537,32 @@
 
 .change-password-form {
 	display: flex;
-	align-items: center;
+	align-items: left;
 	justify-content: center;
 	flex-direction: column;
 	background-color: #feffff;
-	padding-left: 30px;
-	padding-right: 30px;
-	padding-bottom: 30px;
-	padding-top: 10px
+	padding: 30px;
 }
 .change-password-form .cancel-button {
 	background-color: #feffff;
 	color: #1c1d1e;
 	border: 1px solid #c7c7c8;
+}
+.change-password-hint {
+	display: flex;
+	padding: 15px;
+	margin-top: 15px;
+	font-size: 14px;
+	align-items: center;
+}
+
+.change-password-hint > img {
+	width: 80px;
+	height: 80px;
+}
+.change-password-hint > div {
+	width: 400px;
+	margin-left: 20px;
 }
 .change-passowrd-buttons {
 	margin-top: 15px;
@@ -541,7 +573,7 @@
 	margin-top: 10px;
 }
 .change-password-form input {
-	width: 50%;
+	width: 100%;
 	margin-top: 8px;
 	margin-bottom: 8px;
 	text-indent: 10px;
@@ -558,13 +590,17 @@
 
 .recovery-form {
 	display: flex;
-	align-items: center;
+	align-items: left;
 	justify-content: center;
 	flex-direction: column;
 	background-color: #feffff;
 	padding-left: 30px;
 	padding-right: 30px;
 	padding-bottom: 30px;
+}
+.recovery-form > p {
+	font-size: 14px;
+	margin: 5px 0px;
 }
 .recovery-form-buttons {
 	margin-top: 15px;
@@ -578,11 +614,19 @@
 	margin-left: 2px;
 	margin-right: 2px;
 }
-.recovery-form input {
-	width: 50%;
+.recovery-form textarea {
+	width: 100%;
+	height: 150px;
 	padding: 10px;
 	font-size: 12px;
 	border-color: #c7c7c8;
+	border-radius: 5px;
+	margin-top: 20px;
+	resize: none;
+	box-sizing: border-box;
+}
+.recovery-form textarea::placeholder {
+	color: #cccccc;
 }
 .uninitialized-wallet-dialog {
 	display: flex;

@@ -8,7 +8,7 @@ const ChangePasswordButton = ({ actions }) => {
 			onClick={handleChangePasswordClick}
 		>
 			<i className="fa fa-gear" />
-			<span> Change Password</span>
+			<span>Change Password</span>
 		</div>
 	)
 }

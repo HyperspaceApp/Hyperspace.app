@@ -4,13 +4,14 @@ import React from 'react'
 const BackupPrompt = ({primarySeed, auxSeeds, actions}) => {
 	const handleOkClick = () => actions.hideBackupPrompt()
 	return (
-		<div className="modal">
+		<div className="backup-panel">
 			<div className="backupprompt">
-				{ auxSeeds.length === 0 ? (
-					<h3> Write down your seed to back up your wallet. You can restore your wallet using only this seed. </h3>
-				) : (
-					<h3> Write down your seeds to back up your wallet. You can restore your wallet using only these seeds. </h3>
-				)}
+				<div className="backup-warn">
+					<i className="fa fa-exclamation-triangle" />
+					<span className="backup-warn-message">
+						Write down your seed to back up your wallet. You can restore your wallet using only this seed.
+					</span>
+				</div>
 
 				<h4> Primary Seed: </h4>
 				<p className="primary-seed">{primarySeed}</p>

@@ -5,6 +5,7 @@ import * as actions from '../actions/wallet.js'
 import * as constants from '../constants/wallet.js'
 import { walletUnlockError } from '../actions/error.js'
 import { List } from 'immutable'
+import { clipboard } from 'electron'
 
 // Send an error notification.
 const sendError = (e) => {
@@ -348,6 +349,11 @@ function * showBackupPromptSaga() {
 	}
 }
 
+function * copyToClipboard(action) {
+	clipboard.writeText(action.str)
+	alert(action.str+' copied to system clipboard')
+}
+
 // exported redux-saga action watchers
 export function * dataFetcher() {
 	yield put(actions.setLoading())
@@ -408,4 +414,7 @@ export function * watchGetNewReceiveAddress() {
 }
 export function * watchSaveAddress() {
 	yield * takeEvery(constants.SAVE_ADDRESS, saveAddressSaga)
+}
+export function * watchCopyToClipboard() {
+	yield * takeEvery(constants.COPY_TO_CLIPBOARD, copyToClipboard)
 }
