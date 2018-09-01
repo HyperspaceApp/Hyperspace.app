@@ -15,9 +15,19 @@ const mapStateToProps = (state) => ({
 	description: state.receiveprompt.get('description'),
 })
 const mapDispatchToProps = (dispatch) => ({
-	actions: bindActionCreators({ hideReceivePrompt, getNewReceiveAddress,
-		saveAddress, setAddressDescription, copyText}, dispatch),
+	actions: bindActionCreators(
+		{
+			hideReceivePrompt,
+			getNewReceiveAddress,
+			saveAddress,
+			setAddressDescription,
+			copyText,
+		},
+		dispatch
+	),
 })
 
-const ReceivePrompt = connect(mapStateToProps, mapDispatchToProps)(ReceivePromptView)
+const ReceivePrompt = connect(mapStateToProps, mapDispatchToProps)(
+	ReceivePromptView
+)
 export default ReceivePrompt

@@ -16,6 +16,10 @@ export const WALLET_CHANGE_PASSWORD_ICON_PATH = Path.join(
 	'assets',
 	'wallet_change_password.svg'
 )
+export const WALLET_COPY_ADDRESS_ICON_PATH = Path.join(
+	'assets',
+	'wallet_copy_address.svg'
+)
 export const WALLET_LOCKED_ICON_PATH = Path.join('assets', 'wallet_locked.svg')
 export const GET_LOCK_STATUS = 'GET_LOCK_STATUS'
 export const SET_LOCKED = 'SET_LOCKED'

@@ -351,7 +351,7 @@ function * showBackupPromptSaga() {
 
 function * copyToClipboard(action) {
 	clipboard.writeText(action.str)
-	alert(action.str+' copied to system clipboard')
+	alert(action.str + ' copied to system clipboard')
 }
 
 // exported redux-saga action watchers

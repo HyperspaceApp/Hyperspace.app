@@ -38,12 +38,7 @@ const RecoveryDialog = ({ recovering, actions }) => {
 					{' '}
 					After the scan completes, these outputs will be sent to your wallet.{' '}
 				</p>
-				<textarea
-					placeholder="Seed"
-					type="text"
-					name="seed"
-					autoFocus
-				/>
+				<textarea placeholder="Seed" type="text" name="seed" autoFocus />
 				<div className="recovery-form-buttons">
 					<button type="submit">Recover</button>
 					<button className="cancel-button" onClick={handleCancelClick}>

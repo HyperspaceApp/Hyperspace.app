@@ -28,8 +28,8 @@ const ChangePasswordDialog = ({ changePasswordError, actions }) => {
 				<div className="change-password-hint">
 					<img src={WALLET_CHANGE_PASSWORD_ICON_PATH} />
 					<div>
-						Enter your current password, and the new password you wish to replace
-						it with.
+						Enter your current password, and the new password you wish to
+						replace it with.
 					</div>
 				</div>
 				<input

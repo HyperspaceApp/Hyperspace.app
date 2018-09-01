@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { List } from 'immutable'
+import { WALLET_COPY_ADDRESS_ICON_PATH } from '../constants/wallet'
 
 const ReceivePrompt = ({ addresses, address, description, actions }) => {
 	const handleDismissClick = () => actions.hideReceivePrompt()
@@ -24,7 +25,13 @@ const ReceivePrompt = ({ addresses, address, description, actions }) => {
 					<div className="receive-form-item">
 						<div className="receive-address">{address}</div>
 
-						<div className="receive-address-copy" onClick={() => copyAddress(address)}>Copy</div>
+						<div
+							className="receive-address-copy"
+							onClick={() => copyAddress(address)}
+						>
+						  <img src={WALLET_COPY_ADDRESS_ICON_PATH} />
+						  <span>Copy</span>
+						</div>
 					</div>
 					<div className="receive-form-item">
 						<input
@@ -49,16 +56,27 @@ const ReceivePrompt = ({ addresses, address, description, actions }) => {
 				<h3> Prior Addresses </h3>
 				{addresses.size > 0 ? (
 					<table className="pure-table address-table">
-						<tr>
-							<th>Description</th>
-							<th>Address</th>
-						</tr>
+						<thead>
+							<tr>
+								<th>Description</th>
+								<th>Address</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
 						{addresses.reverse().map((oldAddress, key) => (
 							<tr className="prior-address" key={key}>
-								<td className="description">{oldAddress.description}</td>
-								<td className="address">{oldAddress.address}</td>
+								<td className="description">
+								    {oldAddress.description.length > 15 ? oldAddress.address.slice(0, 15) + '...': oldAddress.description}
+								</td>
+								<td className="address">{oldAddress.address.slice(0, 15) + '...'}</td>
+								<td className="copy" onClick={() => copyAddress(oldAddress.address)}>
+									<img src={WALLET_COPY_ADDRESS_ICON_PATH} />
+									<span>Copy</span>
+								</td>
 							</tr>
 						))}
+						</tbody>
 					</table>
 				) : (
 					<p> No prior addresses </p>

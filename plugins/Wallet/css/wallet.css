@@ -717,7 +717,45 @@
 }
 .address-table {
 	width: 100%;
+	text-align: left;
+	color: #20323f;
+	border: 0px;
 }
+.address-table {
+	border: 0px solid;
+}
+.address-table thead {
+	background-color: #feffff;
+	color: #7f8081;
+	text-align: left;
+	vertical-align: bottom;
+}
+.address-table thead tr {
+	border-bottom: 1px solid #edeeef;
+}
+.address-table th {
+	font-size: 14px;
+	text-align: left;
+	border: 0px;
+}
+.address-table tbody td {
+	border: 0px;
+	text-align: left;
+}
+.address-table tbody td.copy {
+	display: flex;
+	cursor: pointer;
+	color: #c2c2c2;
+}
+.address-table tbody td img {
+	width: 18px;
+	height: 18px;
+	margin-right: 2px;
+}
+.address-table tbody td span {
+	font-size: 18px;
+}
+
 .receive-form-item > .address-description {
 	width: 100%;
 	font-size: 18px;
@@ -725,13 +763,24 @@
 	border-color: #c7c7c8;
 	padding: 10px;
 }
+.receive-form-item > .receive-address {
+	font-size: 14px;
+}
 .receive-form-item > .receive-address-copy {
 	cursor: pointer;
 	color: #c2c2c2;
+	display: flex;
+	align-items: center;
 }
+.receive-form-item > .receive-address-copy > img {
+	width: 18px;
+	height: 18px;
+	margin-right: 2px;
+}
+
 td {
 	padding-right: 5px;
-	font-size: 15px !important;
+	font-size: 15px;
 }
 
 button{
