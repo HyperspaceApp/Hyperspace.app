@@ -29,8 +29,8 @@ const ReceivePrompt = ({ addresses, address, description, actions }) => {
 							className="receive-address-copy"
 							onClick={() => copyAddress(address)}
 						>
-						  <img src={WALLET_COPY_ADDRESS_ICON_PATH} />
-						  <span>Copy</span>
+							<img src={WALLET_COPY_ADDRESS_ICON_PATH} />
+							<span>Copy</span>
 						</div>
 					</div>
 					<div className="receive-form-item">
@@ -60,22 +60,29 @@ const ReceivePrompt = ({ addresses, address, description, actions }) => {
 							<tr>
 								<th>Description</th>
 								<th>Address</th>
-								<th></th>
+								<th />
 							</tr>
 						</thead>
 						<tbody>
-						{addresses.reverse().map((oldAddress, key) => (
-							<tr className="prior-address" key={key}>
-								<td className="description">
-								    {oldAddress.description.length > 15 ? oldAddress.address.slice(0, 15) + '...': oldAddress.description}
-								</td>
-								<td className="address">{oldAddress.address.slice(0, 15) + '...'}</td>
-								<td className="copy" onClick={() => copyAddress(oldAddress.address)}>
-									<img src={WALLET_COPY_ADDRESS_ICON_PATH} />
-									<span>Copy</span>
-								</td>
-							</tr>
-						))}
+							{addresses.reverse().map((oldAddress, key) => (
+								<tr className="prior-address" key={key}>
+									<td className="description">
+										{oldAddress.description.length > 15
+											? oldAddress.address.slice(0, 15) + '...'
+											: oldAddress.description}
+									</td>
+									<td className="address">
+										{oldAddress.address.slice(0, 15) + '...'}
+									</td>
+									<td
+										className="copy"
+										onClick={() => copyAddress(oldAddress.address)}
+									>
+										<img src={WALLET_COPY_ADDRESS_ICON_PATH} />
+										<span>Copy</span>
+									</td>
+								</tr>
+							))}
 						</tbody>
 					</table>
 				) : (
