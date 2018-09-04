@@ -37,7 +37,7 @@ const StatusBar = ({ synced, blockheight, peers }) => {
 		transition: 'width 200ms',
 		backgroundColor: '#4ad963',
 		margin: '0',
-		borderRadius: "10px",
+		borderRadius: '10px',
 	}
 
 	const syncProgressContainerStyle = {
@@ -45,7 +45,7 @@ const StatusBar = ({ synced, blockheight, peers }) => {
 		backgroundColor: '#0e191f',
 		height: '11px',
 		width: '150px',
-		borderRadius: "10px",
+		borderRadius: '10px',
 	}
 
 	let status
@@ -76,9 +76,7 @@ const StatusBar = ({ synced, blockheight, peers }) => {
 
 	return (
 		<div className="status-bar">
-			<div style={syncStyle}>
-				{status}
-			</div>
+			<div style={syncStyle}>{status}</div>
 			{syncStatus}
 		</div>
 	)

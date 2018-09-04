@@ -1,4 +1,5 @@
 import React from 'react'
+import { MENU_WALLET_RECEIVE_SPACECASH } from '../constants/wallet.js'
 
 const ReceiveButton = ({ actions }) => {
 	const handleReceiveButtonClick = () => actions.showReceivePrompt()
@@ -7,7 +8,7 @@ const ReceiveButton = ({ actions }) => {
 			className="wallet-button receive-button"
 			onClick={handleReceiveButtonClick}
 		>
-			<i className="fa fa-download" />
+			<img src={MENU_WALLET_RECEIVE_SPACECASH} />
 			<span>Receive Space Cash</span>
 		</div>
 	)

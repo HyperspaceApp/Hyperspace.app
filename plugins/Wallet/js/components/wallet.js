@@ -23,7 +23,6 @@ const Wallet = ({ loading, currentPanel, actions }) => {
 			<div id="sidebar" className="pure-u-1-5">
 				<h1>Wallet</h1>
 				<SendButton
-					currencytype="spacecash"
 					onClick={onSendClick('spacecash')}
 				/>
 				<ReceiveButton />

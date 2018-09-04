@@ -1,4 +1,5 @@
 import React from 'react'
+import { MENU_WALLET_CHANGE_PASSWORD } from '../constants/wallet.js'
 
 const ChangePasswordButton = ({ actions }) => {
 	const handleChangePasswordClick = () => actions.showChangePasswordDialog()
@@ -7,7 +8,7 @@ const ChangePasswordButton = ({ actions }) => {
 			className="wallet-button change-password-button"
 			onClick={handleChangePasswordClick}
 		>
-			<i className="fa fa-gear" />
+			<img src={MENU_WALLET_CHANGE_PASSWORD} />
 			<span>Change Password</span>
 		</div>
 	)

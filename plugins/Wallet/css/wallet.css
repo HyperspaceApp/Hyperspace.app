@@ -52,10 +52,16 @@
 	margin-top: 10px;
 	margin-bottom: 10px;
 	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+.wallet-button > img {
+	width: 14px;
+	height: 14px;
 }
 
 .wallet-button span {
-	padding-left: 5px;
+	padding-left: 10px;
 }
 
 .green-box {

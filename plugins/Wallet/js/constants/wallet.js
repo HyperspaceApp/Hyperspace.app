@@ -101,9 +101,28 @@ export const INIT_SEED_PANEL = 'INIT_SEED_PANEL'
 export const BACKUP_PANEL = 'BACKUP_PANEL'
 export const RECOVERY_PANEL = 'RECOVERY_PANEL'
 
-// showBalanceInfo,
-// showBackupPrompt,
-// showReceivePrompt,
-// showChangePasswordDialog,
-// showSendPrompt,
-// showRecoveryDialog,
+// menu buttons
+export const MENU_WALLET_SEND_SPACECASH = Path.join(
+	'assets',
+	'menu_wallet_send_spacecash.svg'
+)
+export const MENU_WALLET_RECEIVE_SPACECASH = Path.join(
+	'assets',
+	'menu_wallet_receive_spacecash.svg'
+)
+export const MENU_WALLET_LOCK_WALLET = Path.join(
+	'assets',
+	'menu_wallet_lock_wallet.svg'
+)
+export const MENU_WALLET_CHANGE_PASSWORD = Path.join(
+	'assets',
+	'menu_wallet_change_password.svg'
+)
+export const MENU_WALLET_RECOVER_SEED = Path.join(
+	'assets',
+	'menu_wallet_recover_seed.svg'
+)
+export const MENU_WALLET_BACKUP_WALLET = Path.join(
+	'assets',
+	'menu_wallet_backup_wallet.svg'
+)

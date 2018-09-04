@@ -109,7 +109,6 @@ html,body {
 #navbar {
 	z-index: 5;
 	height: 50px;
-	width: 80%;
 	box-sizing: border-box;
 	background-color: #20333e;
 	padding-left: 30px;
