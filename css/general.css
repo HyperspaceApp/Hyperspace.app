@@ -313,13 +313,18 @@ html,body {
 	text-align: center;
 	font-size: 35px;
 	background-color: #fff;
-	opacity: .5;
+	opacity: .8;
 }
 .centered {
 	opacity: 1;
-	color: #2c7cf6;
 	margin: auto;
 }
 .centered p {
 	margin: 0;
+}
+.centered img {
+	width: 350px;
+	height: 350px;
+	margin-top: -100px;
+	margin-bottom: -80px;
 }

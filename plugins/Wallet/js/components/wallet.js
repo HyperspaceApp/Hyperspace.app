@@ -22,9 +22,7 @@ const Wallet = ({ loading, currentPanel, actions }) => {
 		<div className="wallet pure-g">
 			<div id="sidebar" className="pure-u-1-5">
 				<h1>Wallet</h1>
-				<SendButton
-					onClick={onSendClick('spacecash')}
-				/>
+				<SendButton onClick={onSendClick('spacecash')} />
 				<ReceiveButton />
 				<LockButton />
 				<ChangePasswordButton />
