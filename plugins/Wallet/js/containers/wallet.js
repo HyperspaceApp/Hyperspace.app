@@ -5,12 +5,7 @@ import { startSendPrompt } from '../actions/wallet.js'
 
 const mapStateToProps = (state) => ({
 	loading: state.wallet.get('loading'),
-	showBalanceInfo: state.wallet.get('showBalanceInfo'),
-	showReceivePrompt: state.wallet.get('showReceivePrompt'),
-	showSendPrompt: state.wallet.get('showSendPrompt'),
-	showRecoveryDialog: state.wallet.get('showRecoveryDialog'),
-	showChangePasswordDialog: state.wallet.get('showChangePasswordDialog'),
-	showBackupPrompt: state.wallet.get('showBackupPrompt'),
+	currentPanel: state.wallet.get('currentPanel'),
 })
 const mapDispatchToProps = (dispatch) => ({
 	actions: bindActionCreators({ startSendPrompt }, dispatch),

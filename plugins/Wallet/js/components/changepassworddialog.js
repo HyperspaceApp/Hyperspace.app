@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { WALLET_CHANGE_PASSWORD_ICON_PATH } from '../constants/wallet.js'
 
 const ChangePasswordDialog = ({ changePasswordError, actions }) => {
 	const handleChangePasswordClick = (e) => {
@@ -19,16 +20,18 @@ const ChangePasswordDialog = ({ changePasswordError, actions }) => {
 	}
 
 	return (
-		<div className="modal">
+		<div className="change-password-panel">
 			<form
 				className="change-password-form"
 				onSubmit={handleChangePasswordClick}
 			>
-				<h3>
-					{' '}
-					Enter your current password, and the new password you wish to replace
-					it with.{' '}
-				</h3>
+				<div className="change-password-hint">
+					<img src={WALLET_CHANGE_PASSWORD_ICON_PATH} />
+					<div>
+						Enter your current password, and the new password you wish to
+						replace it with.
+					</div>
+				</div>
 				<input
 					className="currentpassword-input"
 					type="password"

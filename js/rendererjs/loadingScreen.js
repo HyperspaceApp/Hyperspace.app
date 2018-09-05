@@ -168,7 +168,7 @@ export default async function loadingScreen(initUI) {
 
 			document.getElementById('releasenotelink').onclick = () => {
 				shell.openExternal(
-					'https://github.com/HyperspaceApp/Hyperspace/releases'
+					'https://github.com/HyperspaceApp/Hyperspace.app/releases'
 				)
 			}
 		}
@@ -184,5 +184,5 @@ export default async function loadingScreen(initUI) {
 	window.hsdProcess.removeAllListeners('exit')
 	window.hsdProcess.removeAllListeners('close')
 
-	startUI('Welcome to Hyperspace', initUI)
+	startUI('Welcome to <b>Hyperspace</b>', initUI)
 }

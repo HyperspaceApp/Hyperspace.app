@@ -84,7 +84,7 @@ const createPluginButtonElement = (iconPath, title) => {
 	iconPath += '_dark_'
 	const elem = document.createElement('span')
 	elem.id = title + '-button'
-	elem.className = 'pure-u-1-24 nav-button'
+	elem.className = 'nav-button'
 	elem.appendChild(createButtonIconElement(iconPath + 'normal.svg'))
 	elem.appendChild(createActionButtonIconElement(iconPath + 'action.svg'))
 	// elem.appendChild(createButtonTextElement(title))

@@ -52,10 +52,16 @@
 	margin-top: 10px;
 	margin-bottom: 10px;
 	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+.wallet-button > img {
+	width: 14px;
+	height: 14px;
 }
 
 .wallet-button span {
-	padding-left: 5px;
+	padding-left: 10px;
 }
 
 .green-box {
@@ -169,13 +175,10 @@
 .receive-prompt {
 	position: relative;
 	display: flex;
-	align-items: center;
+	align-items: left;
 	justify-content: flex-start;
 	flex-direction: column;
-	width: 700px;
-	height: 400px;
 	background-color: #feffff;
-	padding-top: 50px;
 }
 .wallet-toolbar {
 	width: 100%;
@@ -215,7 +218,8 @@
 	font-size: 14px;
 }
 .balance-info .balance-not-synced {
-	padding-left: 5px;
+	padding: 15px;
+	font-size: 12px;
 }
 .balance-info .balance-not-synced-message {
 	padding-left: 5px;
@@ -252,14 +256,43 @@
 	border-radius: 3px;
 }
 
-.sendprompt {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background-color: #feffff;
-	width: 400px;
-	height: 300px;
+.send-panel {
+	flex: 1;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.send-panel .balance-summary {
+	width: 100%;
+	background-color: #4bd963;
+	margin-top: 20px;
+	border-radius: 5px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+.send-panel .balance-summary .confirmed-balance {
+	padding-left: 30px;
+	font-size: 40px;
+	color: white;
+}
+
+.send-panel .balance-summary .confirmed-balance-text {
+	padding-left: 30px;
+	font-size: 12px;
+	color: white;
+}
+.send-panel .balance-not-synced {
+	background-color: #f09a38;
+	margin-top: 10px;
+	color: white;
+	border-radius: 5px;
+}
+.send-panel .balance-not-synced {
+	padding: 15px;
+	font-size: 12px;
+}
+.send-panel .balance-not-synced-message {
+	padding-left: 5px;
 }
 
 .sendprompt .cancel-button {
@@ -281,10 +314,11 @@
 .backupprompt {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: left;
 	justify-content: center;
 	background-color: #feffff;
-	width: 500px;
+	box-sizing: border-box;
+	width: 100%;
 	padding: 25px 25px 25px 25px;
 }
 .backupprompt > .ok-button {
@@ -296,8 +330,30 @@
 .backupprompt > h4 {
 	margin-bottom: 5px;
 }
+.backup-panel .backup-warn {
+	display: flex;
+	padding: 15px;
+	background-color: #ff9503;
+	margin-top: 10px;
+	color: white;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+.backup-panel .backup-warn > i {
+	font-size: 40px;
+	color: white;
+}
+.backup-panel .backup-warn-message {
+	padding-left: 15px;
+	font-size: 18px;
+	display: block;
+}
 .sendprompt .fee-estimation {
-	margin-top: 6px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	font-size: 12px;
+	color: #fd810a;
 }
 .sendprompt button {
 	margin-left: 5px;
@@ -305,16 +361,18 @@
 	margin-top: 15px;
 }
 .sendamount, .sendaddress {
-	text-align: center;
+	text-align: left;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-.sendamount h3, .sendaddress h3 {
-	margin-top: 5px;
-	margin-bottom: 5px;
+.sendamount div, .sendaddress div {
+	color: #586973;
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 .sendamount input, .sendaddress input {
-	width: 250px;
+	box-sizing: border-box;
+	width: 100%;
 }
 
 .wallet-toolbar > .wallet-button {
@@ -411,7 +469,6 @@
 	width: 400px;
 	padding: 10px;
 	font-size: 12px;
-	/*color: #c7c7c8;*/
 	border-color: #c7c7c8;
 }
 .confirmation-dialog .confirmation-buttons {
@@ -486,19 +543,32 @@
 
 .change-password-form {
 	display: flex;
-	align-items: center;
+	align-items: left;
 	justify-content: center;
 	flex-direction: column;
 	background-color: #feffff;
-	padding-left: 30px;
-	padding-right: 30px;
-	padding-bottom: 30px;
-	padding-top: 10px
+	padding: 30px;
 }
 .change-password-form .cancel-button {
 	background-color: #feffff;
 	color: #1c1d1e;
 	border: 1px solid #c7c7c8;
+}
+.change-password-hint {
+	display: flex;
+	padding: 15px;
+	margin-top: 15px;
+	font-size: 14px;
+	align-items: center;
+}
+
+.change-password-hint > img {
+	width: 80px;
+	height: 80px;
+}
+.change-password-hint > div {
+	width: 400px;
+	margin-left: 20px;
 }
 .change-passowrd-buttons {
 	margin-top: 15px;
@@ -509,7 +579,7 @@
 	margin-top: 10px;
 }
 .change-password-form input {
-	width: 50%;
+	width: 100%;
 	margin-top: 8px;
 	margin-bottom: 8px;
 	text-indent: 10px;
@@ -526,13 +596,17 @@
 
 .recovery-form {
 	display: flex;
-	align-items: center;
+	align-items: left;
 	justify-content: center;
 	flex-direction: column;
 	background-color: #feffff;
 	padding-left: 30px;
 	padding-right: 30px;
 	padding-bottom: 30px;
+}
+.recovery-form > p {
+	font-size: 14px;
+	margin: 5px 0px;
 }
 .recovery-form-buttons {
 	margin-top: 15px;
@@ -546,11 +620,19 @@
 	margin-left: 2px;
 	margin-right: 2px;
 }
-.recovery-form input {
-	width: 50%;
+.recovery-form textarea {
+	width: 100%;
+	height: 150px;
 	padding: 10px;
 	font-size: 12px;
 	border-color: #c7c7c8;
+	border-radius: 5px;
+	margin-top: 20px;
+	resize: none;
+	box-sizing: border-box;
+}
+.recovery-form textarea::placeholder {
+	color: #cccccc;
 }
 .uninitialized-wallet-dialog {
 	display: flex;
@@ -605,17 +687,28 @@
 	margin-top: 20px;
 }
 .receive-form {
-	width: 80%;
+	width: 100%;
 }
 .receive-form > .receive-form-item {
 	display: flex;
-	align-items: center;
+	align-items: left;
 	justify-content: space-between;
-	height: 25px;
+	margin: 20px 0px;
+}
+.receive-prompt {
+	padding: 35px;
+}
+.receive-prompt > .receive-title {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 40px;
+	color: #333333;
 }
 .receive-form-item > p {
 	margin-left: 5px;
 	margin-right: 5px;
+	margin-top: 30px;
+	margin-bottom: 30px;
 }
 .receive-buttons {
 	margin-top: 30px;
@@ -625,22 +718,75 @@
 	margin-left: 3px;
 	margin-right: 3px;
 }
-.done-button {
-	position: absolute;
-	bottom: 20px;
+.receive-buttons > .new-address-button {
+	background: #4bd963;
 }
 .address-table {
-	display: inline-block;
-	height: 150px;
-	overflow: scroll;
-	width: 90%;
+	width: 100%;
+	text-align: left;
+	color: #20323f;
+	border: 0px;
 }
-.receive-address, .address-description {
-	width: 400px;
+.address-table {
+	border: 0px solid;
 }
+.address-table thead {
+	background-color: #feffff;
+	color: #7f8081;
+	text-align: left;
+	vertical-align: bottom;
+}
+.address-table thead tr {
+	border-bottom: 1px solid #edeeef;
+}
+.address-table th {
+	font-size: 14px;
+	text-align: left;
+	border: 0px;
+}
+.address-table tbody td {
+	border: 0px;
+	text-align: left;
+}
+.address-table tbody td.copy {
+	display: flex;
+	cursor: pointer;
+	color: #c2c2c2;
+}
+.address-table tbody td img {
+	width: 18px;
+	height: 18px;
+	margin-right: 2px;
+}
+.address-table tbody td span {
+	font-size: 18px;
+}
+
+.receive-form-item > .address-description {
+	width: 100%;
+	font-size: 18px;
+	color: #333333;
+	border-color: #c7c7c8;
+	padding: 10px;
+}
+.receive-form-item > .receive-address {
+	font-size: 14px;
+}
+.receive-form-item > .receive-address-copy {
+	cursor: pointer;
+	color: #c2c2c2;
+	display: flex;
+	align-items: center;
+}
+.receive-form-item > .receive-address-copy > img {
+	width: 18px;
+	height: 18px;
+	margin-right: 2px;
+}
+
 td {
 	padding-right: 5px;
-	font-size: 15px !important;
+	font-size: 15px;
 }
 
 button{

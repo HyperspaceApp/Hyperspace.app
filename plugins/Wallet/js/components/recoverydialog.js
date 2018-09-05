@@ -26,7 +26,7 @@ const RecoveryDialog = ({ recovering, actions }) => {
 	}
 
 	return (
-		<div className="modal">
+		<div className="recovery-panel">
 			<form className="recovery-form" onSubmit={handleRecoverClick}>
 				<h3> Enter a seed to recover funds from. </h3>
 				<p>
@@ -38,12 +38,7 @@ const RecoveryDialog = ({ recovering, actions }) => {
 					{' '}
 					After the scan completes, these outputs will be sent to your wallet.{' '}
 				</p>
-				<input
-					placeholder="Seed"
-					type="text"
-					name="seed"
-					autoFocus
-				/>
+				<textarea placeholder="Seed" type="text" name="seed" autoFocus />
 				<div className="recovery-form-buttons">
 					<button type="submit">Recover</button>
 					<button className="cancel-button" onClick={handleCancelClick}>

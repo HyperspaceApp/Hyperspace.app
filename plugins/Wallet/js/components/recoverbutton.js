@@ -1,4 +1,5 @@
 import React from 'react'
+import { MENU_WALLET_RECOVER_SEED } from '../constants/wallet.js'
 
 const RecoverButton = ({ actions }) => {
 	const handleRecoverButtonClick = () => actions.showSeedRecoveryDialog()
@@ -7,7 +8,7 @@ const RecoverButton = ({ actions }) => {
 			className="wallet-button recover-button"
 			onClick={handleRecoverButtonClick}
 		>
-			<i className="fa fa-key" />
+			<img src={MENU_WALLET_RECOVER_SEED} />
 			<span>Recover Seed</span>
 		</div>
 	)

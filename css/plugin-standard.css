@@ -1,6 +1,6 @@
-/*  Style Guide: 
+/*  Style Guide:
  *    Transparent: 70% Opacity
- *    
+ *
  *    White:      #FFFFFF
  *    Grey-White: #F5F5F5
  *    Faint-Grey: #ECECEC
@@ -46,7 +46,7 @@ select, input {
 select {
 	background:#ffffff;
 }
-select:focus, input:focus {
+select:focus, input:focus, textarea:focus {
 	outline: none;
 	border: solid 1px #4a4a4a;
 	box-shadow: 0 0 5px 1px #c5c5c5;

@@ -15,15 +15,10 @@ const initialState = Map({
 	transactions: List(),
 	ntransactions: 30,
 	filter: true,
-	showSendPrompt: false,
-	showReceivePrompt: false,
 	showNewWalletDialog: false,
 	showNewWalletForm: false,
-	showChangePasswordDialog: false,
-	showInitSeedForm: false,
-	showBackupPrompt: false,
+	currentPanel: '',
 	useCustomPassphrase: false,
-	showRecoveryDialog: false,
 	initializingSeed: false,
 	changePasswordError: '',
 	primarySeed: '',
@@ -38,26 +33,30 @@ export default function walletReducer(state = initialState, action) {
 			return state.set('loading', false)
 		case constants.GET_LOADING_STATUS:
 			return state.get('loading')
-		case constants.HIDE_BALANCE_INFO:
-			return state.set('showBalanceInfo', false)
 		case constants.SHOW_BALANCE_INFO:
-			return state.set('showBalanceInfo', true)
+			return state.get('unlocked')
+				? state.set('currentPanel', constants.BALANCE_INFO_PANEL)
+				: state // lock screen empty <div/>
 		case constants.HIDE_BALANCE_INFO:
-			return state.set('showBalanceInfo', false)
+			return state.set('currentPanel', '') // set to empty for lock screen
 		case constants.SET_CHANGE_PASSWORD_ERROR:
 			return state.set('changePasswordError', action.error)
 		case constants.SHOW_CHANGE_PASSWORD_DIALOG:
-			return state
-				.set('showChangePasswordDialog', true)
-				.set('changePasswordError', '')
+			return state.get('unlocked')
+				? state
+						.set('currentPanel', constants.CHANGE_PASSWORD_PANEL)
+						.set('changePasswordError', '')
+				: state
 		case constants.HIDE_CHANGE_PASSWORD_DIALOG:
-			return state.set('showChangePasswordDialog', false)
+			return state.set('currentPanel', constants.BALANCE_INFO_PANEL)
 		case constants.SEED_RECOVERY_STARTED:
 			return state.set('recovering', true)
 		case constants.SEED_RECOVERY_FINISHED:
 			return state.set('recovering', false)
 		case constants.SHOW_NEW_WALLET_DIALOG:
-			return state.set('showNewWalletDialog', true)
+			return state.get('unlocked')
+				? state.set('showNewWalletDialog', true)
+				: state
 		case constants.DISMISS_NEW_WALLET_DIALOG:
 			return state.set('showNewWalletDialog', false)
 		case constants.SHOW_NEW_WALLET_FORM:
@@ -65,13 +64,17 @@ export default function walletReducer(state = initialState, action) {
 		case constants.HIDE_NEW_WALLET_FORM:
 			return state.set('showNewWalletForm', false)
 		case constants.SHOW_RECEIVE_PROMPT:
-			return state.set('showReceivePrompt', true)
+			return state.get('unlocked')
+				? state.set('currentPanel', constants.RECEIVE_PANEL)
+				: state
 		case constants.HIDE_RECEIVE_PROMPT:
-			return state.set('showReceivePrompt', false)
+			return state.set('currentPanel', constants.BALANCE_INFO_PANEL)
 		case constants.START_SEND_PROMPT:
-			return state.set('showSendPrompt', true)
+			return state.get('unlocked')
+				? state.set('currentPanel', constants.SEND_PANEL)
+				: state
 		case constants.CLOSE_SEND_PROMPT:
-			return state.set('showSendPrompt', false)
+			return state.set('currentPanel', constants.BALANCE_INFO_PANEL)
 		case constants.UNLOCK_WALLET:
 			return state.set('unlocking', true)
 		case WALLET_UNLOCK_ERROR:
@@ -100,9 +103,11 @@ export default function walletReducer(state = initialState, action) {
 		case constants.SET_USE_CUSTOM_PASSPHRASE:
 			return state.set('useCustomPassphrase', action.useCustomPassphrase)
 		case constants.SHOW_SEED_RECOVERY_DIALOG:
-			return state.set('showRecoveryDialog', true)
+			return state.get('unlocked')
+				? state.set('currentPanel', constants.RECOVERY_PANEL)
+				: state
 		case constants.HIDE_SEED_RECOVERY_DIALOG:
-			return state.set('showRecoveryDialog', false)
+			return state.set('currentPanel', constants.BALANCE_INFO_PANEL)
 		case constants.SHOW_INIT_SEED_FORM:
 			return state.set('showInitSeedForm', true)
 		case constants.HIDE_INIT_SEED_FORM:
@@ -130,10 +135,12 @@ export default function walletReducer(state = initialState, action) {
 		case constants.TOGGLE_FILTER:
 			return state.set('filter', !state.get('filter'))
 		case constants.SHOW_BACKUP_PROMPT:
-			return state.set('showBackupPrompt', true)
+			return state.get('unlocked')
+				? state.set('currentPanel', constants.BACKUP_PANEL)
+				: state
 		case constants.HIDE_BACKUP_PROMPT:
 			return state
-				.set('showBackupPrompt', false)
+				.set('currentPanel', constants.BALANCE_INFO_PANEL)
 				.set('primarySeed', '')
 				.set('auxSeeds', [])
 		case constants.SET_PRIMARY_SEED:

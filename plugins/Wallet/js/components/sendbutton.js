@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { MENU_WALLET_SEND_SPACECASH } from '../constants/wallet.js'
 
-const SendButton = ({ currencytype, onClick }) => (
+const SendButton = ({ onClick }) => (
 	<div onClick={onClick} className="wallet-button send-button">
-		<i className="fa fa-paper-plane" />
+		<img src={MENU_WALLET_SEND_SPACECASH} />
 		<span>Send Space Cash</span>
 	</div>
 )

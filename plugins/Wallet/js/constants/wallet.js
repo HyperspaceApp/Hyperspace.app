@@ -12,6 +12,14 @@ export const WALLET_LOAD_ICON_PATH = Path.join(
 	'assets',
 	'wallet_start_load.svg'
 )
+export const WALLET_CHANGE_PASSWORD_ICON_PATH = Path.join(
+	'assets',
+	'wallet_change_password.svg'
+)
+export const WALLET_COPY_ADDRESS_ICON_PATH = Path.join(
+	'assets',
+	'wallet_copy_address.svg'
+)
 export const WALLET_LOCKED_ICON_PATH = Path.join('assets', 'wallet_locked.svg')
 export const GET_LOCK_STATUS = 'GET_LOCK_STATUS'
 export const SET_LOCKED = 'SET_LOCKED'
@@ -80,3 +88,41 @@ export const HIDE_BALANCE_INFO = 'HIDE_BALANCE_INFO'
 export const SET_LOADING = 'SET_LOADING'
 export const SET_NOT_LOADING = 'SET_NOT_LOADING'
 export const GET_LOADING_STATUS = 'GET_LOADING_STATUS'
+export const COPY_TO_CLIPBOARD = 'COPY_TO_CLIPBOARD'
+
+// panels
+export const BALANCE_INFO_PANEL = 'BALANCE_INFO_PANEL'
+export const SEND_PANEL = 'SEND_PANEL'
+export const RECEIVE_PANEL = 'RECEIVE_PANEL'
+export const NEW_WALLET_DIALOG_PANEL = 'NEW_WALLET_DIALOG_PANEL'
+export const NEW_WALLET_FORM_PANEL = 'NEW_WALLET_FORM_PANEL'
+export const CHANGE_PASSWORD_PANEL = 'CHANGE_PASSWORD_PANEL'
+export const INIT_SEED_PANEL = 'INIT_SEED_PANEL'
+export const BACKUP_PANEL = 'BACKUP_PANEL'
+export const RECOVERY_PANEL = 'RECOVERY_PANEL'
+
+// menu buttons
+export const MENU_WALLET_SEND_SPACECASH = Path.join(
+	'assets',
+	'menu_wallet_send_spacecash.svg'
+)
+export const MENU_WALLET_RECEIVE_SPACECASH = Path.join(
+	'assets',
+	'menu_wallet_receive_spacecash.svg'
+)
+export const MENU_WALLET_LOCK_WALLET = Path.join(
+	'assets',
+	'menu_wallet_lock_wallet.svg'
+)
+export const MENU_WALLET_CHANGE_PASSWORD = Path.join(
+	'assets',
+	'menu_wallet_change_password.svg'
+)
+export const MENU_WALLET_RECOVER_SEED = Path.join(
+	'assets',
+	'menu_wallet_recover_seed.svg'
+)
+export const MENU_WALLET_BACKUP_WALLET = Path.join(
+	'assets',
+	'menu_wallet_backup_wallet.svg'
+)
