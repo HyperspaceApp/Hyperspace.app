@@ -168,7 +168,7 @@ export default async function loadingScreen(initUI) {
 
 			document.getElementById('releasenotelink').onclick = () => {
 				shell.openExternal(
-					'https://github.com/HyperspaceApp/Hyperspace/releases'
+					'https://github.com/HyperspaceApp/Hyperspace.app/releases'
 				)
 			}
 		}
