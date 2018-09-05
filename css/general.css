@@ -321,10 +321,11 @@ html,body {
 }
 .centered p {
 	margin: 0;
+	font-size: 24px;
 }
 .centered img {
-	width: 350px;
-	height: 350px;
-	margin-top: -100px;
-	margin-bottom: -80px;
+	width: 200px;
+	height: 200px;
+	margin-top: -60px;
+	margin-bottom: -50px;
 }
