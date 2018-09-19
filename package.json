@@ -1,7 +1,7 @@
 {
   "name": "Hyperspace.app",
-  "version": "v0.1.1",
-  "releaseName": "Sourdough",
+  "version": "v0.2.0",
+  "releaseName": "Rye",
   "main": "dist/main.js",
   "author": "Hyperspace",
   "description": "Fast, Private Storage",
