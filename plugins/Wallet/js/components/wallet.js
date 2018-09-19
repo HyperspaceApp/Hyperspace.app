@@ -20,7 +20,7 @@ const Wallet = ({ loading, currentPanel, actions }) => {
 		actions.startSendPrompt(currencytype)
 	return (
 		<div className="wallet pure-g">
-			<div id="sidebar" className="pure-u-1-5">
+			<div id="sidebar" className="pure-u-5-24">
 				<h1>Wallet</h1>
 				<SendButton onClick={onSendClick('spacecash')} />
 				<ReceiveButton />
@@ -29,7 +29,7 @@ const Wallet = ({ loading, currentPanel, actions }) => {
 				<RecoverButton />
 				<BackupButton />
 			</div>
-			<div id="main-panel" className="pure-u-4-5">
+			<div id="main-panel" className="pure-u-19-24">
 				{loading ? null : <LockScreen />}
 				{constants.BALANCE_INFO_PANEL == currentPanel ? <BalanceInfo /> : null}
 				{constants.SEND_PANEL == currentPanel ? <SendPrompt /> : null}
