@@ -118,8 +118,14 @@
 	color: #20323f;
 	border: 0px;
 }
+.transaction-list tr {
+	font-size: 14px;
+}
 .transaction-list table td {
 	/*font-size: 11px;*/
+}
+.transaction-list table td.amount {
+	font-weight: bold;
 }
 .transaction-list .txid {
 	cursor: pointer;

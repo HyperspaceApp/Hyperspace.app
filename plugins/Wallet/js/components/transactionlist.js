@@ -53,24 +53,25 @@ const TransactionList = ({ transactions, ntransactions, actions, filter }) => {
 					txn.transactionsums.totalSpaceCash
 						.round(4)
 						.toNumber()
-						.toLocaleString() + ' SPACE '
+						.toLocaleString()
 			}
+			// NOTE: if a block has both a miner payment and normal wallet outputs
+			// we only show the miner payment
 			if (txn.transactionsums.totalMiner.abs().gt(0)) {
-				valueData +=
-					txn.transactionsums.totalMiner
+				valueData = txn.transactionsums.totalMiner
 						.round(4)
 						.toNumber()
-						.toLocaleString() + ' SPACE (miner) '
+						.toLocaleString() + ' (miner) '
 			}
 			if (valueData === '') {
-				valueData = '0 SPACE'
+				valueData = '0'
 			}
 			return (
 				<tr key={key}>
 					<td className="txid" onClick={() => copyTx(txn.transactionid)}>
-						{txn.transactionid.slice(0, 12) + '...'}
+						{txn.transactionid.slice(0, 18) + '...'}
 					</td>
-					<td>{valueData}</td>
+					<td className="amount">{valueData}</td>
 					<td>
 						{txn.confirmed
 							? prettyTimestamp(txn.confirmationtimestamp)

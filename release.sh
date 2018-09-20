@@ -22,9 +22,9 @@ npm install
 rm -rf ./dist
 npm run build
 
-uiVersion=${3:-v0.1.1}
-hyperspaceVersion=${4:-v0.1.1}
-electronVersion=${5:-v2.0.2}
+uiVersion=${3:-v0.2.0-beta}
+hyperspaceVersion=${4:-v0.2.0-beta}
+electronVersion=${5:-v2.0.8}
 
 # fourth argument is the public key file path.
 if [ "$(uname -s)" = 'Linux' ]; then

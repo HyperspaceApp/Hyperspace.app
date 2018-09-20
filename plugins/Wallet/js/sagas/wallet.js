@@ -149,8 +149,8 @@ function * getBalanceSaga() {
 		const unconfirmed = unconfirmedIncoming.minus(unconfirmedOutgoing)
 		yield put(
 			actions.setBalance(
-				confirmed.round(2).toString(),
-				unconfirmed.round(2).toString()
+				confirmed.toFormat(2),
+				unconfirmed.toFormat(2)
 			)
 		)
 	} catch (e) {
