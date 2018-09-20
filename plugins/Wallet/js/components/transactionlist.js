@@ -49,16 +49,16 @@ const TransactionList = ({ transactions, ntransactions, actions, filter }) => {
 		.map((txn, key) => {
 			let valueData = ''
 			if (txn.transactionsums.totalSpaceCash.abs().gt(0)) {
-				valueData +=
-					txn.transactionsums.totalSpaceCash
-						.round(4)
-						.toNumber()
-						.toLocaleString()
+				valueData += txn.transactionsums.totalSpaceCash
+					.round(4)
+					.toNumber()
+					.toLocaleString()
 			}
 			// NOTE: if a block has both a miner payment and normal wallet outputs
 			// we only show the miner payment
 			if (txn.transactionsums.totalMiner.abs().gt(0)) {
-				valueData = txn.transactionsums.totalMiner
+				valueData =
+					txn.transactionsums.totalMiner
 						.round(4)
 						.toNumber()
 						.toLocaleString() + ' (miner) '

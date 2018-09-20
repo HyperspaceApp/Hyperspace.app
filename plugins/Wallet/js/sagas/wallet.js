@@ -148,10 +148,7 @@ function * getBalanceSaga() {
 		)
 		const unconfirmed = unconfirmedIncoming.minus(unconfirmedOutgoing)
 		yield put(
-			actions.setBalance(
-				confirmed.toFormat(2),
-				unconfirmed.toFormat(2)
-			)
+			actions.setBalance(confirmed.toFormat(2), unconfirmed.toFormat(2))
 		)
 	} catch (e) {
 		console.error('error fetching balance: ' + e.toString())
