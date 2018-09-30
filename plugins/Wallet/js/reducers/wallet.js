@@ -54,9 +54,7 @@ export default function walletReducer(state = initialState, action) {
 		case constants.SEED_RECOVERY_FINISHED:
 			return state.set('recovering', false)
 		case constants.SHOW_NEW_WALLET_DIALOG:
-			return state.get('unlocked')
-				? state.set('showNewWalletDialog', true)
-				: state
+			return state.set('showNewWalletDialog', true)
 		case constants.DISMISS_NEW_WALLET_DIALOG:
 			return state.set('showNewWalletDialog', false)
 		case constants.SHOW_NEW_WALLET_FORM:

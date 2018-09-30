@@ -9,8 +9,4 @@ const SendButton = ({ onClick }) => (
 	</div>
 )
 
-SendButton.propTypes = {
-	currencytype: PropTypes.string.isRequired,
-}
-
 export default SendButton
