@@ -179,7 +179,9 @@ function * showReceivePromptSaga() {
 		)
 		HyperspaceAPI.config.attr('receiveAddresses', validCachedAddrs.toArray())
 		yield put(actions.setReceiveAddresses(validCachedAddrs))
-		yield put(actions.getNewReceiveAddress())
+		// default to using an unused address, don't build a new one
+		yield put(actions.getReceiveAddress())
+		//yield put(actions.getNewReceiveAddress())
 		yield put(actions.setAddressDescription(''))
 	} catch (e) {
 		console.error(e)
@@ -214,7 +216,23 @@ function * saveAddressSaga(action) {
 
 function * getNewReceiveAddressSaga() {
 	try {
-		const response = yield hsdCall('/wallet/address')
+		const response = yield hsdCall({
+			url: '/wallet/address',
+			method: 'POST',
+		})
+		HyperspaceAPI.config.attr('receiveAddress', response.address)
+		yield put(actions.setReceiveAddress(response.address))
+	} catch (e) {
+		console.error(`error getting receive address: ${e.toString()}`)
+	}
+}
+
+function * getReceiveAddressSaga() {
+	try {
+		const response = yield hsdCall({
+			url: '/wallet/address',
+			method: 'GET',
+		})
 		HyperspaceAPI.config.attr('receiveAddress', response.address)
 		yield put(actions.setReceiveAddress(response.address))
 	} catch (e) {
@@ -408,6 +426,9 @@ export function * watchShowBackupPrompt() {
 }
 export function * watchGetNewReceiveAddress() {
 	yield * takeEvery(constants.GET_NEW_RECEIVE_ADDRESS, getNewReceiveAddressSaga)
+}
+export function * watchGetReceiveAddress() {
+	yield * takeEvery(constants.GET_RECEIVE_ADDRESS, getReceiveAddressSaga)
 }
 export function * watchSaveAddress() {
 	yield * takeEvery(constants.SAVE_ADDRESS, saveAddressSaga)

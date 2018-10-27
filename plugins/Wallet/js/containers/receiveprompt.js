@@ -4,6 +4,7 @@ import {
 	hideReceivePrompt,
 	setAddressDescription,
 	getNewReceiveAddress,
+	getReceiveAddress,
 	saveAddress,
 	copyText,
 } from '../actions/wallet.js'
@@ -19,6 +20,7 @@ const mapDispatchToProps = (dispatch) => ({
 		{
 			hideReceivePrompt,
 			getNewReceiveAddress,
+			getReceiveAddress,
 			saveAddress,
 			setAddressDescription,
 			copyText,
