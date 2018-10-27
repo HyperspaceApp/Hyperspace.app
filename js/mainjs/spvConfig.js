@@ -18,10 +18,10 @@ const defaultHsdPath =
 // The default settings
 const defaultConfig = {
 	homePlugin: 'Overview',
-	spvNode: false,
+	spvNode: true,
 	hsd: {
 		path: defaultHsdPath,
-		datadir: Path.join(app.getPath('userData'), './hyperspace'),
+		datadir: Path.join(app.getPath('userData'), './hyperspace-light'),
 		rpcaddr: ':5581',
 		hostaddr: ':5582',
 		detached: false,

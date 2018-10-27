@@ -3,6 +3,8 @@ import { List } from 'immutable'
 import Path from 'path'
 import fs from 'graceful-fs'
 import { remote } from 'electron'
+const config = remote.getGlobal('config')
+const isSpvNode = config.attr('spvNode')
 
 const devtoolsShortcut = 'Ctrl+Shift+P'
 
@@ -134,6 +136,11 @@ export const scanFolder = (path) => {
 	let pluginFolders = List(fs.readdirSync(path))
 	pluginFolders = pluginFolders.map((folder) => Path.join(path, folder))
 	pluginFolders = pluginFolders.filter((pluginPath) => {
+		if (isSpvNode) {
+			if (getPluginName(pluginPath) == 'Files' || getPluginName(pluginPath) == 'Hosting') {
+				return false
+			}
+		}
 		const markupPath = Path.join(pluginPath, 'index.html')
 		try {
 			fs.statSync(markupPath)
@@ -160,8 +167,10 @@ export const pushToTop = (plugins, target) =>
 export const getOrderedPlugins = (path, homePlugin) => {
 	let plugins = scanFolder(path)
 
-	plugins = pushToBottom(plugins, 'Files')
-	plugins = pushToBottom(plugins, 'Hosting')
+	if (!isSpvNode) {
+		plugins = pushToBottom(plugins, 'Files')
+		plugins = pushToBottom(plugins, 'Hosting')
+	}
 	// Push the Terminal plugin to the bottom
 	plugins = pushToBottom(plugins, 'Terminal')
 

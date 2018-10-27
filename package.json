@@ -1,6 +1,6 @@
 {
   "name": "Hyperspace.app",
-  "version": "v0.2.0",
+  "version": "v0.2.1",
   "releaseName": "Rye",
   "main": "dist/main.js",
   "author": "Hyperspace",
@@ -18,10 +18,15 @@
     "precommit": "lint-staged",
     "start": "cross-env NODE_ENV=production electron .",
     "dev": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 npm run start-renderer-dev",
+    "spv-dev": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 npm run start-spv-renderer-dev",
     "start-renderer-dev": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config ./internals/webpack/webpack.config.renderer.dev.js",
+    "start-spv-renderer-dev": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config ./internals/webpack/webpack.config.spv-renderer.dev.js",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron --remote-debugging-port=9222 -r babel-register ./app.js",
+    "start-spv-dev": "cross-env HOT=1 NODE_ENV=development electron --remote-debugging-port=9222 -r babel-register ./spvApp.js",
     "build": "rimraf dist && concurrently \"npm run build-main\" \"npm run build-renderer\"",
+    "build-spv": "rimraf dist && concurrently \"npm run build-spv-main\" \"npm run build-renderer\"",
     "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config ./internals/webpack/webpack.config.main.prod.js --colors",
+    "build-spv-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config ./internals/webpack/webpack.config.spv-main.prod.js --colors",
     "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config ./internals/webpack/webpack.config.renderer.prod.js --colors",
     "lint": "standard --max-warnings 0 ./index.js ./plugins ./js ./test",
     "lint-fix": "standard --fix ./index.js ./plugins ./js ./test"

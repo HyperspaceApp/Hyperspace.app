@@ -13,6 +13,7 @@ const app = remote.app
 const fs = remote.require('fs')
 const config = remote.getGlobal('config')
 const hsdConfig = config.attr('hsd')
+const isSpvNode = config.attr('spvNode')
 
 const spinner = document.getElementById('loading-spinner')
 const overlay = document.getElementsByClassName('overlay')[0]
@@ -144,13 +145,24 @@ export default async function loadingScreen(initUI) {
 
 	// Launch the new Hsd process
 	try {
-		const hsdProcess = Hsd.launch(hsdConfig.path, {
+		let hsdArgs = {
 			'hyperspace-directory': hsdConfig.datadir,
 			'rpc-addr': hsdConfig.rpcaddr,
 			'host-addr': hsdConfig.hostaddr,
 			'api-addr': hsdConfig.address,
 			modules: 'cghrtw',
-		})
+		}
+		if (isSpvNode) {
+			hsdArgs = {
+				'hyperspace-directory': hsdConfig.datadir,
+				'rpc-addr': hsdConfig.rpcaddr,
+				'host-addr': hsdConfig.hostaddr,
+				'api-addr': hsdConfig.address,
+				spv: true,
+				modules: 'cgtw',
+			}
+		}
+		const hsdProcess = Hsd.launch(hsdConfig.path, hsdArgs)
 		hsdProcess.on('error', (e) => showError('Hsd couldnt start: ' + e.toString()))
 		hsdProcess.on('close', unexpectedExitHandler)
 		hsdProcess.on('exit', unexpectedExitHandler)
