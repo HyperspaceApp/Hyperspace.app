@@ -17,15 +17,15 @@ const UsageStats = ({allowance, downloadspending, uploadspending, storagespendin
 					<div style={{width: (uploadspending/totalSpending)*100 + '%'}} className="upload-spending" />
 				</div>
 			</div>
-			<p className="remaining-text">{unspent} SPACE remaining</p>
+			<p className="remaining-text">{unspent} XSC remaining</p>
 			<div className="spending-breakdown">
 				<ul>
-					<li className="allowance-spending-breakdown">Allowance: {allowance} SPACE </li>
+					<li className="allowance-spending-breakdown">Allowance: {allowance} XSC </li>
 					<li className="renew-info">Renews at Block Height: {renewheight}</li>
-					<li className="contract-spending-breakdown"> Contract Spending: {contractspending} SPACE </li>
-					<li className="storage-spending-breakdown"> Storage Spending: {storagespending} SPACE </li>
-					<li className="upload-spending-breakdown"> Upload Spending: {uploadspending} SPACE </li>
-					<li className="download-spending-breakdown"> Download Spending: {downloadspending} SPACE </li>
+					<li className="contract-spending-breakdown"> Contract Spending: {contractspending} XSC </li>
+					<li className="storage-spending-breakdown"> Storage Spending: {storagespending} XSC </li>
+					<li className="upload-spending-breakdown"> Upload Spending: {uploadspending} XSC </li>
+					<li className="download-spending-breakdown"> Download Spending: {downloadspending} XSC </li>
 				</ul>
 			</div>
 		</div>

@@ -310,7 +310,7 @@ function * startSendPromptSaga() {
 			HyperspaceAPI.hastingsToSpaceCash(response.maximum)
 				.times(1e3)
 				.round(8)
-				.toString() + ' SPACE/KB'
+				.toString() + ' XSC/KB'
 		yield put(actions.setFeeEstimate(feeEstimate))
 	} catch (e) {
 		console.error(

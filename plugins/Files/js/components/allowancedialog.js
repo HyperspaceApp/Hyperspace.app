@@ -26,7 +26,7 @@ const AllowanceDialog = ({confirming, confirmationAllowance, unlocked, synced, f
 			<form onSubmit={onAcceptClick}>
 				<div className="allowance-input">
 					<label>Allowance: <input type="number" name="allowance" defaultValue="5000" onFocus={onAllowanceChange} onChange={onAllowanceChange} required autoFocus className="allowance-amount" /></label>
-					<span> SPACE</span>
+					<span> XSC</span>
 				</div>
 				<div className="allowance-buttons">
 					<button type="submit" className="allowance-button-accept">Accept</button>
@@ -35,7 +35,7 @@ const AllowanceDialog = ({confirming, confirmationAllowance, unlocked, synced, f
 				<table className="estimates">
 					<tr>
 						<td className="estimate-label">Estimated Fees</td>
-						<td className="estimate-content">{new BigNumber(feeEstimate).round(2).toString()} SPACE</td>
+						<td className="estimate-content">{new BigNumber(feeEstimate).round(2).toString()} XSC</td>
 					</tr>
 					<tr>
 						<td className="estimate-label">Estimated Storage</td>

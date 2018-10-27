@@ -21,15 +21,15 @@ const mapStateToProps = (state) => ({
 			min: 12,
 		}),
 		collateral: Map({
-			name: 'Collateral per TB per Month (SPACE)',
+			name: 'Collateral per TB per Month (XSC)',
 			value: state.settingsReducer.get('collateral'),
 		}),
 		storageprice: Map({
-			name: 'Price per TB per Month (SPACE)',
+			name: 'Price per TB per Month (XSC)',
 			value: state.settingsReducer.get('storageprice'),
 		}),
 		downloadbandwidthprice: Map({
-			name: 'Bandwidth Price (SPACE/TB)',
+			name: 'Bandwidth Price (XSC/TB)',
 			value: state.settingsReducer.get('downloadbandwidthprice'),
 		}),
 	}),

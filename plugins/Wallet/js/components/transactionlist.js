@@ -91,7 +91,7 @@ const TransactionList = ({ transactions, ntransactions, actions, filter }) => {
 	const onToggleFilter = () => actions.toggleFilter()
 	const copyTx = (str) => actions.copyText(str)
 	// <div className="filter-toggle">
-	// <input type="checkbox" onClick={onToggleFilter} checked={filter} />Hide 0 SPACE Transactions
+	// <input type="checkbox" onClick={onToggleFilter} checked={filter} />Hide 0 XSC Transactions
 	// </div>
 	return (
 		<div className="transaction-list">

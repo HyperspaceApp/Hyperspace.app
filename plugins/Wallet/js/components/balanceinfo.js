@@ -7,7 +7,7 @@ const BalanceInfo = ({ synced, confirmedbalance, unconfirmedbalance }) => (
 		<div className="balance-header">
 			<div className="balance-summary">
 				<div className="confirmed-balance">
-					Confirmed Balance: {confirmedbalance} SPACE{' '}
+					Confirmed Balance: {confirmedbalance} XSC{' '}
 				</div>
 			</div>
 			{!synced ? (
