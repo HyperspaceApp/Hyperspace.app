@@ -181,7 +181,7 @@ function * showReceivePromptSaga() {
 		yield put(actions.setReceiveAddresses(validCachedAddrs))
 		// default to using an unused address, don't build a new one
 		yield put(actions.getReceiveAddress())
-		//yield put(actions.getNewReceiveAddress())
+		// yield put(actions.getNewReceiveAddress())
 		yield put(actions.setAddressDescription(''))
 	} catch (e) {
 		console.error(e)
