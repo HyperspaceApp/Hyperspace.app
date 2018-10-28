@@ -14,8 +14,8 @@ if [[ -z $1 || -z $2 ]]; then
 	exit 1
 fi
 
-uiVersion=${3:-v0.2.1}
-hyperspaceVersion=${4:-v0.2.1}
+uiVersion=${3:-v0.2.2}
+hyperspaceVersion=${4:-v0.2.2}
 electronVersion=${5:-v2.0.8}
 
 electronOSXZip="electron-${electronVersion}-darwin-x64.zip"
