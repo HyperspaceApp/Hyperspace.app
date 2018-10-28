@@ -14,26 +14,9 @@ if [[ -z $1 || -z $2 ]]; then
 	exit 1
 fi
 
-## ensure we have a clean node_modules
-rm -rf ./node_modules
-npm install
-
-# build the UI's js
-rm -rf ./dist
-npm run build
-
 uiVersion=${3:-v0.2.1}
 hyperspaceVersion=${4:-v0.2.1}
 electronVersion=${5:-v2.0.8}
-
-# fourth argument is the public key file path.
-if [ "$(uname -s)" = 'Linux' ]; then
-	keyFile=`readlink -f $1`
-	pubkeyFile=`readlink -f $2`
-else
-	keyFile=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $1`
-	pubkeyFile=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $2`
-fi
 
 electronOSXZip="electron-${electronVersion}-darwin-x64.zip"
 electronOSX="https://github.com/electron/electron/releases/download/${electronVersion}/${electronOSXZip}"
@@ -46,8 +29,24 @@ hyperspaceOSX="/Users/mark/.go/src/github.com/HyperspaceApp/Hyperspace/release/H
 hyperspaceLinux="/Users/mark/.go/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-linux-amd64.zip"
 hyperspaceWindows="/Users/mark/.go/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-windows-amd64.zip"
 
+## ensure we have a clean node_modules
+rm -rf ./node_modules
+npm install
+
+# fourth argument is the public key file path.
+if [ "$(uname -s)" = 'Linux' ]; then
+	keyFile=`readlink -f $1`
+	pubkeyFile=`readlink -f $2`
+else
+	keyFile=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $1`
+	pubkeyFile=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $2`
+fi
+
 rm -rf release/
 mkdir -p release/{osx,linux,win32}
+
+# build the UI's js
+rm -rf ./dist
 
 # package copies all the required javascript, html, and assets into an electron package.
 package() {
@@ -57,6 +56,7 @@ package() {
 }
 
 buildOSX() {
+	isSpv=$1
 	if [ ! -f $electronOSXZip ]; then
 		wget $electronOSX
 	fi
@@ -89,11 +89,15 @@ buildOSX() {
 		mv ./Hyperspace-* ./Hyperspace
 	)
 	package "../../" "Hyperspace.app/Contents/Resources/app"
+	if [ "$isSpv" = false ]; then
+		mv Hyperspace.app HyperspaceFullNode.app
+	fi
 	rm -r $electronOSXZip
 	cp ../../LICENSE .
 }
 
 buildLinux() {
+	isSpv=$1
 	if [ ! -f $electronLinuxZip ]; then
 		wget $electronLinux
 	fi
@@ -111,11 +115,15 @@ buildLinux() {
 		mv ./Hyperspace-* ./Hyperspace
 	)
 	package "../../" "resources/app"
+	if [ "$isSpv" = false ]; then
+		mv Hyperspace HyperspaceFullNode
+	fi
 	rm -r $electronLinuxZip
 	cp ../../LICENSE .
 }
 
 buildWindows() {
+	isSpv=$1
 	if [ ! -f $electronWindowsZip ]; then
 		wget $electronWindows
 	fi
@@ -137,29 +145,75 @@ buildWindows() {
 		mv ./Hyperspace-* ./Hyperspace
 	)
 	package "../../" "resources/app"
+	if [ "$isSpv" = false ]; then
+		mv Hyperspace.exe HyperspaceFullNode.exe
+	fi
 	rm -r $electronWindowsZip
 	cp ../../LICENSE .
 }
 
-# make osx release
-( buildOSX )
 
-# make linux release
-( buildLinux )
+buildPackages() {
 
-# make windows release
-( buildWindows )
+	# make osx release
+	( buildOSX false )
 
-# make signed zip archives for each release
-for os in win32 linux osx; do
-	(
-		cd release/${os}
-		zip -r ../Hyperspace-${uiVersion}-${os}-x64.zip .
-		cd ..
-		openssl dgst -sha256 -sign $keyFile -out Hyperspace-${uiVersion}-${os}-x64.zip.sig Hyperspace-${uiVersion}-${os}-x64.zip
-		if [[ -n $pubkeyFile ]]; then
-			openssl dgst -sha256 -verify $pubkeyFile -signature Hyperspace-${uiVersion}-${os}-x64.zip.sig Hyperspace-${uiVersion}-${os}-x64.zip
-		fi
-		rm -rf release/${os}
-	)
-done
+	# make linux release
+	( buildLinux false )
+
+	# make windows release
+	( buildWindows false )
+
+	# make signed zip archives for each release
+	for os in win32 linux osx; do
+		(
+			cd release/${os}
+			zip -r ../Hyperspace-Full-Node-${uiVersion}-${os}-x64.zip .
+			cd ..
+			openssl dgst -sha256 -sign $keyFile -out Hyperspace-Full-Node-${uiVersion}-${os}-x64.zip.sig Hyperspace-Full-Node-${uiVersion}-${os}-x64.zip
+			if [[ -n $pubkeyFile ]]; then
+				openssl dgst -sha256 -verify $pubkeyFile -signature Hyperspace-Full-Node-${uiVersion}-${os}-x64.zip.sig Hyperspace-Full-Node-${uiVersion}-${os}-x64.zip
+			fi
+			rm -rf release/${os}
+		)
+	done
+}
+
+buildSpvPackages() {
+
+	# make osx release
+	( buildOSX true )
+
+	# make linux release
+	( buildLinux true )
+
+	# make windows release
+	( buildWindows true )
+
+	# make signed zip archives for each release
+	for os in win32 linux osx; do
+		(
+			cd release/${os}
+			zip -r ../Hyperspace-${uiVersion}-${os}-x64.zip .
+			cd ..
+			openssl dgst -sha256 -sign $keyFile -out Hyperspace-${uiVersion}-${os}-x64.zip.sig Hyperspace-${uiVersion}-${os}-x64.zip
+			if [[ -n $pubkeyFile ]]; then
+				openssl dgst -sha256 -verify $pubkeyFile -signature Hyperspace-${uiVersion}-${os}-x64.zip.sig Hyperspace-${uiVersion}-${os}-x64.zip
+			fi
+			rm -rf release/${os}
+		)
+	done
+}
+
+buildFull() {
+	npm run build
+	( buildPackages )
+}
+
+buildSpv() {
+	npm run build-spv
+	( buildSpvPackages )
+}
+
+#( buildFull )
+( buildSpv )
