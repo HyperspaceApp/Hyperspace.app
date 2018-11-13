@@ -6,7 +6,7 @@ import initWindow from './js/mainjs/initWindow.js'
 // load config.json manager
 global.config = loadConfig(Path.join(app.getPath('userData'), 'config.json'))
 let mainWindow
-console.log(app.getPath('userData'))
+console.log("data dir: " + app.getPath('userData'))
 // disable hardware accelerated rendering
 app.disableHardwareAcceleration()
 
@@ -30,7 +30,7 @@ if (shouldQuit) {
 
 // When Electron loading has finished, start Hyperspace.app.
 app.on('ready', () => {
-	//console.log(config)
+	// console.log(config)
 	// Load mainWindow
 	mainWindow = initWindow(config)
 })

@@ -215,5 +215,5 @@ buildSpv() {
 	( buildSpvPackages )
 }
 
-#( buildFull )
-( buildSpv )
+( buildFull )
+#( buildSpv )
