@@ -223,7 +223,7 @@ div[tabindex="1"]:focus {
 .upload-button-container:hover .upload-button:last-of-type {
 	max-height: 100px;
 	padding: 23px 0px 5px;
-} 
+}
 .upload-button-container {
 	display: inline-block;
 	position: relative;
@@ -231,14 +231,7 @@ div[tabindex="1"]:focus {
 }
 .files-toolbar .buttons div {
 	text-align: center;
-	width: 100px;
 	cursor: pointer;
-}
-.fa-2x {
-	font-size: 1.5em;
-}
-.transfers-button {
-	display: inline-block;
 }
 
 @keyframes notify-animation {
@@ -737,6 +730,62 @@ div[tabindex="1"]:focus {
 	width: 80%;
 }
 .buttons {
-	width: 500px;
+	width: 100%;
 	display: flex;
+	justify-content: flex-end;
+	padding-right: 32px;
+}
+
+#sidebar {
+	position: relative;
+	background-color: #f6f7f8;
+	-webkit-box-sizing:border-box;
+	border-left: 0 solid #F5F5F5;
+	border-right: 1px solid #edeeef;
+	height: 100%;
+
+	font-size: 14px;
+}
+
+#sidebar > h1 {
+	font-size: 36px;
+	margin-top: 36px;
+	margin-left: 34px;
+	margin-bottom: 24px;
+}
+
+.files-button {
+	height: 36px;
+	padding: 3px;
+	padding-left: 38px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+.files-button:hover, .files-button.selected {
+	background-color: #e6e6e6;
+}
+
+.files-button > img {
+	width: 14px;
+	height: 14px;
+}
+
+.files-button span {
+	padding-left: 12px;
+}
+
+.buttons button {
+	display: flex;
+	margin-left: 10px;
+	background-color: #2c7cf6;
+	border: 0;
+	color: white;
+	border-radius: 5px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 14px;
 }

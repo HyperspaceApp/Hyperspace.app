@@ -29,12 +29,10 @@ const UploadButton = ({contracts = minimumContracts, actions}) => {
 	return (
 		<div className="upload-button-container">
 			<div onClick={onUploadClick('file')} className="upload-button">
-				<i className="fa fa-cloud-upload fa-2x" />
-				<span>Upload Files</span>
+				<button> Upload Files </button>
 			</div>
 			<div onClick={onUploadClick('folder')} className="upload-button">
-				<i className="fa fa-folder-open-o fa-2x" />
-				<span>Upload Folder</span>
+				<button> Upload Folder </button>
 			</div>
 		</div>
 	)

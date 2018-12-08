@@ -19,7 +19,7 @@
  	right: 0;
  }
 
-#sidebar {
+ #sidebar {
 	position: relative;
 	background-color: #f6f7f8;
 	-webkit-box-sizing:border-box;
@@ -27,8 +27,14 @@
 	border-right: 1px solid #edeeef;
 	height: 100%;
 
-	padding: 20px;
 	font-size: 14px;
+}
+
+#sidebar > h1 {
+	font-size: 36px;
+	margin-top: 36px;
+	margin-left: 34px;
+	margin-bottom: 24px;
 }
 
 #main-panel {
@@ -48,12 +54,16 @@
 }
 
 .wallet-button {
+	height: 36px;
 	padding: 3px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	padding-left: 38px;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
+}
+
+.wallet-button:hover, .wallet-button.selected {
+	background-color: #e6e6e6;
 }
 .wallet-button > img {
 	width: 14px;
@@ -61,7 +71,7 @@
 }
 
 .wallet-button span {
-	padding-left: 10px;
+	padding-left: 12px;
 }
 
 .green-box {
@@ -592,6 +602,7 @@
 	padding: 10px;
 	font-size: 12px;
 	border-color: #c7c7c8;
+	box-sizing: border-box;
 }
 
 .change-password-error {

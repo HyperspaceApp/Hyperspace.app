@@ -54,19 +54,15 @@ const FileBrowser = ({dragging, dragUploadEnabled, settingAllowance, showAddFold
 				{showAddFolderDialog ? <AddFolderDialog /> : null}
 				{dragging ? <DragOverlay /> : null}
 				<div className="files-toolbar">
-					<UsageStats />
-					<ContractorStatus />
 					<div className="buttons">
 						{!settingAllowance ? <SetAllowanceButton /> : null}
 						<SearchButton />
 						<AddFolderButton />
 						<UploadButton />
-						<TransfersButton />
 					</div>
 				</div>
 				<FileList />
 			</div>
-			{showFileTransfers ? <FileTransfers /> : null}
 		</div>
 	)
 }

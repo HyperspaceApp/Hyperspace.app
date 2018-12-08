@@ -22,12 +22,12 @@ const Wallet = ({ loading, currentPanel, actions }) => {
 		<div className="wallet pure-g">
 			<div id="sidebar" className="pure-u-5-24">
 				<h1>Wallet</h1>
-				<SendButton onClick={onSendClick('spacecash')} />
-				<ReceiveButton />
+				<SendButton onClick={onSendClick('spacecash')} selected={constants.SEND_PANEL == currentPanel} />
+				<ReceiveButton selected={constants.RECEIVE_PANEL == currentPanel} />
 				<LockButton />
-				<ChangePasswordButton />
-				<RecoverButton />
-				<BackupButton />
+				<ChangePasswordButton selected={constants.CHANGE_PASSWORD_PANEL == currentPanel} />
+				<RecoverButton selected={constants.RECOVERY_PANEL == currentPanel} />
+				<BackupButton selected={constants.BACKUP_PANEL == currentPanel} />
 			</div>
 			<div id="main-panel" className="pure-u-19-24">
 				{loading ? null : <LockScreen />}

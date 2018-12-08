@@ -1,3 +1,5 @@
+import Path from 'path'
+
 export const GET_WALLET_LOCKSTATE = 'GET_WALLET_LOCKSTATE'
 export const RECEIVE_WALLET_LOCKSTATE = 'SET_WALLET_LOCKSTATE'
 export const GET_STORAGE_ESTIMATE = 'GET_STORAGE_ESTIMATE'
@@ -58,3 +60,15 @@ export const SET_DRAG_FOLDER_TARGET = 'SET_DRAG_FOLDER_TARGET'
 export const SET_DRAG_FILE_ORIGIN = 'SET_DRAG_FILE_ORIGIN'
 export const RENAME_HYPERSPACE_APP_FOLDER = 'RENAME_HYPERSPACE_APP_FOLDER'
 export const DELETE_HYPERSPACE_APP_FOLDER = 'DELETE_HYPERSPACE_APP_FOLDER'
+export const FILES_SIDEBAR_MENU_ALL_FILES = Path.join(
+	'assets',
+	'files_sidebar_menu_all_files.svg'
+)
+// export const FILES_SIDEBAR_MENU_DOWNLOADS = Path.join(
+// 	'assets',
+// 	'files_sidebar_menu_downloads.svg'
+// )
+export const FILES_SIDEBAR_MENU_TRANSFER = Path.join(
+	'assets',
+	'files_sidebar_menu_transfer.svg'
+)
