@@ -4,12 +4,13 @@ import FileBrowser from '../containers/filebrowser.js'
 import AllowanceDialog from '../containers/allowancedialog.js'
 import SideBar from '../containers/sidebar.js'
 
-const FilesApp = ({showAllowanceDialog}) => (
+const FilesApp = ({ showAllFiles, showFileTransfers, showAllowanceDialog }) => (
 	<div className="app">
 		{showAllowanceDialog ? <AllowanceDialog /> : null}
 		<SideBar />
-		<div id="main-panel" className="pure-u-19-24">
-			<FileBrowser />
+		<div id="main-panel">
+		    {showAllFiles ? <FileBrowser /> : null}
+			{showFileTransfers ? null : null}
 		</div>
 	</div>
 )

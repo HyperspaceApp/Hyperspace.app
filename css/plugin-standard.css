@@ -24,7 +24,7 @@ select, input, html, body {
 	margin: 0;
 	padding: 0;
 	border-spacing: 0;
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: sans-serif;
 	font-weight: 300;
 	font-size: 18px;
 }

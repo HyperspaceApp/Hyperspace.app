@@ -5,7 +5,7 @@ const ReceiveButton = ({ actions, selected }) => {
 	const handleReceiveButtonClick = () => actions.showReceivePrompt()
 	return (
 		<div
-			className={`wallet-button receive-button ${selected?'selected':''}`}
+			className={`wallet-button receive-button ${selected ? 'selected' : ''}`}
 			onClick={handleReceiveButtonClick}
 		>
 			<img src={MENU_WALLET_RECEIVE_SPACECASH} />

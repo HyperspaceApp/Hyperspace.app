@@ -18,6 +18,10 @@
 	bottom: 0;
 	left: 0;
 	right: 0;
+	display: flex;
+}
+#main-panel {
+	flex-grow: 1;
 }
 .file-browser-container {
 	display: flex;
@@ -50,9 +54,8 @@
 div[tabindex="1"]:focus {
 	outline: 0;
 }
-.selected {
-	border-left: 5px solid #2c7cf6;
-	background-color: #F5F5F5 !important;
+.file-list li.selected {
+	background-color: #e6e6e6;
 }
 .dragtarget {
 	background-color: #F5F5F5 !important;
@@ -195,7 +198,6 @@ div[tabindex="1"]:focus {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: #f6f7f8;
 	color: black;
 	padding-bottom: 8px;
 	padding-top: 8px;
@@ -739,15 +741,17 @@ div[tabindex="1"]:focus {
 #sidebar {
 	position: relative;
 	background-color: #f6f7f8;
-	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
 	border-left: 0 solid #F5F5F5;
 	border-right: 1px solid #edeeef;
 	height: 100%;
-
+	width: 242px;
 	font-size: 14px;
+	display: flex;
+	flex-direction: column;
 }
 
-#sidebar > h1 {
+#sidebar h1 {
 	font-size: 36px;
 	margin-top: 36px;
 	margin-left: 34px;
@@ -788,4 +792,13 @@ div[tabindex="1"]:focus {
 	padding-left: 20px;
 	padding-right: 20px;
 	font-size: 14px;
+}
+
+#contract-status {
+	padding: 34px;
+	margin-top: auto;
+}
+
+#contract-status > div {
+	height: 30px;
 }

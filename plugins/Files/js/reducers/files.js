@@ -18,6 +18,7 @@ const initialState = Map({
 	showAddFolderDialog: false,
 	showUploadDialog: false,
 	showSearchField: false,
+	showAllFiles: true,
 	showFileTransfers: false,
 	showDeleteDialog: false,
 	showRenameDialog: false,
@@ -156,9 +157,9 @@ export default function filesReducer(state = initialState, action) {
 			    .set('downloadTimes', downloadTimes)
 	}
 	case constants.SHOW_FILE_TRANSFERS:
-		return state.set('showFileTransfers', true)
-	case constants.HIDE_FILE_TRANSFERS:
-		return state.set('showFileTransfers', false)
+		return state.set('showFileTransfers', true).set('showAllFiles', false)
+	case constants.SHOW_ALL_FILES:
+		return state.set('showFileTransfers', false).set('showAllFiles', true)
 	case constants.TOGGLE_FILE_TRANSFERS:
 		return state.set('showFileTransfers', !state.get('showFileTransfers'))
 		            .set('unreadDownloads', Set())

@@ -5,7 +5,9 @@ const ChangePasswordButton = ({ actions, selected }) => {
 	const handleChangePasswordClick = () => actions.showChangePasswordDialog()
 	return (
 		<div
-			className={`wallet-button change-password-button ${selected?'selected':''}`}
+			className={`wallet-button change-password-button ${
+				selected ? 'selected' : ''
+			}`}
 			onClick={handleChangePasswordClick}
 		>
 			<img src={MENU_WALLET_CHANGE_PASSWORD} />

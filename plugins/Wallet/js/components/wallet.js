@@ -19,17 +19,22 @@ const Wallet = ({ loading, currentPanel, actions }) => {
 	const onSendClick = (currencytype) => () =>
 		actions.startSendPrompt(currencytype)
 	return (
-		<div className="wallet pure-g">
-			<div id="sidebar" className="pure-u-5-24">
+		<div className="wallet">
+			<div id="sidebar">
 				<h1>Wallet</h1>
-				<SendButton onClick={onSendClick('spacecash')} selected={constants.SEND_PANEL == currentPanel} />
+				<SendButton
+					onClick={onSendClick('spacecash')}
+					selected={constants.SEND_PANEL == currentPanel}
+				/>
 				<ReceiveButton selected={constants.RECEIVE_PANEL == currentPanel} />
 				<LockButton />
-				<ChangePasswordButton selected={constants.CHANGE_PASSWORD_PANEL == currentPanel} />
+				<ChangePasswordButton
+					selected={constants.CHANGE_PASSWORD_PANEL == currentPanel}
+				/>
 				<RecoverButton selected={constants.RECOVERY_PANEL == currentPanel} />
 				<BackupButton selected={constants.BACKUP_PANEL == currentPanel} />
 			</div>
-			<div id="main-panel" className="pure-u-19-24">
+			<div id="main-panel">
 				{loading ? null : <LockScreen />}
 				{constants.BALANCE_INFO_PANEL == currentPanel ? <BalanceInfo /> : null}
 				{constants.SEND_PANEL == currentPanel ? <SendPrompt /> : null}

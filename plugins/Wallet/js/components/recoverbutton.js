@@ -5,7 +5,7 @@ const RecoverButton = ({ actions, selected }) => {
 	const handleRecoverButtonClick = () => actions.showSeedRecoveryDialog()
 	return (
 		<div
-			className={`wallet-button recover-button ${selected?'selected':''}`}
+			className={`wallet-button recover-button ${selected ? 'selected' : ''}`}
 			onClick={handleRecoverButtonClick}
 		>
 			<img src={MENU_WALLET_RECOVER_SEED} />

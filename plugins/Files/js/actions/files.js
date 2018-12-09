@@ -130,8 +130,8 @@ export const receiveDownloads = (downloads) => ({
 export const showFileTransfers = () => ({
 	type: constants.SHOW_FILE_TRANSFERS,
 })
-export const hideFileTransfers = () => ({
-	type: constants.HIDE_FILE_TRANSFERS,
+export const showAllFiles = () => ({
+	type: constants.SHOW_ALL_FILES,
 })
 export const toggleFileTransfers = () => ({
 	type: constants.TOGGLE_FILE_TRANSFERS,
