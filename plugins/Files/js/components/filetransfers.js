@@ -14,9 +14,6 @@ const FileTransfers = ({uploads, downloads, actions}) => {
 	}
 	return (
 		<div className="file-transfers">
-			<div className="close-button" onClick={onCloseClick}>
-				<i className="fa fa-times fa-2x" />
-			</div>
 			{downloads.size === 0 && uploads.size === 0 ? (
 				<h3 style={{marginTop: '50px'}}> No file transfers in progress. </h3>
 				) : null

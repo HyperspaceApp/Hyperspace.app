@@ -6,7 +6,16 @@ import Path from 'path'
 import FileControls from '../containers/filecontrols.js'
 import DirectoryInfoBar from './directoryinfobar.js'
 
-const FileList = ({files, selected, searchResults, path, showSearchField, dragFileOrigin, dragFolderTarget, actions}) => {
+const FileList = ({
+	files,
+	selected,
+	searchResults,
+	path,
+	showSearchField,
+	dragFileOrigin,
+	dragFolderTarget,
+	actions,
+}) => {
 	const onBackClick = () => {
 		// remove a trailing slash if it exists
 		const cleanPath = path.replace(/\/$/, '')
@@ -42,7 +51,9 @@ const FileList = ({files, selected, searchResults, path, showSearchField, dragFi
 		filelistFiles = files
 	}
 	const fileElements = filelistFiles.map((file, key) => {
-		const isSelected = selected.map((selectedfile) => selectedfile.name).includes(file.name)
+		const isSelected = selected
+			.map((selectedfile) => selectedfile.name)
+			.includes(file.name)
 		const onFileClick = (e) => {
 			const shouldMultiSelect = e.ctrlKey || e.metaKey
 			const shouldRangeSelect = e.shiftKey
@@ -76,17 +87,38 @@ const FileList = ({files, selected, searchResults, path, showSearchField, dragFi
 			}
 			if (selected.size > 0) {
 				selected.forEach((selectedfile) => {
-					const destHyperspacePath = Path.posix.join(path, dragFolderTarget, selectedfile.name)
+					const destHyperspacePath = Path.posix.join(
+						path,
+						dragFolderTarget,
+						selectedfile.name
+					)
 					actions.renameFile(selectedfile, destHyperspacePath)
-					if (selected.type === 'directory' && !selected.isHyperspaceAppFolder) {
+					if (
+						selected.type === 'directory' &&
+						!selected.isHyperspaceAppFolder
+					) {
 						actions.deleteHyperspaceAppFolder(sourceHyperspacePath)
 					}
 				})
 			} else {
 				const sourceHyperspacePath = Path.posix.join(path, dragFileOrigin.name)
-				const destHyperspacePath = Path.posix.join(path, dragFolderTarget, dragFileOrigin.name)
-				actions.renameFile({type: dragFileOrigin.type, hyperspacepath: sourceHyperspacePath, isHyperspaceAppFolder: dragFileOrigin.isHyperspaceAppFolder}, destHyperspacePath)
-				if (dragFileOrigin.type === 'directory' && !dragFileOrigin.isHyperspaceAppFolder) {
+				const destHyperspacePath = Path.posix.join(
+					path,
+					dragFolderTarget,
+					dragFileOrigin.name
+				)
+				actions.renameFile(
+					{
+						type: dragFileOrigin.type,
+						hyperspacepath: sourceHyperspacePath,
+						isHyperspaceAppFolder: dragFileOrigin.isHyperspaceAppFolder,
+					},
+					destHyperspacePath
+				)
+				if (
+					dragFileOrigin.type === 'directory' &&
+					!dragFileOrigin.isHyperspaceAppFolder
+				) {
 					actions.deleteHyperspaceAppFolder(sourceHyperspacePath)
 				}
 			}
@@ -119,8 +151,13 @@ const FileList = ({files, selected, searchResults, path, showSearchField, dragFi
 	return (
 		<div className="file-list">
 			<ul>
-				<DirectoryInfoBar path={path} nfiles={files.size} onBackClick={onBackClick} setDragFolderTarget={actions.setDragFolderTarget} />
-				{ fileElements.size > 0 ? fileElements : <h2> No files uploaded </h2> }
+				<DirectoryInfoBar
+					path={path}
+					nfiles={files.size}
+					onBackClick={onBackClick}
+					setDragFolderTarget={actions.setDragFolderTarget}
+				/>
+				{fileElements.size > 0 ? fileElements : <h2> No files uploaded </h2>}
 			</ul>
 			{selected.size > 0 ? <FileControls /> : null}
 		</div>

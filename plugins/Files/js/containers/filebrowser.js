@@ -1,7 +1,13 @@
 import FileBrowserView from '../components/filebrowser.js'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { setDragging, deselectAll, setNotDragging, showUploadDialog, setPath } from '../actions/files.js'
+import {
+	setDragging,
+	deselectAll,
+	setNotDragging,
+	showUploadDialog,
+	setPath,
+} from '../actions/files.js'
 
 const mapStateToProps = (state) => ({
 	dragging: state.files.get('dragging'),
@@ -17,8 +23,13 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-	actions: bindActionCreators({ setDragging, deselectAll, setNotDragging, showUploadDialog, setPath }, dispatch),
+	actions: bindActionCreators(
+		{ setDragging, deselectAll, setNotDragging, showUploadDialog, setPath },
+		dispatch
+	),
 })
 
-const FileBrowser = connect(mapStateToProps, mapDispatchToProps)(FileBrowserView)
+const FileBrowser = connect(mapStateToProps, mapDispatchToProps)(
+	FileBrowserView
+)
 export default FileBrowser

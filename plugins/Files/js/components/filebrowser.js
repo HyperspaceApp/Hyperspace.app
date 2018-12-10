@@ -59,18 +59,28 @@ const FileBrowser = ({
 		actions.setPath('')
 	}
 	const cleanPath = path.replace(/\/$/, '')
-	const pathArray = cleanPath === '' ? null : cleanPath.split('/').reduce((accumulator, currentValue) => {
-		if (accumulator.length == 0) {
-			return [...accumulator, [currentValue]]
-		}
-		return [...accumulator, [...accumulator.slice(-1)[0], currentValue]]
-	}, [])
-	const pathEle = pathArray == null ? null : pathArray.map((arr, key) => {
-		const onPathClick = () => {
-			actions.setPath(arr.join('/'))
-		}
-		return (<div key={key} onClick={onPathClick} className="folder-name">><span>{arr.slice(-1)[0]}</span></div>)
-	})
+	const pathArray =
+		cleanPath === ''
+			? null
+			: cleanPath.split('/').reduce((accumulator, currentValue) => {
+				if (accumulator.length == 0) {
+					return [...accumulator, [currentValue]]
+				}
+				return [...accumulator, [...accumulator.slice(-1)[0], currentValue]]
+			}, [])
+	const pathEle =
+		pathArray == null
+			? null
+			: pathArray.map((arr, key) => {
+				const onPathClick = () => {
+					actions.setPath(arr.join('/'))
+				}
+				return (
+					<div key={key} onClick={onPathClick} className="folder-name">
+							><span>{arr.slice(-1)[0]}</span>
+					</div>
+				)
+			})
 	return (
 		<div className="file-browser-container">
 			<div
@@ -87,8 +97,10 @@ const FileBrowser = ({
 				{showAddFolderDialog ? <AddFolderDialog /> : null}
 				{dragging ? <DragOverlay /> : null}
 				<div className="files-toolbar">
-				    <div className="path-navi">
-						<div onClick={onAllFilesClick} className="all-files">All Files</div>
+					<div className="path-navi">
+						<div onClick={onAllFilesClick} className="all-files">
+							All Files
+						</div>
 						{pathEle}
 					</div>
 					<div className="buttons">

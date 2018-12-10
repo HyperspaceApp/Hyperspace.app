@@ -48,8 +48,14 @@
 	height: 100%;
 	width: 100%;
 }
-.filename .fa-folder {
+.filename {
+	margin-left: 66px;
 	cursor: pointer;
+}
+.filename .icon {
+	width: 18px;
+	height: 18px;
+	margin-right: 8px;
 }
 div[tabindex="1"]:focus {
 	outline: 0;
@@ -90,19 +96,12 @@ div[tabindex="1"]:focus {
 }
 
 .file-transfers {
-	width: 400px;
 	height: 100%;
-	box-shadow:inset 0px 0px 0px 1px #2c7cf6;
 	overflow-y: auto;
-	overflow-x: hidden;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	background-color: #C5C5C5;
-
-	animation-name: transfers-slidein;
-	animation-duration: 0.3s;
 }
 
 .transfer-list {
@@ -450,6 +449,9 @@ div[tabindex="1"]:focus {
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
+}
+.filebrowser-file {
+	height: 38px;
 }
 .filebrowser-file:hover {
 	background-color: #F5F5F5;

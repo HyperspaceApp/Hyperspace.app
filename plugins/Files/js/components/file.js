@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import RedundancyStatus from './redundancystatus.js'
+import { FILES_ICON_DOCUMENT, FILES_ICON_FOLDER} from '../constants/files.js'
 
 const File = ({filename, type, selected, isDragTarget, filesize, available, redundancy, uploadprogress, onDoubleClick, onClick, setDragUploadEnabled, setDragFolderTarget, setDragFileOrigin, handleDragRename, isHyperspaceAppFolder }) => {
 	const handleDrag = () => {
@@ -41,7 +42,7 @@ const File = ({filename, type, selected, isDragTarget, filesize, available, redu
 			className={fileClass}
 		>
 			<div className="filename">
-				{type === 'file' ? <i className="fa fa-file" /> : <i className="fa fa-folder" onClick={onDoubleClick} />}
+				{type === 'file' ? <img src={FILES_ICON_DOCUMENT} className="icon" /> : <img src={FILES_ICON_FOLDER} className="icon" onClick={onDoubleClick} />}
 				<div className="name">{filename}</div>
 			</div>
 			<div className="file-info">
