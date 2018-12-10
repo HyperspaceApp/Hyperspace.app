@@ -460,12 +460,10 @@ div[tabindex="1"]:focus {
 	margin-right: 10px;
 }
 .search-field {
-	margin-top: 15px;
-	margin-bottom: 15px;
-	width: 80%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 240px;
 }
 .search-field i {
 	display: inline-block;
@@ -756,6 +754,7 @@ div[tabindex="1"]:focus {
 	margin-top: 36px;
 	margin-left: 34px;
 	margin-bottom: 24px;
+	flex-shrink: 0;
 }
 
 .files-button {
@@ -801,4 +800,21 @@ div[tabindex="1"]:focus {
 
 #contract-status > div {
 	height: 30px;
+}
+
+.path-navi {
+	display: flex;
+	font-size: 14px;
+}
+
+.path-navi .all-files {
+	cursor: pointer;
+	color: #333333;
+}
+.path-navi .folder-name {
+	cursor: pointer;
+	padding-left: 10px;
+}
+.path-navi .folder-name span {
+	margin-left: 10px;
 }

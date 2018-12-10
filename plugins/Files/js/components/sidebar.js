@@ -6,7 +6,14 @@ import {
 	FILES_SIDEBAR_MENU_TRANSFER,
 } from '../constants/files.js'
 
-const SideBar = ({ unspent, renewheight, contractCount, showAllFiles, showFileTransfers, actions }) => {
+const SideBar = ({
+	unspent,
+	renewheight,
+	contractCount,
+	showAllFiles,
+	showFileTransfers,
+	actions,
+}) => {
 	const onAllFiles = (e) => {
 		actions.showAllFiles()
 	}
@@ -16,20 +23,32 @@ const SideBar = ({ unspent, renewheight, contractCount, showAllFiles, showFileTr
 	return (
 		<div id="sidebar">
 			<h1>Files</h1>
-			<div onClick={onAllFiles} className={`files-button ${showAllFiles ? 'selected' : ''}`}>
+			<div
+				onClick={onAllFiles}
+				className={`files-button ${showAllFiles ? 'selected' : ''}`}
+			>
 				<img src={FILES_SIDEBAR_MENU_ALL_FILES} />
 				<span>All files</span>
 			</div>
-			<div onClick={onTransfer} className={`files-button ${showFileTransfers ? 'selected' : ''}`}>
+			<div
+				onClick={onTransfer}
+				className={`files-button ${showFileTransfers ? 'selected' : ''}`}
+			>
 				<img src={FILES_SIDEBAR_MENU_TRANSFER} />
 				<span>Transfers</span>
 			</div>
 
-            <div id="contract-status">
-                <div><b>{unspent}</b> Funds Remaining</div>
-                <div>refilling in <b>{renewheight}</b> height</div>
-                <div><b>{contractCount}</b> contracts formed</div>
-            </div>
+			<div id="contract-status">
+				<div>
+					<b>{unspent}</b> Funds Remaining
+				</div>
+				<div>
+					refilling in <b>{renewheight}</b> height
+				</div>
+				<div>
+					<b>{contractCount}</b> contracts formed
+				</div>
+			</div>
 		</div>
 	)
 }

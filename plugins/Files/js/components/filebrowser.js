@@ -3,14 +3,11 @@ import React from 'react'
 import FileList from '../containers/filelist.js'
 import SetAllowanceButton from '../containers/setallowancebutton.js'
 import SearchButton from '../containers/searchbutton.js'
+import SearchField from '../containers/searchfield.js'
 import UploadDialog from '../containers/uploaddialog.js'
 import UploadButton from '../containers/uploadbutton.js'
 import DeleteDialog from '../containers/deletedialog.js'
 import RenameDialog from '../containers/renamedialog.js'
-import TransfersButton from '../containers/transfersbutton.js'
-import FileTransfers from '../containers/filetransfers.js'
-import UsageStats from '../containers/usagestats.js'
-import ContractorStatus from '../containers/contractorstatus.js'
 import DragOverlay from './dragoverlay.js'
 import AddFolderButton from '../containers/addfolderbutton.js'
 import AddFolderDialog from '../containers/addfolderdialog.js'
@@ -23,7 +20,8 @@ const FileBrowser = ({
 	showRenameDialog,
 	showUploadDialog,
 	showDeleteDialog,
-	showFileTransfers,
+	showSearchField,
+	path,
 	actions,
 }) => {
 	const onDragOver = (e) => {
@@ -57,6 +55,22 @@ const FileBrowser = ({
 			actions.deselectAll()
 		}
 	}
+	const onAllFilesClick = () => {
+		actions.setPath('')
+	}
+	const cleanPath = path.replace(/\/$/, '')
+	const pathArray = cleanPath === '' ? null : cleanPath.split('/').reduce((accumulator, currentValue) => {
+		if (accumulator.length == 0) {
+			return [...accumulator, [currentValue]]
+		}
+		return [...accumulator, [...accumulator.slice(-1)[0], currentValue]]
+	}, [])
+	const pathEle = pathArray == null ? null : pathArray.map((arr, key) => {
+		const onPathClick = () => {
+			actions.setPath(arr.join('/'))
+		}
+		return (<div key={key} onClick={onPathClick} className="folder-name">><span>{arr.slice(-1)[0]}</span></div>)
+	})
 	return (
 		<div className="file-browser-container">
 			<div
@@ -73,7 +87,12 @@ const FileBrowser = ({
 				{showAddFolderDialog ? <AddFolderDialog /> : null}
 				{dragging ? <DragOverlay /> : null}
 				<div className="files-toolbar">
+				    <div className="path-navi">
+						<div onClick={onAllFilesClick} className="all-files">All Files</div>
+						{pathEle}
+					</div>
 					<div className="buttons">
+						{showSearchField ? <SearchField /> : null}
 						{!settingAllowance ? <SetAllowanceButton /> : null}
 						<SearchButton />
 						<AddFolderButton />

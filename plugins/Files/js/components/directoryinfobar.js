@@ -20,12 +20,7 @@ const DirectoryInfoBar = ({path, nfiles, onBackClick, setDragFolderTarget}) => {
 	}
 	return (
 		<li onDragOver={handleDragOver} className="directory-infobar">
-			<div style={{cursor: 'pointer'}} className="back-button" onClick={onBackClick}>
-				<i className="fa fa-backward" style={backButtonStyle} />
-				<span>Back</span>
-			</div>
 			<div className="directory-info">
-				<span style={{marginRight: '10px'}}> {path} </span>
 				<span style={{marginRight: '10px'}}> {nfiles} {nfiles === 1 ? 'file' : 'files' }</span>
 			</div>
 		</li>

@@ -3,7 +3,6 @@ import React from 'react'
 import { List, Set } from 'immutable'
 import File from './file.js'
 import Path from 'path'
-import SearchField from '../containers/searchfield.js'
 import FileControls from '../containers/filecontrols.js'
 import DirectoryInfoBar from './directoryinfobar.js'
 
@@ -119,7 +118,6 @@ const FileList = ({files, selected, searchResults, path, showSearchField, dragFi
 
 	return (
 		<div className="file-list">
-			{showSearchField ? <SearchField /> : null}
 			<ul>
 				<DirectoryInfoBar path={path} nfiles={files.size} onBackClick={onBackClick} setDragFolderTarget={actions.setDragFolderTarget} />
 				{ fileElements.size > 0 ? fileElements : <h2> No files uploaded </h2> }

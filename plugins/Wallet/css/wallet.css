@@ -26,8 +26,9 @@
 	border-left: 0 solid #F5F5F5;
 	border-right: 1px solid #edeeef;
 	height: 100%;
-	width: 240px;
+	width: 242px;
 	font-size: 14px;
+	flex-shrink: 0;
 }
 
 #sidebar > h1 {
