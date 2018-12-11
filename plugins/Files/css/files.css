@@ -39,6 +39,11 @@
 	justify-content: center;
 	padding-left: 15px;
 }
+.redundancy-status img {
+	width: 22px;
+	height: 22px;
+	margin-right: 8px;
+}
 .file-browser {
 	display: flex;
 	flex-direction: column;
@@ -48,14 +53,17 @@
 	height: 100%;
 	width: 100%;
 }
-.filename {
-	margin-left: 66px;
+.file-brower-file {
 	cursor: pointer;
 }
+.filename {
+	margin-left: 20px;
+}
 .filename .icon {
-	width: 18px;
-	height: 18px;
-	margin-right: 8px;
+	width: 22px;
+	height: 22px;
+	margin-right: 14px;
+	margin-left: 14px;
 }
 div[tabindex="1"]:focus {
 	outline: 0;
@@ -80,8 +88,9 @@ div[tabindex="1"]:focus {
 	background-color: #fff;
 }
 .transfer-status {
+	width: 150px;
 	font-size: 12px;
-	margin-top: 10px;
+	color: #808080;
 }
 .file-controls i {
 	color: #2c7cf6;
@@ -103,6 +112,10 @@ div[tabindex="1"]:focus {
 	align-items: center;
 	justify-content: flex-start;
 }
+.file-transfers .bottom-line {
+	height: 30px;
+	border-bottom: 1px solid #f2f2f2;
+}
 
 .transfer-list {
 	width: 100%;
@@ -121,12 +134,15 @@ div[tabindex="1"]:focus {
 	margin: 0;
 	display: flex;
 	width: 100%;
-	padding-bottom: 10px;
-	border-bottom: 1px solid #C5C5C5;
 	align-items: center;
 	justify-content: space-around;
-	background-color: #ECECEC;
 	cursor: default;
+}
+.filetransfer .icon {
+	width: 22px;
+	height: 22px;
+	margin-right: 14px;
+	margin-left: 14px;
 }
 .downloads .transfer-list li:hover {
 	background-color: #DDDDDD;
@@ -140,18 +156,30 @@ div[tabindex="1"]:focus {
 	margin-bottom: 10px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	flex-grow: 1;
 }
 .transfer-info {
-	width: 80%;
 	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: center;
+	align-items: center;
+	justify-content: flex-start;
+	height: 38px;
+	width: 100%;
 }
 .transfer-info .progress-container {
-	height: 12px;
-	width: 100%;
-	background-color: #C5C5C5;
+	height: 8px;
+	width: 96px;
+	background-color: #f2f2f2;
+	border-radius: 4px;
+}
+.transfer-info .progress-container .progress-bar {
+	background-color: #4bd963;
+	border-radius: 4px;
+}
+.transfer-info .transfer-size {
+	width: 96px;
+}
+.transfer-info .transfer-actions {
+	width: 116px;
 }
 .uploads, .downloads {
 	width: 100%;
@@ -201,6 +229,7 @@ div[tabindex="1"]:focus {
 	padding-bottom: 8px;
 	padding-top: 8px;
 	font-size: 16px;
+	box-sizing: border-box;
 }
 .set-allowance-button {
 	display: inline-block;

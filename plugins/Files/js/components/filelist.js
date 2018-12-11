@@ -152,9 +152,6 @@ const FileList = ({
 		<div className="file-list">
 			<ul>
 				<DirectoryInfoBar
-					path={path}
-					nfiles={files.size}
-					onBackClick={onBackClick}
 					setDragFolderTarget={actions.setDragFolderTarget}
 				/>
 				{fileElements.size > 0 ? fileElements : <h2> No files uploaded </h2>}

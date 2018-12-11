@@ -28,7 +28,6 @@ const DirectoryInfoBar = ({
 			<div className="directory-info">
 				<span style={{ marginRight: '10px' }}>
 					{' '}
-					{nfiles} {nfiles === 1 ? 'file' : 'files'}
 				</span>
 			</div>
 		</li>
@@ -36,9 +35,6 @@ const DirectoryInfoBar = ({
 }
 
 DirectoryInfoBar.propTypes = {
-	path: PropTypes.string.isRequired,
-	nfiles: PropTypes.number.isRequired,
-	onBackClick: PropTypes.func.isRequired,
 	setDragFolderTarget: PropTypes.func.isRequired,
 }
 

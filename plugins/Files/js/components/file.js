@@ -1,14 +1,33 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import RedundancyStatus from './redundancystatus.js'
-import { FILES_ICON_DOCUMENT, FILES_ICON_FOLDER} from '../constants/files.js'
+import { FILES_ICON_DOCUMENT, FILES_ICON_FOLDER } from '../constants/files.js'
 
-const File = ({filename, type, selected, isDragTarget, filesize, available, redundancy, uploadprogress, onDoubleClick, onClick, setDragUploadEnabled, setDragFolderTarget, setDragFileOrigin, handleDragRename, isHyperspaceAppFolder }) => {
-	const handleDrag = () => {
-	}
+const File = ({
+	filename,
+	type,
+	selected,
+	isDragTarget,
+	filesize,
+	available,
+	redundancy,
+	uploadprogress,
+	onDoubleClick,
+	onClick,
+	setDragUploadEnabled,
+	setDragFolderTarget,
+	setDragFileOrigin,
+	handleDragRename,
+	isHyperspaceAppFolder,
+}) => {
+	const handleDrag = () => {}
 	const handleDragStart = () => {
 		setDragUploadEnabled(false)
-		setDragFileOrigin({type: type, name: filename, isHyperspaceAppFolder: isHyperspaceAppFolder})
+		setDragFileOrigin({
+			type: type,
+			name: filename,
+			isHyperspaceAppFolder: isHyperspaceAppFolder,
+		})
 		setDragFolderTarget('')
 	}
 	const handleDragEnd = () => {
@@ -32,7 +51,8 @@ const File = ({filename, type, selected, isDragTarget, filesize, available, redu
 		return 'filebrowser-file'
 	})()
 	return (
-		<li draggable
+		<li
+			draggable
 			onDrag={handleDrag}
 			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
@@ -42,12 +62,25 @@ const File = ({filename, type, selected, isDragTarget, filesize, available, redu
 			className={fileClass}
 		>
 			<div className="filename">
-				{type === 'file' ? <img src={FILES_ICON_DOCUMENT} className="icon" /> : <img src={FILES_ICON_FOLDER} className="icon" onClick={onDoubleClick} />}
+				<input type="checkbox" checked={selected} />
+				{type === 'file' ? (
+					<img src={FILES_ICON_DOCUMENT} className="icon" />
+				) : (
+					<img
+						src={FILES_ICON_FOLDER}
+						className="icon"
+						onClick={onDoubleClick}
+					/>
+				)}
 				<div className="name">{filename}</div>
 			</div>
 			<div className="file-info">
 				<span className="filesize">{filesize}</span>
-				<RedundancyStatus available={available} redundancy={redundancy} uploadprogress={uploadprogress} />
+				<RedundancyStatus
+					available={available}
+					redundancy={redundancy}
+					uploadprogress={uploadprogress}
+				/>
 			</div>
 		</li>
 	)

@@ -3,9 +3,9 @@ import React from 'react'
 import TransferList from './transferlist.js'
 import { List } from 'immutable'
 
-const UploadList = ({uploads, onUploadClick}) => (
+const UploadList = ({ uploads, onUploadClick }) => (
 	<div className="uploads">
-		<TransferList transfers={uploads} onTransferClick={onUploadClick} />
+		<TransferList transfers={uploads} onTransferClick={onUploadClick} isDownload={false} />
 	</div>
 )
 

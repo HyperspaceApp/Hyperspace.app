@@ -5,9 +5,9 @@ import Transfer from './transfer.js'
 
 const defaultTransferClick = () => () => {}
 
-const TransferList = ({transfers, onTransferClick = defaultTransferClick}) => {
+const TransferList = ({transfers, onTransferClick = defaultTransferClick, isDownload}) => {
 	const transferComponents = transfers.map((transfer, key) => (
-		<Transfer key={key} status={transfer.status} name={transfer.name} progress={transfer.progress} speed={transfer.speed} onClick={onTransferClick(transfer)} />
+		<Transfer key={key} status={transfer.status} name={transfer.name} progress={transfer.progress} speed={transfer.speed} onClick={onTransferClick(transfer)} isDownload={isDownload} />
 	))
 	return (
 		<ul className="transfer-list">
