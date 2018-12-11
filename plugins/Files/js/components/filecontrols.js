@@ -3,7 +3,7 @@ import React from 'react'
 import { Set } from 'immutable'
 import Path from 'path'
 
-const FileControls = ({files, actions}) => {
+const FileControls = ({ files, actions }) => {
 	const onDownloadClick = () => {
 		const downloadpath = HyperspaceAPI.openFile({
 			title: 'Where should we download?',
@@ -14,7 +14,10 @@ const FileControls = ({files, actions}) => {
 			return
 		}
 		files.forEach(async (file) => {
-			actions.downloadFile(file, Path.join(downloadpath[0], Path.basename(file.hyperspacepath)))
+			actions.downloadFile(
+				file,
+				Path.join(downloadpath[0], Path.basename(file.hyperspacepath))
+			)
 			await new Promise((resolve) => setTimeout(resolve, 300))
 		})
 	}
@@ -26,7 +29,7 @@ const FileControls = ({files, actions}) => {
 	}
 	return (
 		<div className="file-controls">
-			{files.size} {files.size === 1 ? ' item' : ' items' } selected
+			{files.size} {files.size === 1 ? ' item' : ' items'} selected
 			<div onClick={onDownloadClick} className="download-button">
 				<i className="fa fa-cloud-download fa-2x" />
 			</div>

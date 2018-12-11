@@ -17,7 +17,7 @@ const FileTransfers = ({ uploads, downloads, actions }) => {
 			{downloads.size === 0 && uploads.size === 0 ? (
 				<h3 style={{ marginTop: '50px' }}> No file transfers in progress. </h3>
 			) : null}
-			<div className="bottom-line"></div>
+			<div className="bottom-line" />
 			{downloads.size > 0 ? (
 				<DownloadList
 					downloads={downloads}

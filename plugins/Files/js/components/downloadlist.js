@@ -5,7 +5,11 @@ import { List } from 'immutable'
 
 const DownloadList = ({ downloads, onDownloadClick, onClearClick }) => (
 	<div className="downloads">
-		<TransferList transfers={downloads} onTransferClick={onDownloadClick} isDownload={true} />
+		<TransferList
+			transfers={downloads}
+			onTransferClick={onDownloadClick}
+			isDownload
+		/>
 	</div>
 )
 

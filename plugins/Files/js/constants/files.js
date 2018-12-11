@@ -60,11 +60,23 @@ export const SET_DRAG_FOLDER_TARGET = 'SET_DRAG_FOLDER_TARGET'
 export const SET_DRAG_FILE_ORIGIN = 'SET_DRAG_FILE_ORIGIN'
 export const RENAME_HYPERSPACE_APP_FOLDER = 'RENAME_HYPERSPACE_APP_FOLDER'
 export const DELETE_HYPERSPACE_APP_FOLDER = 'DELETE_HYPERSPACE_APP_FOLDER'
-export const FILES_SIDEBAR_MENU_ALL_FILES = Path.join('assets', 'files_sidebar_menu_all_files.svg')
-export const FILES_SIDEBAR_MENU_TRANSFER = Path.join('assets', 'files_sidebar_menu_transfer.svg')
+export const FILES_SIDEBAR_MENU_ALL_FILES = Path.join(
+	'assets',
+	'files_sidebar_menu_all_files.svg'
+)
+export const FILES_SIDEBAR_MENU_TRANSFER = Path.join(
+	'assets',
+	'files_sidebar_menu_transfer.svg'
+)
 export const FILES_ICON_DOCUMENT = Path.join('assets', 'files_icon_docment.svg')
 export const FILES_ICON_FOLDER = Path.join('assets', 'files_icon_folder.svg')
-export const FILES_TRANSFER_DOWNLOAD = Path.join('assets', 'files_transfer_download.svg')
-export const FILES_TRANSFER_UPLOAD = Path.join('assets', 'files_transfer_upload.svg')
+export const FILES_TRANSFER_DOWNLOAD = Path.join(
+	'assets',
+	'files_transfer_download.svg'
+)
+export const FILES_TRANSFER_UPLOAD = Path.join(
+	'assets',
+	'files_transfer_upload.svg'
+)
 export const FILES_STATUS_DONE = Path.join('assets', 'status_done.svg')
 export const FILES_STATUS_ING = Path.join('assets', 'status_ing.svg')

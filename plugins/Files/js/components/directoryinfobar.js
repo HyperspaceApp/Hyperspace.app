@@ -26,9 +26,7 @@ const DirectoryInfoBar = ({
 	return (
 		<li onDragOver={handleDragOver} className="directory-infobar">
 			<div className="directory-info">
-				<span style={{ marginRight: '10px' }}>
-					{' '}
-				</span>
+				<span style={{ marginRight: '10px' }} />
 			</div>
 		</li>
 	)

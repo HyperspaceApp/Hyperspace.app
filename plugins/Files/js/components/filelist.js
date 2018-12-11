@@ -151,9 +151,7 @@ const FileList = ({
 	return (
 		<div className="file-list">
 			<ul>
-				<DirectoryInfoBar
-					setDragFolderTarget={actions.setDragFolderTarget}
-				/>
+				<DirectoryInfoBar setDragFolderTarget={actions.setDragFolderTarget} />
 				{fileElements.size > 0 ? fileElements : <h2> No files uploaded </h2>}
 			</ul>
 			{selected.size > 0 ? <FileControls /> : null}
