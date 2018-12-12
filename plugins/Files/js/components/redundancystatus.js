@@ -10,14 +10,14 @@ const RedundancyStatus = ({ available, redundancy, uploadprogress }) => (
 	<div className="redundancy-status">
 		<img
 			src={
-					!available || redundancy < 1.0 ? FILES_STATUS_ING : FILES_STATUS_DONE
-				}
+				!available || redundancy < 1.0 ? FILES_STATUS_ING : FILES_STATUS_DONE
+			}
 		/>
 		<span className="redundancy-text">
 			{redundancy > 0 ? redundancy + 'x' : '--'}
 		</span>
 	</div>
-	)
+)
 
 RedundancyStatus.propTypes = {
 	available: PropTypes.bool.isRequired,
