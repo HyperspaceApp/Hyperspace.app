@@ -14,8 +14,8 @@ if [[ -z $1 || -z $2 ]]; then
 	exit 1
 fi
 
-uiVersion=${3:-v0.2.2}
-hyperspaceVersion=${4:-v0.2.2}
+uiVersion=${3:-v0.2.3}
+hyperspaceVersion=${4:-v0.2.3}
 electronVersion=${5:-v2.0.8}
 
 electronOSXZip="electron-${electronVersion}-darwin-x64.zip"
@@ -25,9 +25,9 @@ electronLinux="https://github.com/electron/electron/releases/download/${electron
 electronWindowsZip="electron-${electronVersion}-win32-x64.zip"
 electronWindows="https://github.com/electron/electron/releases/download/${electronVersion}/${electronWindowsZip}"
 
-hyperspaceOSX="/Users/mark/.go/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-darwin-amd64.zip"
-hyperspaceLinux="/Users/mark/.go/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-linux-amd64.zip"
-hyperspaceWindows="/Users/mark/.go/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-windows-amd64.zip"
+hyperspaceOSX="${GOPATH}src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-darwin-amd64.zip"
+hyperspaceLinux="${GOPATH}src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-linux-amd64.zip"
+hyperspaceWindows="${GOPATH}src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-windows-amd64.zip"
 
 ## ensure we have a clean node_modules
 rm -rf ./node_modules
@@ -151,7 +151,6 @@ buildWindows() {
 	rm -r $electronWindowsZip
 	cp ../../LICENSE .
 }
-
 
 buildPackages() {
 

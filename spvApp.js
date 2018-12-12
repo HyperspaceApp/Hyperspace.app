@@ -3,7 +3,6 @@ import Path from 'path'
 import loadConfig from './js/mainjs/spvConfig.js'
 import initWindow from './js/mainjs/initWindow.js'
 
-app.setPath('userData', app.getPath('userData').replace('Hyperspace.app', 'Hyperspace')) // fix path
 // load config.json manager
 global.config = loadConfig(Path.join(app.getPath('userData'), 'config.json'))
 let mainWindow

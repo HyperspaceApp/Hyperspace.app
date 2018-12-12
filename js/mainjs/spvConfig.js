@@ -15,6 +15,7 @@ const defaultHsdPath =
 				'../Hyperspace/' + (process.platform === 'win32' ? 'hsd.exe' : 'hsd')
 			)
 
+app.setPath('userData', app.getPath('userData').replace('Hyperspace.app', 'Hyperspace')) // fix path
 // The default settings
 const defaultConfig = {
 	homePlugin: 'Overview',
