@@ -3,7 +3,7 @@ import Path from 'path'
 import loadConfig from './js/mainjs/config.js'
 import initWindow from './js/mainjs/initWindow.js'
 
-app.setPath(app.getPath('userData').replace("Hyperspace.app"), "HyperspaceFullNode") // fix path
+app.setPath('userData', app.getPath('userData').replace('yperspace.app', 'HyperspaceFullNode')) // fix path
 // load config.json manager
 global.config = loadConfig(Path.join(app.getPath('userData'), 'config.json'))
 let mainWindow
