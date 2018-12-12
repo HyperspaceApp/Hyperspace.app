@@ -7,11 +7,22 @@ export default function(window) {
 		{
 			label: 'Hyperspace',
 			submenu: [
-				{ label: 'About Hyperspace', selector: 'orderFrontStandardAboutPanel:' },
+				{
+					label: 'About Hyperspace',
+					selector: 'orderFrontStandardAboutPanel:',
+				},
 				{ type: 'separator' },
-				{ label: 'Hide Hyperspace', accelerator: 'CmdOrCtrl+H', selector: 'hide:'},
+				{
+					label: 'Hide Hyperspace',
+					accelerator: 'CmdOrCtrl+H',
+					selector: 'hide:',
+				},
 				{ type: 'separator' },
-				{ label: 'Quit', accelerator: 'CmdOrCtrl+Q', click: () => window.webContents.send('quit') },
+				{
+					label: 'Quit',
+					accelerator: 'CmdOrCtrl+Q',
+					click: () => window.webContents.send('quit'),
+				},
 			],
 		},
 		{
@@ -19,11 +30,15 @@ export default function(window) {
 			submenu: [
 				{ label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
 				{ label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-				{ type:  'separator' },
+				{ type: 'separator' },
 				{ label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
 				{ label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
 				{ label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-				{ label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' },
+				{
+					label: 'Select All',
+					accelerator: 'CmdOrCtrl+A',
+					selector: 'selectAll:',
+				},
 			],
 		},
 		{
@@ -32,7 +47,7 @@ export default function(window) {
 				{
 					label: 'Toggle Full Screen',
 					accelerator: (function() {
-						if (process.platform ==='darwin') {
+						if (process.platform === 'darwin') {
 							return 'Ctrl+Command+F'
 						} else {
 							return 'F11'
@@ -43,10 +58,11 @@ export default function(window) {
 							focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
 						}
 					},
-				}, {
+				},
+				{
 					label: 'Toggle Developer Tools',
 					accelerator: (function() {
-						if (process.platform ==='darwin') {
+						if (process.platform === 'darwin') {
 							return 'Alt+Command+I'
 						} else {
 							return 'Ctrl+Shift+I'
@@ -63,5 +79,4 @@ export default function(window) {
 	]
 
 	return Menu.buildFromTemplate(menutemplate)
-
 }
