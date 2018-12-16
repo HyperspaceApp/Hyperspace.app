@@ -137,9 +137,7 @@ export const scanFolder = (path) => {
 	pluginFolders = pluginFolders.map((folder) => Path.join(path, folder))
 	pluginFolders = pluginFolders.filter((pluginPath) => {
 		if (isSpvNode) {
-			if (
-				getPluginName(pluginPath) == 'Hosting'
-			) {
+			if (getPluginName(pluginPath) == 'Hosting') {
 				return false
 			}
 		}
