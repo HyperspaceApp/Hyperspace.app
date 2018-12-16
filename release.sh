@@ -25,9 +25,9 @@ electronLinux="https://github.com/electron/electron/releases/download/${electron
 electronWindowsZip="electron-${electronVersion}-win32-x64.zip"
 electronWindows="https://github.com/electron/electron/releases/download/${electronVersion}/${electronWindowsZip}"
 
-hyperspaceOSX="${GOPATH}src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-darwin-amd64.zip"
-hyperspaceLinux="${GOPATH}src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-linux-amd64.zip"
-hyperspaceWindows="${GOPATH}src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-windows-amd64.zip"
+hyperspaceOSX="${GOPATH}/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-darwin-amd64.zip"
+hyperspaceLinux="${GOPATH}/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-linux-amd64.zip"
+hyperspaceWindows="${GOPATH}/src/github.com/HyperspaceApp/Hyperspace/release/Hyperspace-${hyperspaceVersion}-windows-amd64.zip"
 
 ## ensure we have a clean node_modules
 rm -rf ./node_modules
