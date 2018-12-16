@@ -138,7 +138,6 @@ export const scanFolder = (path) => {
 	pluginFolders = pluginFolders.filter((pluginPath) => {
 		if (isSpvNode) {
 			if (
-				getPluginName(pluginPath) == 'Files' ||
 				getPluginName(pluginPath) == 'Hosting'
 			) {
 				return false
@@ -170,8 +169,8 @@ export const pushToTop = (plugins, target) =>
 export const getOrderedPlugins = (path, homePlugin) => {
 	let plugins = scanFolder(path)
 
+	plugins = pushToBottom(plugins, 'Files')
 	if (!isSpvNode) {
-		plugins = pushToBottom(plugins, 'Files')
 		plugins = pushToBottom(plugins, 'Hosting')
 	}
 	// Push the Terminal plugin to the bottom

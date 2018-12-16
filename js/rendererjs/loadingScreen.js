@@ -159,7 +159,7 @@ export default async function loadingScreen(initUI) {
 				'host-addr': hsdConfig.hostaddr,
 				'api-addr': hsdConfig.address,
 				spv: true,
-				modules: 'cgtw',
+				modules: 'cgrtw',
 			}
 		}
 		const hsdProcess = Hsd.launch(hsdConfig.path, hsdArgs)
